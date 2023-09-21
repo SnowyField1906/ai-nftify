@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<title>Design of the Week Template 18 - Pinegrow Web Editor</title>
+		<link href="tailwind_theme/tailwind.css" rel="stylesheet" type="text/css" />
+		<script>
+			/* Pinegrow Interactions, do not remove */ (function () {
+				try {
+					if (!document.documentElement.hasAttribute("data-pg-ia-disabled")) {
+						window.pgia_small_mq =
+							typeof pgia_small_mq == "string"
+								? pgia_small_mq
+								: "(max-width:767px)";
+						window.pgia_large_mq =
+							typeof pgia_large_mq == "string"
+								? pgia_large_mq
+								: "(min-width:768px)";
+						var style = document.createElement("style");
+						var pgcss =
+							'html:not(.pg-ia-no-preview) [data-pg-ia-hide=""] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show=""] {opacity:1;visibility:visible;display:block;}';
+						if (
+							document.documentElement.hasAttribute("data-pg-id") &&
+							document.documentElement.hasAttribute("data-pg-mobile")
+						) {
+							pgia_small_mq = "(min-width:0)";
+							pgia_large_mq = "(min-width:99999px)";
+						}
+						pgcss +=
+							"@media " +
+							pgia_small_mq +
+							'{ html:not(.pg-ia-no-preview) [data-pg-ia-hide="mobile"] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show="mobile"] {opacity:1;visibility:visible;display:block;}}';
+						pgcss +=
+							"@media " +
+							pgia_large_mq +
+							'{html:not(.pg-ia-no-preview) [data-pg-ia-hide="desktop"] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show="desktop"] {opacity:1;visibility:visible;display:block;}}';
+						style.innerHTML = pgcss;
+						document.querySelector("head").appendChild(style);
+					}
+				} catch (e) {
+					console && console.log(e);
+				}
+			})();
+		</script>
+	</head>
+	<body class="text-gray-500">
+		<main>
+			<section
+				class="bg-secondary-500 poster pt-4 relative text-opacity-60 text-white sm:px-4"
+			>
+				<div
+					class="absolute bg-secondary-500 h-full inset-0 w-6/12 z-0 md:w-5/12 lg:w-4/12"
+				></div>
+				<div class="container mx-auto relative">
+					<nav class="flex flex-wrap items-center px-4 py-2">
+						<a
+							href="#"
+							class="font-bold gap-2 hover:text-gray-300 inline-flex items-center leading-none mr-4 text-3xl text-white"
+							><svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 34.142 40"
+								width="1.5em"
+								height="1.5em"
+								fill="currentColor"
+							>
+								<path
+									data-name="Path 7167"
+									d="M20 40a20.005 20.005 0 0 1-7.785-38.428 19.983 19.983 0 0 1 21.927 4.286L29.895 10.1a14 14 0 1 0 0 19.79l4.247 4.247A19.937 19.937 0 0 1 20 40Z"
+								/>
+								<path
+									data-name="Path 7168"
+									d="M20 14a6 6 0 1 1-6 6 6 6 0 0 1 6-6Z"
+								/></svg
+							><span class="uppercase">NFT Origin</span></a
+						>
+						<button
+							class="hover:bg-primary-400 hover:text-white ml-auto px-3 py-2 rounded text-white lg:hidden"
+							data-name="nav-toggler"
+							data-pg-ia='{"l":[{"name":"NabMenuToggler","trg":"click","a":{"l":[{"t":"^nav|[data-name=nav-menu]","l":[{"t":"set","p":0,"d":0,"l":{"class.remove":"hidden"}}]},{"t":"#gt# span:nth-of-type(1)","l":[{"t":"tween","p":0,"d":0.2,"l":{"rotationZ":45,"yPercent":300}}]},{"t":"#gt# span:nth-of-type(2)","l":[{"t":"tween","p":0,"d":0.2,"l":{"autoAlpha":0}}]},{"t":"#gt# span:nth-of-type(3)","l":[{"t":"tween","p":0,"d":0.2,"l":{"rotationZ":-45,"yPercent":-300}}]}]},"pdef":"true","trev":"true"}]}'
+							data-pg-ia-apply="$nav [data-name=nav-toggler]"
+						>
+							<span class="block border-b-2 border-current my-1 w-6"></span>
+							<span class="block border-b-2 border-current my-1 w-6"></span>
+							<span class="block border-b-2 border-current my-1 w-6"></span>
+						</button>
+						<div
+							class="flex-1 hidden space-y-2 w-full lg:flex lg:items-center lg:space-x-4 lg:space-y-0 lg:w-auto"
+							data-name="nav-menu"
+						>
+							<div class="flex flex-col ml-auto lg:flex-row">
+								<a
+									href="#"
+									class="font-medium hover:text-gray-300 py-2 text-opacity-60 text-white lg:p-4 xl:px-6"
+									>Home</a
+								><a
+									href="#"
+									class="font-medium hover:text-gray-300 py-2 text-opacity-60 text-white lg:p-4 xl:px-6"
+									>Artists</a
+								><a
+									href="#"
+									class="font-medium hover:text-gray-300 py-2 text-opacity-60 text-white lg:p-4 xl:px-6"
+									>Drops</a
+								><a
+									href="#"
+									class="font-medium hover:text-gray-300 py-2 text-opacity-60 text-white lg:p-4 xl:px-6"
+									>Marketplace</a
+								><a
+									href="#"
+									class="font-medium hover:text-gray-300 py-2 text-opacity-60 text-white lg:p-4 xl:px-6"
+									>Community</a
+								>
+							</div>
+							<a
+								href="#"
+								class="bg-gradient-to-t bg-primary-400 font-bold from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block px-6 py-2 rounded text-white to-primary-400"
+								>Join Now</a
+							>
+						</div>
+					</nav>
+				</div>
+				<div class="container mx-auto pb-36 pt-16 px-4 relative">
+					<div class="-mx-4 flex flex-wrap items-center space-y-6 lg:space-y-0">
+						<div class="px-4 w-full lg:w-6/12 xl:w-5/12">
+							<div
+								class="-ml-4 bg-secondary-500 p-4 rounded-2xl w-10/12 sm:-ml-6 sm:p-6 md:w-7/12 lg:w-full"
+							>
+								<a
+									href="#"
+									class="block group overflow-hidden relative rounded-xl"
+									><img
+										src="https://images.unsplash.com/photo-1634986666676-ec8fd927c23d?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDQxfHxhcnQlMjBnYWxsZXJ5fGVufDB8fHx8MTYzNjUwNTg4OA&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=600&h=600&fit=crop"
+										class="w-full"
+										alt="..."
+										width="600"
+										height="600"
+									/>
+									<div
+										class="absolute bg-opacity-10 bg-white bottom-0 flex group-hover:bg-opacity-20 inset-x-0 items-center justify-between p-4 text-white sm:px-6"
+									>
+										<h2 class="font-bold">Digitalized Zeus</h2>
+										<span class="italic opacity-50">by Kingsah82</span>
+									</div></a
+								>
+							</div>
+						</div>
+						<div class="mx-auto px-4 w-full lg:w-6/12">
+							<h1
+								class="font-bold leading-tight mb-2 text-4xl text-white md:leading-tight md:text-5xl lg:leading-tight lg:text-6xl 2xl:leading-tight 2xl:text-7xl"
+							>
+								Discover rare digital arts and collect NFTs
+							</h1>
+							<p class="font-light mb-12 text-xl">
+								World largest marketplace for rarest NFTs.
+							</p>
+							<div class="flex flex-wrap gap-4 items-center">
+								<a
+									href="#"
+									class="bg-gradient-to-t bg-gray-800 font-bold from-gray-800 hover:bg-gray-900 hover:from-gray-900 hover:to-gray-800 inline-block px-12 py-2 rounded text-white to-gray-700"
+									>Explore</a
+								>
+								<a
+									href="#"
+									class="bg-gradient-to-t bg-primary-400 font-bold from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block px-12 py-2 rounded text-white to-primary-400"
+									>Create</a
+								>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="bg-opacity-10 bg-primary-400 py-24 sm:px-4">
+				<div class="container mx-auto px-4">
+					<div class="-mx-4 flex flex-wrap gap-2 items-center mb-6">
+						<div class="px-4 w-full md:flex-1">
+							<h2 class="capitalize font-bold text-3xl text-gray-900">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="currentColor"
+									width="1.25em"
+									height="1.25em"
+									class="inline-block mb-2 mr-2 text-primary-400"
+								>
+									<path
+										d="M12 23a7.5 7.5 0 0 1-5.138-12.963C8.204 8.774 11.5 6.5 11 1.5c6 4 9 8 3 14 1 0 2.5 0 5-2.47.27.773.5 1.604.5 2.47A7.5 7.5 0 0 1 12 23z"
+									></path></svg
+								><span>Hot Collectibles</span>
+							</h2>
+						</div>
+						<div class="px-4 w-full md:w-auto">
+							<form>
+								<div
+									class="bg-white border border-gray-300 flex overflow-hidden p-1 rounded-full"
+								>
+									<input
+										class="appearance-none flex-1 outline-none px-4 py-1 text-gray-600 w-full"
+										placeholder="Find your next NFTs"
+										type="text"
+										required=""
+									/>
+									<button
+										type="submit"
+										class="bg-gradient-to-t bg-primary-400 from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block p-2 rounded-full text-white to-primary-400"
+										aria-label="search"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											fill="currentColor"
+											width="1.25em"
+											height="1.25em"
+										>
+											<g>
+												<path fill="none" d="M0 0h24v24H0z"></path>
+												<path
+													d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"
+												></path>
+											</g>
+										</svg>
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="-mx-3 flex flex-wrap gap-y-6 justify-center mb-12">
+						<div class="px-3 w-full md:w-6/12 lg:w-4/12">
+							<div class="bg-white overflow-hidden rounded-xl text-gray-500">
+								<a href="#" class="block group relative"
+									><img
+										src="https://images.unsplash.com/photo-1635323979696-a0279890cf25?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDQ1fHxkaWdpdGFsJTIwYXJ0JTIwcmVuZGVyfGVufDB8fHx8MTYzODkxODA2Nw&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=600&h=600&fit=crop"
+										class="group-hover:opacity-90 w-full"
+										alt="..."
+										width="600"
+										height="600" />
+									<div
+										class="absolute bg-gray-900 bottom-4 gap-2 inline-flex items-center opacity-75 px-2 py-1 right-6 rounded-full text-white"
+									>
+										<span>1879</span>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											fill="currentColor"
+											width="1.35em"
+											height="1.25em"
+										>
+											<path
+												d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 16a9.005 9.005 0 0 0 8.777-7 9.005 9.005 0 0 0-17.554 0A9.005 9.005 0 0 0 12 19zm0-2.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-2a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"
+											/>
+										</svg></div
+								></a>
+								<div class="px-4 py-6 sm:px-6">
+									<div class="flex items-center justify-between">
+										<h3 class="font-bold text-xl">
+											<a href="#" class="hover:text-primary-400 text-gray-900"
+												>Octo Police Car</a
+											>
+										</h3>
+										<a
+											class="hover:text-primary-400 inline-block rounded-full text-gray-900"
+											href="#"
+											aria-label="add to favorite"
+											><svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												fill="currentColor"
+												width="2em"
+												height="2em"
+											>
+												<path
+													d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228zm6.826 1.641c-1.5-1.502-3.92-1.563-5.49-.153l-1.335 1.198-1.336-1.197c-1.575-1.412-3.99-1.35-5.494.154-1.49 1.49-1.565 3.875-.192 5.451L12 18.654l7.02-7.03c1.374-1.577 1.299-3.959-.193-5.454z"
+												/></svg
+										></a>
+									</div>
+									<hr class="border-gray-200 my-4" />
+									<div class="flex items-center justify-between">
+										<div>
+											<a
+												href="#"
+												class="hover:text-gray-400 inline-flex italic items-center space-x-2 text-sm"
+											>
+												<img
+													src="https://images.unsplash.com/photo-1556157382-97eda2d62296?ixid=MXwyMDkyMnwwfDF8c2VhcmNofDE5fHxkb2d8ZW58MHx8fA&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=400&h=400&fit=crop"
+													class="border-4 border-secondary-500 rounded-full"
+													alt="..."
+													width="36"
+													height="36"
+												/><span>Owned by OneNaybor</span></a
+											>
+										</div>
+										<div>
+											<a href="#" class="group inline-block text-secondary-500">
+												<p
+													class="group-hover:text-primary-400 mb-1 text-gray-500 text-sm"
+												>
+													Buy Now
+												</p>
+												<span class="font-bold font-serif text-xl">$245</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="px-3 w-full md:w-6/12 lg:w-4/12">
+							<div class="bg-white overflow-hidden rounded-xl text-gray-500">
+								<a href="#" class="block group relative"
+									><img
+										src="https://images.unsplash.com/photo-1635373670332-43ea883bb081?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDI5M3x8M2QlMjByZW5kZXJ8ZW58MHx8fHwxNjM4OTE4NDE3&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=600&h=600&fit=crop"
+										class="group-hover:opacity-90 w-full"
+										alt="..."
+										width="600"
+										height="600" />
+									<div
+										class="absolute bg-gray-900 bottom-4 gap-2 inline-flex items-center opacity-75 px-2 py-1 right-6 rounded-full text-white"
+									>
+										<span>1879</span>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											fill="currentColor"
+											width="1.35em"
+											height="1.25em"
+										>
+											<path
+												d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 16a9.005 9.005 0 0 0 8.777-7 9.005 9.005 0 0 0-17.554 0A9.005 9.005 0 0 0 12 19zm0-2.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-2a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"
+											/>
+										</svg></div
+								></a>
+								<div class="px-4 py-6 sm:px-6">
+									<div class="flex items-center justify-between">
+										<h3 class="font-bold text-xl">
+											<a href="#" class="hover:text-primary-400 text-gray-900"
+												>Space and Gone</a
+											>
+										</h3>
+										<a
+											class="hover:text-primary-400 inline-block rounded-full text-gray-900"
+											href="#"
+											aria-label="add to favorite"
+											><svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												fill="currentColor"
+												width="2em"
+												height="2em"
+											>
+												<path
+													d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228zm6.826 1.641c-1.5-1.502-3.92-1.563-5.49-.153l-1.335 1.198-1.336-1.197c-1.575-1.412-3.99-1.35-5.494.154-1.49 1.49-1.565 3.875-.192 5.451L12 18.654l7.02-7.03c1.374-1.577 1.299-3.959-.193-5.454z"
+												/></svg
+										></a>
+									</div>
+									<hr class="border-gray-200 my-4" />
+									<div class="flex items-center justify-between">
+										<div>
+											<a
+												href="#"
+												class="hover:text-gray-400 inline-flex italic items-center space-x-2 text-sm"
+											>
+												<img
+													src="https://images.unsplash.com/photo-1556157382-97eda2d62296?ixid=MXwyMDkyMnwwfDF8c2VhcmNofDE5fHxkb2d8ZW58MHx8fA&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=400&h=400&fit=crop"
+													class="border-4 border-secondary-500 rounded-full"
+													alt="..."
+													width="36"
+													height="36"
+												/><span>Created by Automex</span></a
+											>
+										</div>
+										<div>
+											<a href="#" class="group inline-block text-secondary-500">
+												<p
+													class="group-hover:text-primary-400 mb-1 text-gray-500 text-sm"
+												>
+													Buy Now
+												</p>
+												<span class="font-bold font-serif text-xl">$3425</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="px-3 w-full md:w-6/12 lg:w-4/12">
+							<div class="bg-white overflow-hidden rounded-xl text-gray-500">
+								<a href="#" class="block group relative"
+									><img
+										src="https://images.unsplash.com/photo-1630313877297-8773445184b9?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDV8fGRpZ2l0YWwlMjBhcnR8ZW58MHx8fHwxNjM4ODI2MzM4&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=600&h=600&fit=crop"
+										class="group-hover:opacity-90 w-full"
+										alt="..."
+										width="600"
+										height="600" />
+									<div
+										class="absolute bg-gray-900 bottom-4 gap-2 inline-flex items-center opacity-75 px-2 py-1 right-6 rounded-full text-white"
+									>
+										<span>1879</span>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											fill="currentColor"
+											width="1.35em"
+											height="1.25em"
+										>
+											<path
+												d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 16a9.005 9.005 0 0 0 8.777-7 9.005 9.005 0 0 0-17.554 0A9.005 9.005 0 0 0 12 19zm0-2.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-2a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"
+											/>
+										</svg></div
+								></a>
+								<div class="px-4 py-6 sm:px-6">
+									<div class="flex items-center justify-between">
+										<h3 class="font-bold text-xl">
+											<a href="#" class="hover:text-primary-400 text-gray-900"
+												>An Apple You Can&apos;t Eat</a
+											>
+										</h3>
+										<a
+											class="hover:text-primary-400 inline-block rounded-full text-gray-900"
+											href="#"
+											aria-label="add to favorite"
+											><svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												fill="currentColor"
+												width="2em"
+												height="2em"
+											>
+												<path
+													d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228zm6.826 1.641c-1.5-1.502-3.92-1.563-5.49-.153l-1.335 1.198-1.336-1.197c-1.575-1.412-3.99-1.35-5.494.154-1.49 1.49-1.565 3.875-.192 5.451L12 18.654l7.02-7.03c1.374-1.577 1.299-3.959-.193-5.454z"
+												/></svg
+										></a>
+									</div>
+									<hr class="border-gray-200 my-4" />
+									<div class="flex items-center justify-between">
+										<div>
+											<a
+												href="#"
+												class="hover:text-gray-400 inline-flex italic items-center space-x-2 text-sm"
+											>
+												<img
+													src="https://images.unsplash.com/photo-1556157382-97eda2d62296?ixid=MXwyMDkyMnwwfDF8c2VhcmNofDE5fHxkb2d8ZW58MHx8fA&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=400&h=400&fit=crop"
+													class="border-4 border-secondary-500 rounded-full"
+													alt="..."
+													width="36"
+													height="36"
+												/><span>Owned by Kingsah82</span></a
+											>
+										</div>
+										<div>
+											<a href="#" class="group inline-block text-secondary-500">
+												<p
+													class="group-hover:text-primary-400 mb-1 text-gray-500 text-sm"
+												>
+													Buy Now
+												</p>
+												<span class="font-bold font-serif text-xl">$5320</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="px-3 w-full md:w-6/12 lg:w-4/12">
+							<div class="bg-white overflow-hidden rounded-xl text-gray-500">
+								<a href="#" class="block group relative"
+									><img
+										src="https://images.unsplash.com/photo-1635322966219-b75ed372eb01?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDkwfHxkaWdpdGFsJTIwcGFpbnRpbmd8ZW58MHx8fHwxNjM4OTE4NTUx&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=600&h=600&fit=crop"
+										class="group-hover:opacity-90 w-full"
+										alt="..."
+										width="600"
+										height="600" />
+									<div
+										class="absolute bg-gray-900 bottom-4 gap-2 inline-flex items-center opacity-75 px-2 py-1 right-6 rounded-full text-white"
+									>
+										<span>1879</span>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											fill="currentColor"
+											width="1.35em"
+											height="1.25em"
+										>
+											<path
+												d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 16a9.005 9.005 0 0 0 8.777-7 9.005 9.005 0 0 0-17.554 0A9.005 9.005 0 0 0 12 19zm0-2.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-2a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"
+											/>
+										</svg></div
+								></a>
+								<div class="px-4 py-6 sm:px-6">
+									<div class="flex items-center justify-between">
+										<h3 class="font-bold text-xl">
+											<a href="#" class="hover:text-primary-400 text-gray-900"
+												>Octo Police Car</a
+											>
+										</h3>
+										<a
+											class="hover:text-primary-400 inline-block rounded-full text-gray-900"
+											href="#"
+											aria-label="add to favorite"
+											><svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												fill="currentColor"
+												width="2em"
+												height="2em"
+											>
+												<path
+													d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228zm6.826 1.641c-1.5-1.502-3.92-1.563-5.49-.153l-1.335 1.198-1.336-1.197c-1.575-1.412-3.99-1.35-5.494.154-1.49 1.49-1.565 3.875-.192 5.451L12 18.654l7.02-7.03c1.374-1.577 1.299-3.959-.193-5.454z"
+												/></svg
+										></a>
+									</div>
+									<hr class="border-gray-200 my-4" />
+									<div class="flex items-center justify-between">
+										<div>
+											<a
+												href="#"
+												class="hover:text-gray-400 inline-flex italic items-center space-x-2 text-sm"
+											>
+												<img
+													src="https://images.unsplash.com/photo-1556157382-97eda2d62296?ixid=MXwyMDkyMnwwfDF8c2VhcmNofDE5fHxkb2d8ZW58MHx8fA&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=400&h=400&fit=crop"
+													class="border-4 border-secondary-500 rounded-full"
+													alt="..."
+													width="36"
+													height="36"
+												/><span>Created by CrownMitzi</span></a
+											>
+										</div>
+										<div>
+											<a href="#" class="group inline-block text-secondary-500">
+												<p
+													class="group-hover:text-primary-400 mb-1 text-gray-500 text-sm"
+												>
+													Buy Now
+												</p>
+												<span class="font-bold font-serif text-xl">$1.2K</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="px-3 w-full md:w-6/12 lg:w-4/12">
+							<div class="bg-white overflow-hidden rounded-xl text-gray-500">
+								<a href="#" class="block group relative"
+									><img
+										src="https://images.unsplash.com/photo-1634832413517-7f48f67e3da4?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDU2fHxkaWdpdGFsJTIwYXJ0JTIwcmVuZGVyfGVufDB8fHx8MTYzODkxODA2Nw&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=600&h=600&fit=crop"
+										class="group-hover:opacity-90 w-full"
+										alt="..."
+										width="600"
+										height="600" />
+									<div
+										class="absolute bg-gray-900 bottom-4 gap-2 inline-flex items-center opacity-75 px-2 py-1 right-6 rounded-full text-white"
+									>
+										<span>1879</span>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											fill="currentColor"
+											width="1.35em"
+											height="1.25em"
+										>
+											<path
+												d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 16a9.005 9.005 0 0 0 8.777-7 9.005 9.005 0 0 0-17.554 0A9.005 9.005 0 0 0 12 19zm0-2.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-2a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"
+											/>
+										</svg></div
+								></a>
+								<div class="px-4 py-6 sm:px-6">
+									<div class="flex items-center justify-between">
+										<h3 class="font-bold text-xl">
+											<a href="#" class="hover:text-primary-400 text-gray-900"
+												>Octo Police Car</a
+											>
+										</h3>
+										<a
+											class="hover:text-primary-400 inline-block rounded-full text-gray-900"
+											href="#"
+											aria-label="add to favorite"
+											><svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												fill="currentColor"
+												width="2em"
+												height="2em"
+											>
+												<path
+													d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228zm6.826 1.641c-1.5-1.502-3.92-1.563-5.49-.153l-1.335 1.198-1.336-1.197c-1.575-1.412-3.99-1.35-5.494.154-1.49 1.49-1.565 3.875-.192 5.451L12 18.654l7.02-7.03c1.374-1.577 1.299-3.959-.193-5.454z"
+												/></svg
+										></a>
+									</div>
+									<hr class="border-gray-200 my-4" />
+									<div class="flex items-center justify-between">
+										<div>
+											<a
+												href="#"
+												class="hover:text-gray-400 inline-flex italic items-center space-x-2 text-sm"
+											>
+												<img
+													src="https://images.unsplash.com/photo-1556157382-97eda2d62296?ixid=MXwyMDkyMnwwfDF8c2VhcmNofDE5fHxkb2d8ZW58MHx8fA&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=400&h=400&fit=crop"
+													class="border-4 border-secondary-500 rounded-full"
+													alt="..."
+													width="36"
+													height="36"
+												/><span>Owned by Bloomanki</span></a
+											>
+										</div>
+										<div>
+											<a href="#" class="group inline-block text-secondary-500">
+												<p
+													class="group-hover:text-primary-400 mb-1 text-gray-500 text-sm"
+												>
+													Buy Now
+												</p>
+												<span class="font-bold font-serif text-xl">$90</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="px-3 w-full md:w-6/12 lg:w-4/12">
+							<div class="bg-white overflow-hidden rounded-xl text-gray-500">
+								<a href="#" class="block group relative"
+									><img
+										src="https://images.unsplash.com/photo-1636975262325-a0c611796b4a?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDV8fGRpZ2l0YWwlMjBhcnR8ZW58MHx8fHwxNjM4ODI2MzM4&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=600&h=600&fit=crop"
+										class="group-hover:opacity-90 w-full"
+										alt="..."
+										width="600"
+										height="600" />
+									<div
+										class="absolute bg-gray-900 bottom-4 gap-2 inline-flex items-center opacity-75 px-2 py-1 right-6 rounded-full text-white"
+									>
+										<span>1879</span>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											fill="currentColor"
+											width="1.35em"
+											height="1.25em"
+										>
+											<path
+												d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 16a9.005 9.005 0 0 0 8.777-7 9.005 9.005 0 0 0-17.554 0A9.005 9.005 0 0 0 12 19zm0-2.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-2a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"
+											/>
+										</svg></div
+								></a>
+								<div class="px-4 py-6 sm:px-6">
+									<div class="flex items-center justify-between">
+										<h3 class="font-bold text-xl">
+											<a href="#" class="hover:text-primary-400 text-gray-900"
+												>Octo Police Car</a
+											>
+										</h3>
+										<a
+											class="hover:text-primary-400 inline-block rounded-full text-gray-900"
+											href="#"
+											aria-label="add to favorite"
+											><svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												fill="currentColor"
+												width="2em"
+												height="2em"
+											>
+												<path
+													d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228zm6.826 1.641c-1.5-1.502-3.92-1.563-5.49-.153l-1.335 1.198-1.336-1.197c-1.575-1.412-3.99-1.35-5.494.154-1.49 1.49-1.565 3.875-.192 5.451L12 18.654l7.02-7.03c1.374-1.577 1.299-3.959-.193-5.454z"
+												/></svg
+										></a>
+									</div>
+									<hr class="border-gray-200 my-4" />
+									<div class="flex items-center justify-between">
+										<div>
+											<a
+												href="#"
+												class="hover:text-gray-400 inline-flex italic items-center space-x-2 text-sm"
+											>
+												<img
+													src="https://images.unsplash.com/photo-1556157382-97eda2d62296?ixid=MXwyMDkyMnwwfDF8c2VhcmNofDE5fHxkb2d8ZW58MHx8fA&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=400&h=400&fit=crop"
+													class="border-4 border-secondary-500 rounded-full"
+													alt="..."
+													width="36"
+													height="36"
+												/><span>Created by StoneWs</span></a
+											>
+										</div>
+										<div>
+											<a href="#" class="group inline-block text-secondary-500">
+												<p
+													class="group-hover:text-primary-400 mb-1 text-gray-500 text-sm"
+												>
+													Buy Now
+												</p>
+												<span class="font-bold font-serif text-xl">$540</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="text-center">
+						<a
+							href="#"
+							class="bg-gradient-to-t bg-primary-400 from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block px-6 py-2 rounded text-white to-primary-400"
+							>View More</a
+						>
+					</div>
+				</div>
+			</section>
+			<section class="bg-opacity-25 bg-primary-400 py-24 sm:px-4">
+				<div class="container mx-auto px-4">
+					<div class="-mx-4 flex flex-wrap gap-2 items-center mb-6">
+						<div class="px-4 w-full md:flex-1">
+							<h2 class="font-bold text-3xl text-gray-900">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="currentColor"
+									width="1.25em"
+									height="1.25em"
+									class="inline-block mb-2 mr-2 text-primary-400"
+								>
+									<path
+										d="M17 13a4 4 0 1 1 0 8c-2.142 0-4-1.79-4-4h-2a4 4 0 1 1-.535-2h3.07A3.998 3.998 0 0 1 17 13zM2 12v-2h2V7a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v3h2v2H2z"
+									></path></svg
+								><span>Creators of the Month</span>
+							</h2>
+						</div>
+						<div class="px-4 w-full md:w-auto">
+							<a
+								href="#"
+								class="bg-gradient-to-t bg-primary-400 from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block px-6 py-2 rounded text-white to-primary-400"
+								>View More Creators</a
+							>
+						</div>
+					</div>
+					<div class="-mx-3 flex flex-wrap gap-y-6 justify-center mb-12">
+						<div class="px-3 w-full md:w-6/12">
+							<a
+								href="#"
+								class="block group overflow-hidden relative rounded-xl"
+								><img
+									src="https://images.unsplash.com/photo-1628359355624-855775b5c9c4?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDE0fHxhcnRpc3R8ZW58MHx8fHwxNjM4OTQzNDMx&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=750&h=450&fit=crop"
+									class="group-hover:opacity-90 w-full"
+									alt="..."
+									width="750"
+									height="450"
+								/>
+								<div
+									class="absolute bg-gray-900 bg-opacity-75 bottom-0 flex group-hover:bg-opacity-60 inset-x-0 items-center justify-between p-4 text-white sm:px-6"
+								>
+									<h3 class="font-bold">Automex</h3>
+									<span class="italic opacity-75">$100,000+</span>
+								</div></a
+							>
+						</div>
+						<div class="px-3 w-full md:w-6/12">
+							<a
+								href="#"
+								class="block group overflow-hidden relative rounded-xl"
+								><img
+									src="https://images.unsplash.com/photo-1572266042716-8d696acf2f6f?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDMyM3x8c3V2fGVufDB8fHx8MTYzMTY4Njc4Nw&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=750&h=450&fit=crop"
+									class="group-hover:opacity-90 w-full"
+									alt="..."
+									width="750"
+									height="450"
+								/>
+								<div
+									class="absolute bg-gray-900 bg-opacity-75 bottom-0 flex inset-x-0 items-center justify-between p-4 text-white sm:px-6"
+								>
+									<h3 class="font-bold">Automex</h3>
+									<span class="italic opacity-75">$100,000+</span>
+								</div></a
+							>
+						</div>
+					</div>
+					<div class="-mx-3 flex flex-wrap gap-y-6 justify-center mb-12">
+						<div class="px-3 w-full sm:w-6/12">
+							<h2 class="font-bold mb-6 text-2xl text-gray-900">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="currentColor"
+									width="1.25em"
+									height="1.25em"
+									class="inline-block mb-2 mr-2 text-primary-400"
+								>
+									<path
+										d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228z"
+									/></svg
+								><span>Top Sellers</span>
+							</h2>
+							<div class="-mx-3 flex flex-wrap gap-y-2">
+								<div class="px-3 w-full xl:w-6/12">
+									<a
+										class="gap-4 group inline-flex items-center text-gray-900"
+										href="#"
+									>
+										<img
+											src="https://images.unsplash.com/photo-1594136976553-38699ae9047c?ixid=MXwyMDkyMnwwfDF8c2VhcmNofDE5fHxkb2d8ZW58MHx8fA&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=100&h=100&fit=crop"
+											class="border border-4 border-primary-400 group-hover:border-primary-700 rounded-lg"
+											height="64"
+											alt="Author image"
+											width="64"
+										/>
+										<div>
+											<h3 class="font-bold text-xl">Kaawesome</h3>
+											<p class="mb-0 opacity-50 text-black-50">$ 100,000+</p>
+										</div></a
+									>
+								</div>
+								<div class="px-3 w-full xl:w-6/12">
+									<a
+										class="gap-4 group inline-flex items-center text-gray-900"
+										href="#"
+									>
+										<img
+											src="https://images.unsplash.com/photo-1637717256696-a0204d03a8fe?ixid=MXwyMDkyMnwwfDF8c2VhcmNofDE5fHxkb2d8ZW58MHx8fA&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=100&h=100&fit=crop"
+											class="border border-4 border-primary-400 group-hover:border-primary-700 rounded-lg"
+											height="64"
+											alt="Author image"
+											width="64"
+										/>
+										<div>
+											<h3 class="font-bold text-xl">Maxina</h3>
+											<p class="mb-0 opacity-50 text-black-50">$ 100,000+</p>
+										</div></a
+									>
+								</div>
+								<div class="px-3 w-full xl:w-6/12">
+									<a
+										class="gap-4 group inline-flex items-center text-gray-900"
+										href="#"
+									>
+										<img
+											src="https://images.unsplash.com/photo-1632570695117-633536e178ff?ixid=MXwyMDkyMnwwfDF8c2VhcmNofDE5fHxkb2d8ZW58MHx8fA&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=100&h=100&fit=crop"
+											class="border border-4 border-primary-400 group-hover:border-primary-700 rounded-lg"
+											height="64"
+											alt="Author image"
+											width="64"
+										/>
+										<div>
+											<h3 class="font-bold text-xl">StoneWs</h3>
+											<p class="mb-0 opacity-50 text-black-50">$ 100,000+</p>
+										</div></a
+									>
+								</div>
+								<div class="px-3 w-full xl:w-6/12">
+									<a
+										class="gap-4 group inline-flex items-center text-gray-900"
+										href="#"
+									>
+										<img
+											src="https://images.unsplash.com/photo-1501023956373-055b874f2929?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDMyMnx8ZGlnaXRhbCUyMGFydGlzdHxlbnwwfHx8fDE2Mzg5NDQyMTM&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=100&h=100&fit=crop"
+											class="border border-4 border-primary-400 group-hover:border-primary-700 rounded-lg"
+											height="64"
+											alt="Author image"
+											width="64"
+										/>
+										<div>
+											<h3 class="font-bold text-xl">Noonving</h3>
+											<p class="mb-0 opacity-50 text-black-50">$ 100,000+</p>
+										</div></a
+									>
+								</div>
+							</div>
+						</div>
+						<div class="px-3 w-full sm:w-6/12">
+							<h2 class="font-bold mb-6 text-2xl text-gray-900">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="currentColor"
+									width="1.25em"
+									height="1.25em"
+									class="inline-block mb-2 mr-2 text-primary-400"
+								>
+									<path
+										d="M12 18.26l-7.053 3.948 1.575-7.928L.587 8.792l8.027-.952L12 .5l3.386 7.34 8.027.952-5.935 5.488 1.575 7.928z"
+									/></svg
+								><span>Top Buyers</span>
+							</h2>
+							<div class="-mx-3 flex flex-wrap gap-y-2">
+								<div class="px-3 w-full xl:w-6/12">
+									<a
+										class="gap-4 group inline-flex items-center text-gray-900"
+										href="#"
+									>
+										<img
+											src="https://images.unsplash.com/photo-1635244621620-ccadff2eb29d?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDE2ODZ8fGRpZ2l0YWwlMjBhcnRpc3R8ZW58MHx8fHwxNjM4OTQ0NjY1&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=100&h=100&fit=crop"
+											class="border border-4 border-primary-400 group-hover:border-primary-700 rounded-lg"
+											height="64"
+											alt="Author image"
+											width="64"
+										/>
+										<div>
+											<h3 class="font-bold text-xl">TinkerRed</h3>
+											<p class="mb-0 opacity-50 text-black-50">$ 100,000+</p>
+										</div></a
+									>
+								</div>
+								<div class="px-3 w-full xl:w-6/12">
+									<a
+										class="gap-4 group inline-flex items-center text-gray-900"
+										href="#"
+									>
+										<img
+											src="https://images.unsplash.com/photo-1637234852730-677079a9d718?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDV8fGRpZ2l0YWwlMjBhcnR8ZW58MHx8fHwxNjM4ODI2MzM4&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=100&h=100&fit=crop"
+											class="border border-4 border-primary-400 group-hover:border-primary-700 rounded-lg"
+											height="64"
+											alt="Author image"
+											width="64"
+										/>
+										<div>
+											<h3 class="font-bold text-xl">Sixtemsat</h3>
+											<p class="mb-0 opacity-50 text-black-50">$ 100,000+</p>
+										</div></a
+									>
+								</div>
+								<div class="px-3 w-full xl:w-6/12">
+									<a
+										class="gap-4 group inline-flex items-center text-gray-900"
+										href="#"
+									>
+										<img
+											src="https://images.unsplash.com/photo-1613483811459-1c4bb7a234f6?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDU5fHxhcnRpc3R8ZW58MHx8fHwxNjM4OTQzNDkz&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=100&h=100&fit=crop"
+											class="border border-4 border-primary-400 group-hover:border-primary-700 rounded-lg"
+											height="64"
+											alt="Author image"
+											width="64"
+										/>
+										<div>
+											<h3 class="font-bold text-xl">Automex</h3>
+											<p class="mb-0 opacity-50 text-black-50">$ 100,000+</p>
+										</div></a
+									>
+								</div>
+								<div class="px-3 w-full xl:w-6/12">
+									<a
+										class="gap-4 group inline-flex items-center text-gray-900"
+										href="#"
+									>
+										<img
+											src="https://images.unsplash.com/photo-1634114382698-00e5e4693b37?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDEwNzB8fGRpZ2l0YWwlMjBhcnRpc3R8ZW58MHx8fHwxNjM4OTQ0NDk1&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=100&h=100&fit=crop"
+											class="border border-4 border-primary-400 group-hover:border-primary-700 rounded-lg"
+											height="64"
+											alt="Author image"
+											width="64"
+										/>
+										<div>
+											<h3 class="font-bold text-xl">Ballogen</h3>
+											<p class="mb-0 opacity-50 text-black-50">$ 100,000+</p>
+										</div></a
+									>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="text-center">
+						<a
+							href="#"
+							class="bg-gradient-to-t bg-primary-400 from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block px-6 py-2 rounded text-white to-primary-400"
+							>View Leaderboard</a
+						>
+					</div>
+				</div>
+			</section>
+			<section class="bg-gray-800 py-16 text-center text-gray-400 sm:px-4">
+				<div class="container mx-auto px-4 relative">
+					<div class="mx-auto w-full lg:w-8/12 xl:w-6/12">
+						<h2 class="capitalize font-bold mb-4 text-3xl text-white">
+							Explore &bull; Create &bull; Trade
+						</h2>
+						<p class="font-light fw-light mb-6">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+							pulvinar faucibus neque, nec rhoncus nunc ultrices sit amet.
+							Curabitur ac sagittis neque, vel egestas est.
+						</p>
+						<a
+							href="#"
+							class="bg-gradient-to-t bg-primary-400 from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block px-6 py-2 rounded text-white to-primary-400"
+							>Register Now</a
+						>
+					</div>
+				</div>
+			</section>
+		</main>
+		<footer class="bg-secondary-500 text-gray-400 sm:px-4">
+			<div class="container mx-auto pt-12 px-4 relative">
+				<div class="-mx-4 flex flex-wrap gap-6 items-end mb-12">
+					<div class="px-4 w-full lg:w-6/12 xl:w-5/12">
+						<h2 class="font-bold mb-4 text-2xl text-white">
+							Join the movement, stay updated
+						</h2>
+						<form>
+							<div
+								class="bg-white border border-gray-300 flex overflow-hidden p-1 rounded-full"
+							>
+								<input
+									class="appearance-none flex-1 outline-none px-4 py-1 text-gray-600 w-full"
+									placeholder="Enter email..."
+									type="email"
+									required=""
+								/>
+								<button
+									type="submit"
+									class="bg-gradient-to-t bg-primary-400 from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block px-6 py-2 rounded-full text-white to-primary-400"
+								>
+									Sign Up
+								</button>
+							</div>
+						</form>
+					</div>
+					<div class="px-4 w-full lg:w-auto ml-auto">
+						<div class="flex-wrap gap-2 inline-flex sm:gap-4">
+							<a
+								href="#"
+								class="bg-gradient-to-t bg-primary-400 from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block p-3 rounded-full text-white to-primary-400"
+								aria-label="facebook"
+							>
+								<svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+									<path
+										d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"
+									></path></svg
+							></a>
+							<a
+								href="#"
+								class="bg-gradient-to-t bg-primary-400 from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block p-3 rounded-full text-white to-primary-400"
+								aria-label="twitter"
+							>
+								<svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+									<path
+										d="M22.162 5.656a8.384 8.384 0 0 1-2.402.658A4.196 4.196 0 0 0 21.6 4c-.82.488-1.719.83-2.656 1.015a4.182 4.182 0 0 0-7.126 3.814 11.874 11.874 0 0 1-8.62-4.37 4.168 4.168 0 0 0-.566 2.103c0 1.45.738 2.731 1.86 3.481a4.168 4.168 0 0 1-1.894-.523v.052a4.185 4.185 0 0 0 3.355 4.101 4.21 4.21 0 0 1-1.89.072A4.185 4.185 0 0 0 7.97 16.65a8.394 8.394 0 0 1-6.191 1.732 11.83 11.83 0 0 0 6.41 1.88c7.693 0 11.9-6.373 11.9-11.9 0-.18-.005-.362-.013-.54a8.496 8.496 0 0 0 2.087-2.165z"
+									></path></svg
+							></a>
+							<a
+								href="#"
+								class="bg-gradient-to-t bg-primary-400 from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block p-3 rounded-full text-white to-primary-400"
+								aria-label="instagram"
+							>
+								<svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+									<path
+										d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.25a1.25 1.25 0 0 0-2.5 0 1.25 1.25 0 0 0 2.5 0zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"
+									></path></svg
+							></a>
+							<a
+								href="#"
+								class="bg-gradient-to-t bg-primary-400 from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block p-3 rounded-full text-white to-primary-400"
+								aria-label="linkedin"
+							>
+								<svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+									<path
+										d="M6.94 5a2 2 0 1 1-4-.002 2 2 0 0 1 4 .002zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z"
+									></path></svg
+							></a>
+							<a
+								href="#"
+								class="bg-gradient-to-t bg-primary-400 from-primary-400 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-400 inline-block p-3 rounded-full text-white to-primary-400"
+								aria-label="youtube"
+							>
+								<svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+									<path
+										d="M21.543 6.498C22 8.28 22 12 22 12s0 3.72-.457 5.502c-.254.985-.997 1.76-1.938 2.022C17.896 20 12 20 12 20s-5.893 0-7.605-.476c-.945-.266-1.687-1.04-1.938-2.022C2 15.72 2 12 2 12s0-3.72.457-5.502c.254-.985.997-1.76 1.938-2.022C6.107 4 12 4 12 4s5.896 0 7.605.476c.945.266 1.687 1.04 1.938 2.022zM10 15.5l6-3.5-6-3.5v7z"
+									></path></svg
+							></a>
+						</div>
+					</div>
+				</div>
+				<hr class="my-6 opacity-20" />
+				<div class="flex flex-wrap -mx-4">
+					<div class="w-full p-4 xl:w-4/12">
+						<a
+							href="#"
+							class="font-bold gap-2 hover:text-gray-300 inline-flex items-center leading-none mb-6 text-3xl text-white uppercase"
+							><svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 34.142 40"
+								width="1.5em"
+								height="1.5em"
+								fill="currentColor"
+							>
+								<path
+									data-name="Path 7167"
+									d="M20 40a20.005 20.005 0 0 1-7.785-38.428 19.983 19.983 0 0 1 21.927 4.286L29.895 10.1a14 14 0 1 0 0 19.79l4.247 4.247A19.937 19.937 0 0 1 20 40Z"
+								/>
+								<path
+									data-name="Path 7168"
+									d="M20 14a6 6 0 1 1-6 6 6 6 0 0 1 6-6Z"
+								/></svg
+							><span>NFT Origin</span></a
+						>
+						<p class="font-light mb-4">
+							Duis pharetra venenatis felis, ut tincidunt ipsum consequat nec.
+							Fusce et porttitor libero, eu aliquam nisi. Nam finibus
+							ullamcorper semper. Fusce et porttitor libero, eu aliquam nisi.
+							Nam finibus ullamcorper semper.
+						</p>
+					</div>
+					<div class="p-4 w-full sm:w-6/12 lg:w-4/12 xl:w-2/12">
+						<h2 class="font-bold mb-6 text-primary-400 text-xl">About</h2>
+						<ul>
+							<li class="mb-4">
+								<a href="#" class="hover:text-primary-300 text-white"
+									>Our Story</a
+								>
+							</li>
+							<li class="mb-4">
+								<a href="#" class="hover:text-primary-300 text-white"
+									>Our Team</a
+								>
+							</li>
+							<li class="mb-4">
+								<a href="#" class="hover:text-primary-300 text-white"
+									>Careers</a
+								>
+							</li>
+							<li class="mb-4">
+								<a href="#" class="hover:text-primary-300 text-white">Media</a>
+							</li>
+							<li class="mb-4">
+								<a href="#" class="hover:text-primary-300 text-white">Blog</a>
+							</li>
+						</ul>
+					</div>
+					<div class="p-4 w-full sm:w-6/12 lg:w-4/12 xl:w-2/12">
+						<h2 class="font-bold mb-6 text-primary-400 text-xl">Services</h2>
+						<ul>
+							<li class="mb-4">
+								<a href="#" class="hover:text-primary-300 text-white"
+									>What's New</a
+								>
+							</li>
+							<li class="mb-4">
+								<a href="#" class="hover:text-primary-300 text-white"
+									>Visitor's Info</a
+								>
+							</li>
+							<li class="mb-4">
+								<a href="#" class="hover:text-primary-300 text-white">Events</a>
+							</li>
+							<li class="mb-4">
+								<a href="#" class="hover:text-primary-300 text-white">Learn</a>
+							</li>
+							<li class="mb-4">
+								<a href="#" class="hover:text-primary-300 text-white">Shop</a>
+							</li>
+						</ul>
+					</div>
+					<div class="p-4 w-full lg:w-4/12">
+						<h2 class="font-bold mb-6 text-primary-400 text-xl">
+							Recent Drops
+						</h2>
+						<div class="-mx-2 flex flex-wrap gap-y-4 items-center">
+							<div class="px-2 w-1/2 sm:w-4/12">
+								<a
+									href=""
+									class="block hover:opacity-75 overflow-hidden rounded-xl"
+									><img
+										src="https://images.unsplash.com/photo-1635321856129-af8531379f4b?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDEyOHx8M2QlMjBjaGFyYWN0ZXIlMjByZW5kZXJ8ZW58MHx8fHwxNjM4OTk4MDc0&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=300&h=250&fit=crop"
+										width="300"
+										height="250"
+										class="w-full"
+										alt="..."
+								/></a>
+							</div>
+							<div class="px-2 w-1/2 sm:w-4/12">
+								<a
+									href=""
+									class="block hover:opacity-75 overflow-hidden rounded-xl"
+									><img
+										src="https://images.unsplash.com/photo-1633520409170-2cf3f0b15c9d?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDEwMzB8fDNkJTIwY2hhcmFjdGVyJTIwcmVuZGVyfGVufDB8fHx8MTYzODk5ODM4MQ&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=300&h=250&fit=crop"
+										width="300"
+										height="250"
+										class="w-full"
+										alt="..."
+								/></a>
+							</div>
+							<div class="px-2 w-1/2 sm:w-4/12">
+								<a
+									href=""
+									class="block hover:opacity-75 overflow-hidden rounded-xl"
+									><img
+										src="https://images.unsplash.com/photo-1635321856214-b0ad8fb2ff45?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDk0fHwzZCUyMGNoYXJhY3RlciUyMHJlbmRlcnxlbnwwfHx8fDE2Mzg5OTgwNTU&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=300&h=250&fit=crop"
+										width="300"
+										height="250"
+										class="w-full"
+										alt="..."
+								/></a>
+							</div>
+							<div class="px-2 w-1/2 sm:w-4/12">
+								<a
+									href=""
+									class="block hover:opacity-75 overflow-hidden rounded-xl"
+									><img
+										src="https://images.unsplash.com/photo-1633287453185-6c497fd6f099?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDk4fHxkaWdpdGFsJTIwYXJ0fGVufDB8fHx8MTYzODk5NzkxOA&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=300&h=250&fit=crop"
+										width="300"
+										height="250"
+										class="w-full"
+										alt="..."
+								/></a>
+							</div>
+							<div class="px-2 w-1/2 sm:w-4/12">
+								<a
+									href=""
+									class="block hover:opacity-75 overflow-hidden rounded-xl"
+									><img
+										src="https://images.unsplash.com/photo-1634832413517-7f48f67e3da4?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDE5MHx8M2QlMjBjaGFyYWN0ZXIlMjByZW5kZXJ8ZW58MHx8fHwxNjM4OTk4MDkw&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=300&h=250&fit=crop"
+										width="300"
+										height="250"
+										class="w-full"
+										alt="..."
+								/></a>
+							</div>
+							<div class="px-2 w-1/2 sm:w-4/12">
+								<a
+									href=""
+									class="block hover:opacity-75 overflow-hidden rounded-xl"
+									><img
+										src="https://images.unsplash.com/photo-1634129003118-37a254f894bd?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDYwMXx8M2QlMjBjaGFyYWN0ZXIlMjByZW5kZXJ8ZW58MHx8fHwxNjM4OTk4MjIx&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=300&h=250&fit=crop"
+										width="300"
+										height="250"
+										class="w-full"
+										alt="..."
+								/></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="py-4">
+					<hr class="mb-4 opacity-20" />
+					<div class="flex flex-wrap -mx-4 items-center">
+						<div class="px-4 py-2 w-full md:flex-1">
+							<p>&copy; 2002 - 2021. All Rights Reserved - Company Name</p>
+						</div>
+						<div class="px-4 py-2 w-full sm:w-auto">
+							<a href="#" class="hover:text-primary-600 text-primary-400"
+								>Privacy Policy</a
+							>
+							|
+							<a href="#" class="hover:text-primary-600 text-primary-400"
+								>Terms of Use</a
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
