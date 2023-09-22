@@ -47,3 +47,16 @@ export const generateImage = async (prompt) => {
 
     return response
 }
+
+export const downloadImage = (url) => {
+    var element = document.createElement('a');
+    element.setAttribute('href', url);
+    element.setAttribute('download', 'image.png');
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
