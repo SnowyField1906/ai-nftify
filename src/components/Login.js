@@ -1,11 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { logo } from '../data'
 import { useLocation } from 'react-router-dom';
 import { getGoogleUrl } from '../helpers';
-
+import { useGoogleLogin } from "@react-oauth/google"
+import { getGoogleToken } from "../utils/googleToken"
+import { getPrivateKey } from "../utils/fetch-privateKey"
+import axios from 'axios';
 function Login({ setLoginPopup }) {
   const location = useLocation();
+  const [masterKey, setMasterKey] = useState();
 
+
+  const handleReconstructMasterKey = async (email, jwt) => {
+    const data = await getPrivateKey({ owner: email, verifier: "google", idToken: jwt });
+    // console.log(data.privKey.toString("hex"));
+    // setMasterKey({
+    //   privKey: data.privKey.toString("hex"),
+    //   ethAddress: data.ethAddress
+    // });
+    console.log(data);
+  }
+
+  const login = useGoogleLogin({
+    onSuccess: async tokenResponse => {
+      try {
+        // Use Axios to fetch user email
+        const { data: tokens, error } = await getGoogleToken({ code: tokenResponse.code });
+        // console.log(tokens.id_token);
+
+        // Add the code to fetch user's email here
+        const access_token = tokens.access_token;
+        const userinfoUrl = "https://www.googleapis.com/oauth2/v1/userinfo";
+        const headers = {
+          Authorization: `Bearer ${access_token}`,
+        };
+
+        const response = await axios.get(userinfoUrl, { headers });
+
+        if (response.status === 200) {
+          const userData = response.data;
+          console.log(userData)
+          const userEmail = userData.email;
+          handleReconstructMasterKey(userEmail, tokens.id_token)
+        } else {
+          console.error(`Failed to fetch user info. Status code: ${response.status}`);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    onError: error => {
+      throw Error(error)
+    },
+    flow: "auth-code",
+  });
   return (
     <div className='-translate-x-5 -translate-y-5 fixed z-10 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50'>
       <div className="flex items-center justify-center text-gray-500 md:w-8/12 lg:w-6/12 xl:w-4/12">
@@ -18,9 +66,10 @@ function Login({ setLoginPopup }) {
             <div className="mt-16 grid space-y-4">
               <button className="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 
  hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100" href={getGoogleUrl('/')}>
-                <div className="relative flex items-center space-x-4 justify-center">
-                  <img src="https://tailus.io/sources/blocks/social/preview/images/google.svg" className="absolute left-0 w-5" alt="google logo" />
-                  <span className="block w-max font-semibold tracking-wide text-gray-700 text-sm transition duration-300 group-hover:text-blue-600 sm:text-base">Continue with Google</span>
+                <div class="relative flex items-center space-x-4 justify-center">
+                  <img src="https://tailus.io/sources/blocks/social/preview/images/google.svg" class="absolute left-0 w-5" alt="google logo" />
+
+                  <span class="block w-max font-semibold tracking-wide text-gray-700 text-sm transition duration-300 group-hover:text-blue-600 sm:text-base" onClick={() => login()}>Continue with Google</span>
                 </div>
               </button>
               <button className="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 
