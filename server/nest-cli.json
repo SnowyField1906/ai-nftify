@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "assets": ["**/*.proto"],
+    "watchAssets": true,
+    "deleteOutDir": true,
+    "webpack": true
+  },
+  
+  "projects": {
+    "lecle": {
+      "type": "library",
+      "root": "libs/lecle",
+      "entryFile": "index",
+      "sourceRoot": "libs/lecle/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/lecle/tsconfig.lib.json"
+      }
+    }
+  }
+}

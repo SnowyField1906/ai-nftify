@@ -1,0 +1,75 @@
+// hero/hero.proto
+syntax = "proto3";
+
+package p2p;
+
+service P2PService {
+  rpc checkWallet (CheckWalletRequest) returns (CheckWalletResponse) {}
+  rpc broadcastAssignKey (BroadcastAssignKeyRequest) returns (BroadcastAssignKeyResponse) {}
+  rpc initSecret(InitSecretRequest) returns (InitSecretResponse) {}
+  rpc generateShares(GenerateSharesRequest) returns (GenerateSharesResponse) {}
+  rpc addReceivedShare(AddReceivedShareRequest) returns (AddReceivedShareResponse) {}
+  rpc deriveSharedSecret(DeriveSharedSecretRequest) returns (DeriveSharedSecretResponse) {}
+  rpc storeWalletInfo(StoreWalletInfoRequest) returns (StoreWalletInfoResponse) {}
+}
+
+message CheckWalletRequest {
+  string email = 1;
+}
+
+message CheckWalletResponse {
+  string publicKey = 1;
+  string address = 2;
+}
+
+message BroadcastAssignKeyRequest {
+  int32 id = 1;
+}
+
+message BroadcastAssignKeyResponse {
+  int32 id = 1;
+  string name = 2;
+}
+
+message InitSecretRequest {
+  string owner = 1;
+}
+
+message InitSecretResponse {
+  string publicKey = 1;
+}
+
+message AddReceivedShareRequest {
+  string owner = 1;
+  string receivedShare = 2;
+}
+
+message AddReceivedShareResponse {
+  bool status = 1;
+}
+
+message GenerateSharesRequest {
+  string owner = 1;
+}
+
+message GenerateSharesResponse {
+  bool status = 1;
+}
+
+message DeriveSharedSecretRequest {
+  string owner = 1;
+}
+
+message DeriveSharedSecretResponse {
+  bool status = 1;
+}
+
+message StoreWalletInfoRequest {
+  string owner = 1;
+  string publicKey = 2;
+  string address = 3;
+}
+
+message StoreWalletInfoResponse {
+  bool status = 1;
+}
