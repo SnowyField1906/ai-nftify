@@ -22,7 +22,7 @@ export default function Landing() {
 		<>
 			<section className="bg-secondary-500 poster pt-4 relative text-opacity-60 text-white sm:px-4">
 				<Navbar transparent />
-				<div className="container mx-auto pb-36 pt-16 px-4 relative my-8">
+				<div className="container mx-auto pb-44 pt-16 px-4 relative py-8">
 					<div className="-mx-4 flex flex-wrap items-center space-y-6 lg:space-y-0">
 						<div className="px-4 w-full lg:w-6/12 xl:w-5/12">
 							<NFTPreview {...nftData[currentSlideIndex]} />

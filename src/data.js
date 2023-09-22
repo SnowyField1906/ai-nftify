@@ -1,3 +1,5 @@
+export const logo = "https://tailus.io/sources/blocks/social/preview/images/icon.svg";
+
 export const nftData = [
     {
         nftName: "Space and Gone",
