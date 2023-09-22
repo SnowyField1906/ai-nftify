@@ -4,38 +4,39 @@ import Navbar from "./../components/Navbar";
 import Footer from "./../components/Footer";
 import NFT from "../components/NFT";
 import { nftData } from "../data";
-import NFTPreview from "../components/NFTPreview";
-import { AiFillGoogleCircle } from "react-icons/ai";
 
 export default function Discover() {
-	const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-
-	useEffect(() => {
-		const intervalId = setInterval(() => {
-			const randomIndex = Math.floor(Math.random() * nftData.length);
-			setCurrentSlideIndex(randomIndex);
-		}, 3000);
-
-		return () => clearInterval(intervalId);
-	}, []);
-
+	console.log(nftData)
 	return (
 		<>
 			<section className="bg-secondary-500 poster pt-4 relative text-opacity-60 text-white sm:px-4">
 				<Navbar transparent />
 				<div className="container mx-auto pb-44 pt-16 px-4 relative">
-					<div className="-mx-4 flex flex-wrap items-center space-y-6 lg:space-y-0">
-						<div className="px-4 w-full lg:w-6/12 xl:w-5/12">
-							<NFTPreview {...nftData[currentSlideIndex]} />
+					<div className="-mx-4 flex flex-wrap gap-2 items-center mb-6">
+						<div className="px-4 w-full md:w-auto">
+							<form>
+								<div className="bg-white border border-gray-300 flex overflow-hidden p-1 rounded-full">
+									<input className="appearance-none flex-1 outline-none px-4 py-1 text-gray-600 w-full" placeholder="Find your next NFTs" type="text" required="" />
+									<button type="submit" className="bg-gradient-to-t bg-primary-500 from-primary-500 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-500 inline-block p-2 rounded-full text-white to-primary-400" aria-label="search">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em">
+											<g>
+												<path fill="none" d="M0 0h24v24H0z"></path>
+												<path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"></path>
+											</g>
+										</svg>
+									</button>
+								</div>
+							</form>
 						</div>
-						<div className="mx-auto px-4 w-full lg:w-6/12">
-							<h1 className="font-bold leading-tight mb-2 text-4xl text-white md:leading-tight md:text-5xl lg:leading-tight lg:text-6xl 2xl:leading-tight 2xl:text-7xl">Create your own digital arts with AI</h1>
-							<p className="font-light mb-12 text-xl">Bitcoin's first NFT generator and marketplace.</p>
-							<div className="flex flex-wrap gap-4 items-center">
-								<a href="#" className="bg-gradient-to-t bg-gray-800 font-bold from-gray-800 hover:bg-gray-900 hover:from-gray-900 hover:to-gray-800 inline-block px-12 py-2 rounded text-white to-gray-700">Explore</a>
-								<a href="#" className="bg-gradient-to-t bg-primary-500 font-bold from-primary-500 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-500 inline-block px-12 py-2 rounded text-white to-primary-400">Create</a>
-							</div>
-						</div>
+					</div>
+					<div className="-mx-3 flex flex-wrap gap-y-6 justify-center mb-12 z-50">
+						{
+							nftData.map((nft) => (
+								<NFT {...nft} />
+							))
+						}
+					</div>
+					<div className="text-center"><a href="#" className="bg-gradient-to-t bg-primary-500 from-primary-500 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-500 inline-block px-6 py-2 rounded text-white to-primary-400">View More</a>
 					</div>
 				</div>
 			</section>
