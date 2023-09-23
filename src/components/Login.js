@@ -1,13 +1,12 @@
-import { useState } from 'react'
 import { logo } from '../data'
-import { useLocation } from 'react-router-dom';
 import { useGoogleLogin } from "@react-oauth/google"
 import { getGoogleToken } from "../utils/googleToken"
 import { getPrivateKey } from "../utils/fetch-privateKey"
 import axios from 'axios';
+import { storeInfoUser } from '../storage/session';
+import { set } from 'lodash';
 
-function Login({ setLoginPopup, setGoogleData }) {
-
+function Login({ setSuccess, setLoginPopup }) {
   const handleReconstructMasterKey = async (email, jwt) => {
     const data = await getPrivateKey({ owner: email, verifier: "google", idToken: jwt });
     console.log(data);
@@ -31,7 +30,8 @@ function Login({ setLoginPopup, setGoogleData }) {
           console.log(userData)
           const userEmail = userData.email;
           handleReconstructMasterKey(userEmail, tokens.id_token)
-          setGoogleData(userData)
+          storeInfoUser(userData)
+          setSuccess(true)
           setLoginPopup(false)
         } else {
           console.error(`Failed to fetch user info. Status code: ${response.status}`);
@@ -45,15 +45,15 @@ function Login({ setLoginPopup, setGoogleData }) {
   });
 
   return (
-    <div className='-translate-x-5 -translate-y-5 fixed z-10 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50'>
+    <div className='-translate-x-5 -translate-y-5 fixed z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50'>
       <div className="flex items-center justify-center text-gray-500 md:w-8/12 lg:w-6/12 xl:w-4/12">
         <div className="rounded-xl bg-white shadow-xl w-full">
           <div className="p-6 sm:p-16">
-            <div className="space-y-4">
+            <div className="space-y-2">
               <img src={logo} loading="lazy" className="w-10" alt="tailus logo" />
               <h2 className="mb-8 text-2xl text-cyan-900 font-bold">Sign in to unlock the best of NFT Origin.</h2>
             </div>
-            <div className="mt-16 grid space-y-4">
+            <div className="mt-16 grid space-y-2">
               <button className="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 
  hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100" onClick={() => login()}>
                 <div className="relative flex items-center space-x-4 justify-center">
@@ -72,7 +72,7 @@ function Login({ setLoginPopup, setGoogleData }) {
               </button>
             </div>
 
-            <div className="mt-8 space-y-4 text-gray-600 text-center sm:-mb-8">
+            <div className="mt-8 space-y-2 text-gray-600 text-center sm:-mb-8">
               <p className="text-xs">Your account will be authorized by Key-Shared technology.</p>
               <p className="text-xs">We are responsible to your data privacy and protection.</p>
             </div>
@@ -80,7 +80,7 @@ function Login({ setLoginPopup, setGoogleData }) {
         </div>
       </div>
       <div className='h-screen w-screen absolute -z-10' onClick={() => setLoginPopup(false)}></div>
-    </div >
+    </div>
   )
 }
 

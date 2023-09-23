@@ -7,17 +7,28 @@ import Generate from './views/Generate';
 import Drops from './views/Drops';
 import Discover from './views/Discover';
 import Profile from './views/Profile';
+import Wrapper from './components/Wrapper';
 
 function App() {
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/generate" element={<Generate />} />
-          <Route path="/drops" element={<Drops />} />
-          <Route path="/discover" element={<Discover />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path="/" element={
+            <Wrapper children={<Landing />} />
+          } />
+          <Route path="/generate" element={
+            <Wrapper children={<Generate />} />
+          } />
+          <Route path="/drops" element={
+            <Wrapper children={<Drops />} />
+          } />
+          <Route path="/discover" element={
+            <Wrapper children={<Discover />} />
+          } />
+          <Route path='/profile' element={
+            <Wrapper children={<Profile />} />
+          } />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>

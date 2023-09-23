@@ -1,9 +1,3 @@
-import { nftData } from "./data"
-
-export const getAllCreators = () => {
-    return nftData.map((nft) => nft.userName)
-}
-
 export const generateImage = async (prompt) => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -64,6 +58,12 @@ export const downloadImage = (url) => {
     element.click();
 
     document.body.removeChild(element);
+}
+
+export const mintNFT = async (info) => {
+    await new Promise(r => setTimeout(r, 3000));
+
+    return true
 }
 
 export const promptToParams = (prompt) => {
