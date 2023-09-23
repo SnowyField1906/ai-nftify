@@ -6,6 +6,7 @@ import Landing from './views/Landing';
 import Generate from './views/Generate';
 import Drops from './views/Drops';
 import Discover from './views/Discover';
+import Profile from './views/Profile';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/generate" element={<Generate />} />
           <Route path="/drops" element={<Drops />} />
           <Route path="/discover" element={<Discover />} />
+          <Route path='/profile' element={<Profile />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>

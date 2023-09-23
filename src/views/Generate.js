@@ -5,14 +5,13 @@ import Footer from "./../components/Footer";
 import NFT from "../components/NFT";
 import { nftData } from "../data";
 import NFTPreview from "../components/NFTPreview";
-import { generateImage, downloadImage } from "../helpers";
+import { generateImage, downloadImage, fetchImage } from "../helpers";
 import { RiNftFill } from "react-icons/ri"
 
 export default function Generate() {
 	const [response, setResponse] = useState(null);
 	const [onGenerate, setOnGenerate] = useState(false);
 	const [generateParams, setGenerateParams] = useState({
-		key: process.env.REACT_APP_STABLE_DIFFUSION_API,
 		prompt: "",
 		negative_prompt: "",
 		width: 512,
@@ -41,8 +40,17 @@ export default function Generate() {
 	const generate = async () => {
 		setOnGenerate(true)
 		const res = await generateImage(generateParams)
+
+		if (res.status === "processing") {
+			const fetchRes = await fetchImage(res.id)
+			res.output = fetchRes.output
+		}
 		setOnGenerate(false)
 		setResponse(res)
+	}
+
+	const mint = async (response) => {
+
 	}
 
 	return (
@@ -53,8 +61,8 @@ export default function Generate() {
 
 					<div className="bg-black bg-opacity-50 p-10 rounded-3xl">
 						<div className="flex flex-col items-center justify-center mb-20">
-							<h1 className="font-bold text-4xl text-center">Generate NFTs from Text</h1>
-							<p className="text-center text-lg">Generate NFTs from text using the power of AI.</p>
+							<h1 className="font-bold text-4xl text-center text-white">Generate NFTs from Text</h1>
+							<p className="text-center text-lg text-gray-100">Generate NFTs from text using the power of AI.</p>
 						</div>
 						<div className="flex flex-col items-center justify-center">
 							<div className="grid grid-cols-3 gap-x-10 gap-y-5">
@@ -69,13 +77,13 @@ export default function Generate() {
 									>
 										<p className="text-center w-full text-gray-100">512x512</p>
 									</div>
-									<div className={`${imageSizeClass[generateParams.height === 512 && generateParams.width === 768] + " w-32 h-20 border-2 rounded-lg flex items-center cursor-pointer"}`}
-										onClick={() => setGenerateParams({ ...generateParams, height: 512, width: 768 })}
+									<div className={`${imageSizeClass[generateParams.height === 768 && generateParams.width === 512] + " w-20 h-32 border-2 rounded-lg flex items-center cursor-pointer"}`}
+										onClick={() => setGenerateParams({ ...generateParams, height: 768, width: 512 })}
 									>
 										<p className="text-center w-full text-gray-100">512x768</p>
 									</div>
-									<div className={`${imageSizeClass[generateParams.height === 768 && generateParams.width === 512] + " w-20 h-32 border-2 rounded-lg flex items-center cursor-pointer"}`}
-										onClick={() => setGenerateParams({ ...generateParams, height: 768, width: 512 })}
+									<div className={`${imageSizeClass[generateParams.height === 512 && generateParams.width === 768] + " w-32 h-20 border-2 rounded-lg flex items-center cursor-pointer"}`}
+										onClick={() => setGenerateParams({ ...generateParams, height: 512, width: 768 })}
 									>
 										<p className="text-center w-full text-gray-100">768x512</p>
 									</div>
@@ -121,17 +129,18 @@ export default function Generate() {
 									</button>
 								</div>
 							</div>
-							<button onClick={() => generate()} className="my-10 bg-gradient-to-t bg-primary-500 font-bold from-primary-500 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-500 px-6 py-2 rounded-lg text-white to-primary-400 z-20 disabled:bg-primary-600 disabled:from-primary-600 disabled:to-primary-600" disabled={onGenerate}>
+							<button onClick={() => generate()} className="mt-10 bg-gradient-to-t bg-primary-500 font-bold from-primary-500 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-500 px-6 py-2 rounded-lg text-white to-primary-400 z-20 disabled:bg-primary-600 disabled:from-primary-600 disabled:to-primary-600" disabled={onGenerate}>
 								Generate
 							</button>
 						</div>
 					</div>
-					<div className="flex flex-col items-center my-10">
+					<div className="flex flex-col items-center self-center">
 						<div className={`${previewSizeClass(generateParams.height / generateParams.width) + " bg-white bg-opacity-10 border-2 border-dashed border-opacity-50 border-white rounded-lg grid self-center"}`}>
 							{
 								response ? (
 									<div className="relative">
-										<img src={response.output[0]} className="rounded" />
+										<img src={response.output[0]} style={{ width: "100%", height: "100%", objectFit: "cover" }}
+											className="rounded" />
 										<div className={`${onGenerate ? "block" : "hidden"} absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center`}>
 											<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
 										</div>
@@ -149,22 +158,41 @@ export default function Generate() {
 							}
 						</div>
 						<div className="my-10">
-							<button onClick={() => downloadImage(response.output[0])} className="ml-4 bg-gradient-to-t bg-primary-500 font-bold from-primary-500 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-500 px-6 py-2 rounded-lg text-white to-primary-400 z-20 disabled:bg-primary-600 disabled:from-primary-600 disabled:to-primary-600" disabled={!response}>
+							<button onClick={() => mint(response)} className="ml-4 bg-gradient-to-t bg-primary-500 font-bold from-primary-500 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-500 px-6 py-2 rounded-lg text-white to-primary-400 z-20 disabled:bg-primary-600 disabled:from-primary-600 disabled:to-primary-600" disabled={!response || onGenerate}>
 								<RiNftFill className="inline-block mr-2" /> Mint NFT
 							</button>
 						</div>
-						<div className="w-full">
+					</div>
+					{
+						response &&
+						<div className="col-span-2 w-full">
 							<div className="bg-black bg-opacity-50 p-5 rounded-xl">
-								<p className="text-left text-lg font-bold mb-10">Generation data</p>
+								<p className=" text-lg font-bold mb-10">Generation data</p>
 								{
-									response ?
-										<p className="text-left">{response}</p>
-										:
-										<p className="text-center">Generate to view data</p>
+									<div className="grid grid-cols-4 gap-x-10 gap-y-5">
+										<p className="">Generation Time</p>
+										<p className="col-span-3 text-left">{response.generationTime} s</p>
+										<p className="">Prompt</p>
+										<p className="col-span-3 text-left">{response.meta.prompt}</p>
+										<p className="">Negative Prompt</p>
+										<p className="col-span-3 text-left">{response.meta.negative_prompt}</p>
+										<p className="">Model</p>
+										<p className="col-span-3 text-left">{response.meta.model}</p>
+										<p className="">VAE</p>
+										<p className="col-span-3 text-left">{response.meta.vae}</p>
+										<p className="">Size</p>
+										<p className="col-span-3 text-left">{response.meta.W}x{response.meta.H}</p>
+										<p className="">Steps</p>
+										<p className="col-span-3 text-left">{response.meta.steps}</p>
+										<p className="">CFG scale</p>
+										<p className="col-span-3 text-left">{response.meta.guidance_scale}</p>
+										<p className="">Seed</p>
+										<p className="col-span-3 text-left">{response.meta.seed}</p>
+									</div>
 								}
 							</div>
 						</div>
-					</div>
+					}
 				</div>
 			</section >
 			<Footer />

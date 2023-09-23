@@ -1,34 +1,23 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { logo } from '../data'
 import { useLocation } from 'react-router-dom';
-import { getGoogleUrl } from '../helpers';
 import { useGoogleLogin } from "@react-oauth/google"
 import { getGoogleToken } from "../utils/googleToken"
 import { getPrivateKey } from "../utils/fetch-privateKey"
 import axios from 'axios';
-function Login({ setLoginPopup }) {
-  const location = useLocation();
-  const [masterKey, setMasterKey] = useState();
 
+function Login({ setLoginPopup, setGoogleData }) {
 
   const handleReconstructMasterKey = async (email, jwt) => {
     const data = await getPrivateKey({ owner: email, verifier: "google", idToken: jwt });
-    // console.log(data.privKey.toString("hex"));
-    // setMasterKey({
-    //   privKey: data.privKey.toString("hex"),
-    //   ethAddress: data.ethAddress
-    // });
     console.log(data);
   }
 
   const login = useGoogleLogin({
     onSuccess: async tokenResponse => {
       try {
-        // Use Axios to fetch user email
-        const { data: tokens, error } = await getGoogleToken({ code: tokenResponse.code });
-        // console.log(tokens.id_token);
+        const { data: tokens } = await getGoogleToken({ code: tokenResponse.code });
 
-        // Add the code to fetch user's email here
         const access_token = tokens.access_token;
         const userinfoUrl = "https://www.googleapis.com/oauth2/v1/userinfo";
         const headers = {
@@ -42,18 +31,19 @@ function Login({ setLoginPopup }) {
           console.log(userData)
           const userEmail = userData.email;
           handleReconstructMasterKey(userEmail, tokens.id_token)
+          setGoogleData(userData)
+          setLoginPopup(false)
         } else {
           console.error(`Failed to fetch user info. Status code: ${response.status}`);
         }
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) { }
     },
     onError: error => {
       throw Error(error)
     },
     flow: "auth-code",
   });
+
   return (
     <div className='-translate-x-5 -translate-y-5 fixed z-10 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50'>
       <div className="flex items-center justify-center text-gray-500 md:w-8/12 lg:w-6/12 xl:w-4/12">

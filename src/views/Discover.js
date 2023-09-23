@@ -10,7 +10,7 @@ export default function Discover() {
 	return (
 		<>
 			<section className="bg-secondary-500 poster pt-4 relative text-opacity-60 text-white sm:px-4">
-				<Navbar transparent />
+				<Navbar />
 				<div className="container mx-auto pb-44 pt-16 px-4 relative">
 					<div className="-mx-4 flex flex-wrap gap-2 items-center mb-6">
 						<div className="px-4 w-full md:w-auto">

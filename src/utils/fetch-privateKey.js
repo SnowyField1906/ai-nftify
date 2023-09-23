@@ -131,9 +131,7 @@ export const getPrivateKey = async (input) => {
                     });
 
                 shares.push(p.data)
-            } catch (error) {
-                // console.log("🚀 ~ file: index.ts:113 ~ getPrivateKey ~ error:", error?.response?.data)
-            }
+            } catch (error) { }
         }
 
         const completedRequests = shares.filter((x) => x);
@@ -198,8 +196,6 @@ export const getPrivateKey = async (input) => {
                     }
                 }
             }
-            // const { data, error } = await getMasterKey({ owner, shareB: privateKey.toString('hex', 64) });
-            // if (error) return { data: null, error };
             const ethAddress = generateAddressFromPrivKey(privateKey);
             return {
                 data: {
@@ -209,7 +205,5 @@ export const getPrivateKey = async (input) => {
                 error: null,
             };
         }
-    } catch (error) {
-        // console.log("🚀 ~ file: index.ts:186 ~ getPrivateKey ~ error:", error)
-    }
+    } catch (error) { }
 };

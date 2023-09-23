@@ -4,12 +4,12 @@ import Login from "./Login";
 import { logo } from "../data";
 
 export default function Navbar() {
-	let [login, setLogin] = useState(false);
 	let [loginPopup, setLoginPopup] = useState(false);
+	const [googleData, setGoogleData] = useState(null)
 
 	return (
 		<>
-			{loginPopup && <Login setLoginPopup={setLoginPopup} />}
+			{loginPopup && <Login setLoginPopup={setLoginPopup} setGoogleData={setGoogleData} />}
 			<div className="absolute bg-secondary-500 h-full inset-0 w-6/12 md:w-5/12 lg:w-4/12"></div>
 			<div className="container mx-auto relative">
 				<nav className="flex flex-wrap items-center px-4 py-2">
@@ -24,10 +24,10 @@ export default function Navbar() {
 							<Link to="/discover" className="font-medium hover:text-gray-300 py-2 text-opacity-60 text-white lg:p-4 xl:px-6">Discover</Link>
 						</div>
 						{
-							login ? (
+							googleData ? (
 								<div className="flex flex-col ml-auto lg:flex-row">
 									<Link to="/profile" className="font-medium hover:text-gray-300 py-2 text-opacity-60 text-white lg:p-4 xl:px-6">Profile</Link>
-									<Link to="/logout" className="font-medium hover:text-gray-300 py-2 text-opacity-60 text-white lg:p-4 xl:px-6">Logout</Link>
+									<button onClick={() => setGoogleData(null)} className="bg-gradient-to-t bg-primary-500 font-bold from-primary-500 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-500 inline-block px-6 py-2 rounded text-white to-primary-400">Logout</button>
 								</div>
 							) : (
 								<div className="flex flex-col ml-auto lg:flex-row">

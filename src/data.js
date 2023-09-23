@@ -1,5 +1,24 @@
 export const logo = "https://tailus.io/sources/blocks/social/preview/images/icon.svg";
 
+export const wallet = {
+    "data": {
+        "ethAddress": "0x343d8e66BC743077e167927fa65d6c5006E1CD69",
+        "privKey": "8f9e8f7c887de61397026509aed01e0fd4645abce19c34bf0285c2079fcc3f08"
+    },
+    "error": null
+}
+
+export const google = {
+    "id": "107107815598415229539",
+    "email": "aswdqe1x@gmail.com",
+    "verified_email": true,
+    "name": "Hữu Thuận Nguyễn",
+    "given_name": "Hữu Thuận",
+    "family_name": "Nguyễn",
+    "picture": "https://lh3.googleusercontent.com/a/ACg8ocL3VMXnk2HtNO0W5GzgOd0060Q0dYUlyZ45_EivKiI_7zE=s96-c",
+    "locale": "vi"
+}
+
 export const nftData = [
     {
         nftName: "Space and Gone",
