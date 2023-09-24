@@ -2,8 +2,17 @@ import React, { useEffect, useState } from "react";
 
 import NFT from "../components/NFT";
 import { getAllRootStockNFTs } from "../data";
+import { getNFTs } from "../helpers";
 
 export default function Discover() {
+	const [queryParams, setQueryParams] = useState({
+		userId: null,
+		listing: null,
+		isRootStock: null,
+		privateMeta: null,
+	})
+	const nfts = getNFTs(queryParams)
+
 	return (
 		<div className="flex flex-wrap gap-2 items-center mb-6">
 			<div className="px-4 w-full md:w-auto">
@@ -23,7 +32,7 @@ export default function Discover() {
 			</div>
 			<div className="flex flex-wrap gap-y-6 justify-center my-12">
 				{
-					getAllRootStockNFTs().map((nft) => (
+					nfts.map((nft) => (
 						<NFT {...nft} />
 					))
 				}

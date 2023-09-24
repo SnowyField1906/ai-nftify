@@ -25,7 +25,7 @@ export class GRPCService implements OnModuleInit {
     @Inject("P2P_NODE3") private client3: ClientGrpc,
     private configService: ConfigService,
     private sharedKeyService: SharedKeyService,
-  ) {}
+  ) { }
 
   onModuleInit() {
     this.node1 = this.client1.getService("P2PService");

@@ -1,24 +1,28 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { EncryptedMetadata, Storage, StorageDocument } from "src/schemas";
-
+import { Storage, StorageDocument } from "src/schemas";
+//EncryptedMetadata,
 @Injectable()
 export class StorageService {
   constructor(
     @InjectModel(Storage.name)
     private storageModel: Model<StorageDocument>,
-  ) {}
+  ) { }
 
-  async findMetadataByOwner(owner: string): Promise<Storage> {
-    return this.storageModel.findOne({ owner });
+  async findMetadataByOwner(nftId: string): Promise<Storage> {
+    return this.storageModel.findOne({ nftId });
   }
 
   async createMetadata(storage: Storage): Promise<Storage> {
     return this.storageModel.create(storage);
   }
 
-  async updateMetadata(owner: string, encryptedMetadata: EncryptedMetadata) {
-    return this.storageModel.updateOne({ owner }, { encryptedMetadata });
+  async findAllMetadata(): Promise<Array<Storage>> {
+    return this.storageModel.find();
   }
+
+  // async updatePriceMetadata(nftId: string, encryptedMetadata: EncryptedMetadata) {
+  //   return this.storageModel.updateOne({ nftId }, { encryptedMetadata });
+  // }
 }

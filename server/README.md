@@ -36,8 +36,9 @@ $ yarn install
 
 ```bash
 # development
-$ yarn run start
-
+$ yarn run start:dev:node1
+$ yarn run start:dev:node2
+$ yarn run start:dev:node3
 # watch mode
 $ yarn run start:dev
 

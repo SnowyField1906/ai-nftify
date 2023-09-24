@@ -3,7 +3,7 @@ import { get } from "lodash";
 
 export const getGoogleToken = async (payload) => {
     try {
-        const { data } = await axios.post(`http://localhost:3001/oauth/google`, {
+        const { data } = await axios.post(`${process.env.REACT_APP_NODE1_ENDPOINT}/oauth/google`, {
             ...payload,
         });
         return { error: "", data };

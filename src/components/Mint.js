@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { mintNFT } from '../helpers';
+import { getInfoUser } from '../storage/local';
 
 function Mint({ response, setMintPopup }) {
 	const [onSummit, setOnSummit] = useState(false)
@@ -7,17 +8,28 @@ function Mint({ response, setMintPopup }) {
 
 	const summit = async () => {
 		setOnSummit(true)
-		const res = await mintNFT(mintParams)
+
+		const res = await mintNFT({
+			price: mintParams.price * 1e8,
+			...mintParams
+		}, response.metadata)
 
 		setOnSuccess(res)
 		setOnSummit(false)
 	}
 
+	const user = getInfoUser()
+
 	const [mintParams, setMintParams] = useState({
-		name: "",
-		price: "",
+		userId: user.id,
+		nftId: response.id,
+		nftName: "",
+		price: null,
+		thumbnail: response.output[0],
 		listing: true,
-		response: response,
+		isRootStock: true,
+		privateMeta: false,
+		allowedUsers: []
 	});
 
 	useEffect(() => {
@@ -31,7 +43,9 @@ function Mint({ response, setMintPopup }) {
 		true: "bg-gray-200 text-gray-500 border-gray-300",
 	}
 
-	const valid = () => mintParams.name !== "" && (mintParams.listing ? (mintParams.price !== null) : true)
+	console.log(mintParams)
+
+	const valid = () => mintParams.nftName !== "" && (mintParams.listing ? (mintParams.price !== null) : true)
 
 	return (
 		<div className='fixed top-0 right-0 z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50 select-none'>
@@ -40,17 +54,33 @@ function Mint({ response, setMintPopup }) {
 					<h3 className="font-extrabold text-4xl text-primary-800 text-center mt-4">Mint the NFT</h3>
 					<div className="py-10 px-6 sm:px-16">
 						<div className="grid space-y-5">
-							<input type="text" placeholder="Name" className={`${inputClass[mintParams.name === ""]} w-full h-12 p-3 rounded-full border-2 cursor-text border-gray-200 flex items-center justify-center font-semibold`} onChange={(e) => setMintParams({ ...mintParams, name: e.target.value })} />
+							<input type="text" placeholder="Name" className={`${inputClass[mintParams.nftName === ""]} w-full h-12 p-3 rounded-full border-2 cursor-text border-gray-200 flex items-center justify-center font-semibold`} onChange={(e) => setMintParams({ ...mintParams, nftName: e.target.value })} />
 							<div className='flex justify-between items-center'>
 								<input type="number" placeholder="Price" className={`${inputClass[mintParams.price === null]} w-full h-12 p-3 rounded-full border-2 cursor-text border-gray-200 flex items-center justify-center font-semibold`} onChange={(e) => setMintParams({ ...mintParams, price: e.target.value })} value={mintParams.price} disabled={!mintParams.listing} />
 								<p className='text-xl mx-6 text-yellow-600 font-semibold'>BTC</p>
 							</div>
 							<div className='flex justify-between items-center'>
-								<button className={`${inputClass[!mintParams.listing]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, listing: !mintParams.listing })} defaultValue={mintParams.listing}>
-									List on Marketplace
+								<button className={`${inputClass[!mintParams.listing]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, listing: true })} defaultValue={mintParams.listing}>
+									Available for sale
 								</button>
-								<button className={`${inputClass[mintParams.listing]} rounded-full border-2 cursor-pointer rounded-l-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, price: "", listing: !mintParams.listing })} defaultValue={mintParams.listing}>
-									Keep Private
+								<button className={`${inputClass[mintParams.listing]} rounded-full border-2 cursor-pointer rounded-l-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, price: "", listing: false })} defaultValue={mintParams.listing}>
+									Not for sale
+								</button>
+							</div>
+							<div className='flex justify-between items-center'>
+								<button className={`${inputClass[mintParams.privateMeta]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, privateMeta: false })} defaultValue={!mintParams.privateMeta}>
+									Public prompt data
+								</button>
+								<button className={`${inputClass[!mintParams.privateMeta]} rounded-full border-2 cursor-pointer rounded-l-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, privateMeta: true })} defaultValue={!mintParams.privateMeta}>
+									Private prompt data
+								</button>
+							</div>
+							<div className='flex justify-between items-center'>
+								<button className={`${inputClass[!mintParams.isRootStock]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, isRootStock: true })} defaultValue={!mintParams.isRootStock}>
+									Mint at RootStock
+								</button>
+								<button className={`${inputClass[mintParams.isRootStock]} rounded-full border-2 cursor-pointer rounded-l-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, isRootStock: false })} defaultValue={!mintParams.isRootStock}>
+									Mint at Ordinals
 								</button>
 							</div>
 						</div>

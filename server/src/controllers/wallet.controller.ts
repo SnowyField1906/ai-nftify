@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards, UseInterceptors, Param } from "@nestjs/common";
 import { LookupWalletDto } from "src/dtos/lookup-wallet.dto";
 import { GRPCService } from "src/grpc/grpc-service";
 import { Wallet } from "src/schemas";
@@ -7,7 +7,7 @@ import { VerifyGuard } from "src/verifier/verify.guard";
 
 @Controller("wallets")
 export class WalletController {
-  constructor(private readonly walletService: WalletService, private grpcService: GRPCService) {}
+  constructor(private readonly walletService: WalletService, private grpcService: GRPCService) { }
 
   @Post()
   async lookupWallet(@Body() lookupWalletDto: LookupWalletDto): Promise<any> {
@@ -23,8 +23,14 @@ export class WalletController {
   }
 
   @Get()
-  @UseGuards(VerifyGuard)
   async findAll(): Promise<Wallet[]> {
     return this.walletService.findAll();
   }
+
+  @Get(":owner")
+  // @UseGuards(VerifyGuard)
+  async findWallet(@Param("owner") owner: string): Promise<Wallet> {
+    return this.walletService.findWallet(owner);
+  }
+
 }
