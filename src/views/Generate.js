@@ -86,13 +86,12 @@ export default function Generate() {
 	const [mintPopup, setMintPopup] = useState(false);
 
 	return (
-		<div className="grid grid-cols-2 justify-between gap-10">
+		<div className="lg:grid lg:grid-cols-2 flex flex-col justify-between gap-10">
 			{mintPopup && <Mint response={response} setMintPopup={setMintPopup} />}
 
 			<div className="rounded-3xl text-gray-800">
 				<div className="flex flex-col items-center justify-center mb-10">
-					<h1 className="font-extrabold text-4xl text-primary-800 text-center">Generate NFTs from Text</h1>
-					<p className="text-center text-lg font-semibold text-primary-700">Generate NFTs from text using the power of AI.</p>
+					<h1 className="font-extrabold text-4xl text-white text-center mix-blend-lighten">Turn your imagination into NFTs</h1>
 				</div>
 				<div className="flex flex-col items-center justify-center">
 					<div className="grid grid-cols-4 gap-x-10 gap-y-5">

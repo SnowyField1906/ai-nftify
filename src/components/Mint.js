@@ -4,19 +4,21 @@ import { getInfoUser } from '../storage/local';
 
 function Mint({ response, setMintPopup }) {
 	const [onSummit, setOnSummit] = useState(false)
-	const [onSuccess, setOnSuccess] = useState(false)
+	const [onSuccess, setOnSuccess] = useState(null)
 
 	const summit = async () => {
 		setOnSummit(true)
 
 		const res = await mintNFT({
-			price: mintParams.price * 1e8,
-			...mintParams
+			...mintParams,
+			nftId: mintParams.nftId.toString(),
+			price: (mintParams.price * 1e8).toString(),
 		}, response.metadata)
 
 		setOnSuccess(res)
 		setOnSummit(false)
 	}
+
 
 	const user = getInfoUser()
 
@@ -43,9 +45,14 @@ function Mint({ response, setMintPopup }) {
 		true: "bg-gray-200 text-gray-500 border-gray-300",
 	}
 
-	console.log(mintParams)
+	console.log({
+		...mintParams,
+		nftId: mintParams.nftId.toString(),
+		price: (mintParams.price * 1e8).toString()
+	})
 
-	const valid = () => mintParams.nftName !== "" && (mintParams.listing ? (mintParams.price !== null) : true)
+
+	const valid = () => mintParams.nftName !== "" && (mintParams.listing ? (mintParams.price !== null) : true) && onSuccess !== false
 
 	return (
 		<div className='fixed top-0 right-0 z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50 select-none'>
@@ -90,7 +97,7 @@ function Mint({ response, setMintPopup }) {
 									<span className="block font-semibold tracking-wide text-gray-700 text-sm transition duration-300 group-hover:text-primary-500 sm:text-base">
 										{
 											!onSummit && !onSuccess ?
-												"Summit"
+												<p>{onSuccess === null ? "Mint" : "Failed!"}</p>
 												:
 												!onSuccess ?
 													<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-500"></div>

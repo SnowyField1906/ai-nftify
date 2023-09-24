@@ -51,46 +51,41 @@ export const fetchImage = async (id) => {
 
 export const mintNFT = async (data, metadata) => {
     // return true after 3s
-    const tx = new Promise((resolve) => {
+    let success = new Promise((resolve) => {
         setTimeout(() => {
             resolve(true)
         }, 3000)
     })
 
-    if (tx) {
-        console.log(data)
-        await axios.post(`${process.env.REACT_APP_NODE1_ENDPOINT}/storages`, { data })
-            .then(res => {
-                console.log(res);
-                console.log(res.data);
-            })
+    if (success) {
+        console.log("data fixed", data)
+        await axios.post(
+            `${process.env.REACT_APP_NODE1_ENDPOINT}/storages`,
+            data,
+            { headers: { 'Content-Type': 'application/json' } }
+        ).then(res => {
+            console.log(res);
+        }).catch(() => { success = false })
     }
 
-    return tx
+    return success
 }
 
-export const getNFTs = async ({ userId, listing, isRootStock, privateMeta }) => {
+export const getNFTs = async (queryParams) => {
     let nfts
     await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/storages`)
         .then(res => { nfts = res.data })
         .catch(error => console.log(error));
 
+    Object.keys(queryParams).forEach(key => {
+        if (queryParams[key] !== null) {
+            nfts = nfts.filter(nft => nft[key] === queryParams[key])
+        }
+    })
 
-    let res
-    if (userId) {
-        res = nfts.filter(nft => nft.data.userId === userId)
-    }
-    if (listing) {
-        res = res.filter(nft => nft.data.listing === listing)
-    }
-    if (isRootStock) {
-        res = res.filter(nft => nft.data.isRootStock === isRootStock)
-    }
-    if (privateMeta) {
-        res = res.filter(nft => nft.data.privateMeta === privateMeta)
-    }
+    console.log(nfts)
 
-    return res
+    return nfts
 }
 
 export const getUsers = async () => {

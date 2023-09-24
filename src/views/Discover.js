@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import NFT from "../components/NFT";
-import { getAllRootStockNFTs } from "../data";
 import { getNFTs } from "../helpers";
 
 export default function Discover() {
@@ -11,12 +10,21 @@ export default function Discover() {
 		isRootStock: null,
 		privateMeta: null,
 	})
-	const nfts = getNFTs(queryParams)
+	const [nfts, setNFTs] = useState([])
+	const [onQuery, setOnQuery] = useState(true)
+	// async
+	useEffect(() => {
+		setOnQuery(true)
+		getNFTs(queryParams).then(nfts => setNFTs(nfts))
+		setOnQuery(false)
+	}, [queryParams])
+
+	console.log("discover", nfts)
 
 	return (
-		<div className="flex flex-wrap gap-2 items-center mb-6">
-			<div className="px-4 w-full md:w-auto">
-				<form>
+		<>
+			<div className="flex flex-wrap gap-2 items-center mb-6">
+				<div className="px-4 w-full md:w-auto z-10">
 					<div className="bg-white border border-gray-300 flex overflow-hidden p-1 rounded-full">
 						<input className="appearance-none flex-1 outline-none px-4 py-1 text-gray-600 w-full" placeholder="Find your next NFTs" type="text" required="" />
 						<button type="submit" className="bg-gradient-to-t bg-primary-500 from-primary-500 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-500 inline-block p-2 rounded-full text-white to-primary-400" aria-label="search">
@@ -28,15 +36,18 @@ export default function Discover() {
 							</svg>
 						</button>
 					</div>
-				</form>
+				</div>
 			</div>
 			<div className="flex flex-wrap gap-y-6 justify-center my-12">
 				{
-					nfts.map((nft) => (
-						<NFT {...nft} />
-					))
+					onQuery ?
+						<div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500"></div>
+						:
+						nfts.map((nft) => (
+							<NFT {...nft} />
+						))
 				}
 			</div>
-		</div>
+		</>
 	);
 }
