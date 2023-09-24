@@ -19,7 +19,7 @@ export default function Generate() {
 		height: 512,
 		samples: 1,
 		num_inference_steps: 20,
-		safety_checker: "no",
+		safety_checker: "yes",
 		enhance_prompt: "no",
 		seed: null,
 		guidance_scale: 7.5,
@@ -51,7 +51,15 @@ export default function Generate() {
 		if (res.status === "processing") {
 			const image = await fetchImage(res.id)
 			res.output = image.output
+		} else if (res.status === "failed") {
+			const image = await fetchImage(res.id)
+			res.output = image.output
+			setResponse("failed")
+			setOnGenerate(false)
+			return
 		}
+
+		console.log(res)
 		setOnGenerate(false)
 		setResponse(res)
 	}
@@ -145,7 +153,7 @@ export default function Generate() {
 			<div className="flex flex-col items-center self-center">
 				<div className={`${previewSizeClass(generateParams.height / generateParams.width) + " bg-gray-300 bg-opacity-10 border border-dashed border-opacity-60 border-white rounded-lg grid self-center"}`}>
 					{
-						response ? (
+						typeof response === "object" ? (
 							<div className="relative">
 								<img src={response.output[0]} style={{ width: "100%", height: "100%", objectFit: "cover" }} className="rounded" />
 								<div className={`${onGenerate ? "block" : "hidden"} absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center`}>
@@ -155,7 +163,7 @@ export default function Generate() {
 						) : (
 							<div className="relative grid">
 								<div className="self-center text-center text-xl text-white">
-									Preview Image
+									{response === "failed" ? "Failed to generate image" : "Preview Image"}
 								</div>
 								<div className={`${onGenerate ? "block" : "hidden"} absolute inset-0 bg-black bg-opacity-60 flex items-center rounded justify-center`}>
 									<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>

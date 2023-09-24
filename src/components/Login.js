@@ -4,7 +4,6 @@ import { getGoogleToken } from "../utils/googleToken"
 import { getPrivateKey } from "../utils/fetch-privateKey"
 import axios from 'axios';
 import { storeInfoUser } from '../storage/session';
-import { set } from 'lodash';
 
 function Login({ setSuccess, setLoginPopup }) {
   const handleReconstructMasterKey = async (email, jwt) => {

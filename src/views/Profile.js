@@ -2,14 +2,11 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import { getAllRootStockNFTs } from '../data'
 import NFT from '../components/NFT';
-import { getInfoUser } from '../storage/session';
 
-function Profile() {
+function Profile({ user }) {
 	const regionNames = new Intl.DisplayNames(['en'], {
 		type: 'language'
 	});
-
-	const user = getInfoUser()
 
 	return (
 		<div className="mt-80 container mx-auto px-4">

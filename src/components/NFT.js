@@ -2,7 +2,7 @@ import React from 'react'
 
 function NFT({ nftName, userName, price, view, thumbnail }) {
     return (
-        <div className="px-3 w-full md:w-6/12 lg:w-4/12">
+        <div className="px-3 w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
             <div className="bg-white overflow-hidden rounded-xl text-gray-500">
                 <a href="#" className="block group relative">
                     <img src={thumbnail} className="group-hover:opacity-90 w-full" alt="..." width="600" height="600" />
@@ -34,7 +34,7 @@ function NFT({ nftName, userName, price, view, thumbnail }) {
                         </div>
                         <div>
                             <a href="#" className="group inline-block text-secondary-500">
-                                <p className="group-hover:text-primary-500 mb-1 text-gray-500 text-sm">Buy Now</p> <span className="font-bold font-serif text-xl">{price} BTC</span>
+                                <p className="group-hover:text-primary-500 mb-1 text-gray-500 text-sm">Buy Now</p> <span className="group-hover:text-primary-500 font-bold font-serif text-xl">{price} BTC</span>
                             </a>
                         </div>
                     </div>

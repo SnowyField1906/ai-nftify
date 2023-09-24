@@ -1,0 +1,26 @@
+{
+	"status": "success",
+	"generationTime": 8.038790941238403,
+	"id": 44139885,
+	"output": [
+		"https://cdn2.stablediffusionapi.com/generations/cc63a9e3-f11b-47e7-a85c-ceb24cc855c5-0.png"
+	],
+	"meta": {
+		"H": 768,
+		"W": 512,
+		"enable_attention_slicing": "true",
+		"file_prefix": "cc63a9e3-f11b-47e7-a85c-ceb24cc855c5",
+		"guidance_scale": 7.5,
+		"instant_response": "no",
+		"model": "runwayml/stable-diffusion-v1-5",
+		"n_samples": 1,
+		"negative_prompt": "(child:1.5), ((((underage)))), ((((child)))), (((kid))), (((preteen))), (teen:1.5) ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face, blurry, draft, grainy",
+		"outdir": "out",
+		"prompt": "a sexy girl hyperrealistic, full body, detailed clothing, highly detailed, cinematic lighting, stunningly beautiful, intricate, sharp focus, f/1. 8, 85mm, (centered image composition), (professionally color graded), ((bright soft diffused light)), volumetric fog, trending on instagram, trending on tumblr, HDR 4K, 8K",
+		"revision": "fp16",
+		"safetychecker": "no",
+		"seed": 3693478389,
+		"steps": 20,
+		"vae": "stabilityai/sd-vae-ft-mse"
+	}
+}

@@ -24,7 +24,7 @@ export default function Discover() {
 					</div>
 				</form>
 			</div>
-			<div className="-mx-3 flex flex-wrap gap-y-6 justify-center mb-12 z-50">
+			<div className="-mx-3 flex flex-wrap gap-y-6 justify-center my-12">
 				{
 					getAllRootStockNFTs().map((nft) => (
 						<NFT {...nft} />

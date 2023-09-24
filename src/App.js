@@ -8,8 +8,11 @@ import Drops from './views/Drops';
 import Discover from './views/Discover';
 import Profile from './views/Profile';
 import Wrapper from './components/Wrapper';
+import { getAllUsers } from './data';
 
 function App() {
+  const allUser = getAllUsers();
+
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}>
       <BrowserRouter>
@@ -29,6 +32,13 @@ function App() {
           <Route path='/profile' element={
             <Wrapper children={<Profile />} />
           } />
+          {
+            allUser.map((user) => (
+              <Route path={`/profile/${user.googleId}`} element={
+                <Wrapper children={<Profile user={user} />} />
+              } />
+            ))
+          }
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
