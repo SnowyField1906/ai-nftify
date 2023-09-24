@@ -76,12 +76,6 @@ export default function Navbar() {
 								Generate
 							</Link>
 							<Link
-								to="/drops"
-								className="font-semibold text-lg hover:text-primary-200 py-2 text-white lg:p-4 xl:px-6"
-							>
-								Drops
-							</Link>
-							<Link
 								to="/discover"
 								className="font-semibold text-lg hover:text-primary-200 py-2 text-white lg:p-4 xl:px-6"
 							>

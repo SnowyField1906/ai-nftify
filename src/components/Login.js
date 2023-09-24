@@ -25,11 +25,8 @@ function Login({ setSuccess, setLoginPopup }) {
         const response = await axios.get(userinfoUrl, { headers });
 
         if (response.status === 200) {
-          const userData = response.data;
-          console.log(userData)
-          const userEmail = userData.email;
-          handleReconstructMasterKey(userEmail, tokens.id_token)
-          storeInfoUser(userData)
+          handleReconstructMasterKey(response.data.email, tokens.id_token)
+          storeInfoUser(response.data)
           setSuccess(true)
           setLoginPopup(false)
         } else {
@@ -44,7 +41,7 @@ function Login({ setSuccess, setLoginPopup }) {
   });
 
   return (
-    <div className='-translate-x-5 -translate-y-5 fixed z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50 select-none'>
+    <div className='fixed top-0 right-0 z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50 select-none'>
       <div className="flex items-center justify-center text-gray-500 md:w-8/12 lg:w-6/12 xl:w-4/12">
         <div className="rounded-xl bg-white shadow-xl w-full">
           <div className="p-10">

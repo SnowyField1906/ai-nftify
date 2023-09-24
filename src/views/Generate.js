@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import Navbar from "./../components/Navbar";
-import Footer from "./../components/Footer";
-import NFT from "../components/NFT";
-import { getAllRootStockNFTs } from "../data";
-import NFTPreview from "../components/NFTPreview";
-import { generateImage, downloadImage, fetchImage } from "../helpers";
+import { generateImage, fetchImage } from "../helpers";
 import { RiNftFill } from "react-icons/ri"
 import Mint from "../components/Mint";
 
@@ -64,7 +59,6 @@ export default function Generate() {
 			return
 		}
 
-		console.log(res)
 		setOnGenerate(false)
 		setResponse(res)
 	}
@@ -90,11 +84,9 @@ export default function Generate() {
 			{mintPopup && <Mint response={response} setMintPopup={setMintPopup} />}
 
 			<div className="rounded-3xl text-gray-800">
-				<div className="flex flex-col items-center justify-center mb-10">
-					<h1 className="font-extrabold text-4xl text-white text-center mix-blend-lighten">Turn your imagination into NFTs</h1>
-				</div>
-				<div className="flex flex-col items-center justify-center">
-					<div className="grid grid-cols-4 gap-x-10 gap-y-5">
+				<h1 className="font-extrabold text-4xl text-white mix-blend-lighten">Turn your imagination into NFTs</h1>
+				<div className="mt-16 flex flex-col items-center justify-center">
+					<div className="grid grid-cols-4 gap-x-10 gap-y-5 z-20">
 						<p className="self-center text-right text-lg font-semibold">Prompt</p>
 						<textarea onChange={(e) => setGenerateParams({ ...generateParams, prompt: e.target.value })} className={`${inputClass[generateParams.prompt === ""]} col-span-3 h-24 p-3 rounded-2xl border-2 cursor-text border-gray-200 flex items-center justify-center font-semibold`} type="text" defaultValue={generateParams.prompt} />
 						<p className="self-center text-right text-lg font-semibold">Negative prompt</p>
@@ -257,6 +249,13 @@ export default function Generate() {
 									</span>
 									{response.meta.W}x{response.meta.H}
 								</p>
+								<p className="font-semibold">Revision</p>
+								<p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">
+									<span className="pointer-events-none absolute right-4 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+										{copy}
+									</span>
+									{response.meta.revision}
+								</p>
 								<p className="font-semibold">Steps</p>
 								<p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(response.meta.steps)}>
 									<span className="pointer-events-none absolute right-4 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
@@ -277,6 +276,27 @@ export default function Generate() {
 										{copy}
 									</span>
 									{response.meta.seed}
+								</p>
+								<p className="font-semibold">NSFW filter</p>
+								<p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">
+									<span className="pointer-events-none absolute right-4 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+										{copy}
+									</span>
+									{response.meta.safetychecker}
+								</p>
+								<p className="font-semibold">Attention slicing</p>
+								<p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">
+									<span className="pointer-events-none absolute right-4 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+										{copy}
+									</span>
+									{response.meta.enable_attention_slicing}
+								</p>
+								<p className="font-semibold">Instant response</p>
+								<p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">
+									<span className="pointer-events-none absolute right-4 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+										{copy}
+									</span>
+									{response.meta.instant_response}
 								</p>
 							</div>
 						}

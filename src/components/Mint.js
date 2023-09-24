@@ -45,13 +45,6 @@ function Mint({ response, setMintPopup }) {
 		true: "bg-gray-200 text-gray-500 border-gray-300",
 	}
 
-	console.log({
-		...mintParams,
-		nftId: mintParams.nftId.toString(),
-		price: (mintParams.price * 1e8).toString()
-	})
-
-
 	const valid = () => mintParams.nftName !== "" && (mintParams.listing ? (mintParams.price !== null) : true) && onSuccess !== false
 
 	return (

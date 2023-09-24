@@ -18,7 +18,7 @@
 		"outdir": "out",
 		"prompt": "a sexy girl hyperrealistic, full body, detailed clothing, highly detailed, cinematic lighting, stunningly beautiful, intricate, sharp focus, f/1. 8, 85mm, (centered image composition), (professionally color graded), ((bright soft diffused light)), volumetric fog, trending on instagram, trending on tumblr, HDR 4K, 8K",
 		"revision": "fp16",
-		"safetychecker": "no",
+		"safety_checker": "no",
 		"seed": 3693478389,
 		"steps": 20,
 		"vae": "stabilityai/sd-vae-ft-mse"

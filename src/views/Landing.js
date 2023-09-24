@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 
-import Navbar from "./../components/Navbar";
-import Footer from "./../components/Footer";
-import NFT from "../components/NFT";
-import { getAllRootStockNFTs } from "../data";
 import NFTPreview from "../components/NFTPreview";
 import { Link } from "react-router-dom";
+import { getNFTs } from "../helpers";
 
 export default function Landing() {
 	const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+	const [nfts, setNFTs] = useState([])
+
+	useEffect(() => {
+		getNFTs({}).then(res => setNFTs(res))
+	}, [])
 
 	useEffect(() => {
 		const intervalId = setInterval(() => {
-			const randomIndex = Math.floor(Math.random() * getAllRootStockNFTs().length);
+			const randomIndex = Math.floor(Math.random() * nfts.length);
 			setCurrentSlideIndex(randomIndex);
 		}, 3000);
 
@@ -22,7 +24,7 @@ export default function Landing() {
 	return (
 		<div className="flex flex-wrap items-center space-y-6 lg:space-y-0">
 			<div className="px-4 w-full lg:w-6/12 xl:w-5/12">
-				<NFTPreview {...getAllRootStockNFTs()[currentSlideIndex]} />
+				<NFTPreview {...nfts[currentSlideIndex]} />
 			</div>
 			<div className="mx-auto px-4 w-full lg:w-6/12">
 				<h1 className="font-bold leading-tight mb-2 text-4xl text-white md:leading-tight md:text-5xl lg:leading-tight lg:text-6xl 2xl:leading-tight 2xl:text-7xl">Create your own digital arts with AI</h1>

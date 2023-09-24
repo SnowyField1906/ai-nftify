@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
 import NFT from '../components/NFT';
-import { getNFTs } from '../helpers';
+import { getNFTs } from '../helpers'
+import { MdOutlineLanguage } from 'react-icons/md';
 
 function Profile({ user }) {
 	const regionNames = new Intl.DisplayNames(['en'], {
@@ -13,22 +13,22 @@ function Profile({ user }) {
 
 	useEffect(() => {
 		setOnQuery(true)
-		getNFTs({ userId: user.id }).then(nfts => setNFTs(nfts))
+		getNFTs({ userId: user.id }).then(res => setNFTs(res))
 		setOnQuery(false)
-	}, [])
+	}, [user])
 
 
 	return (
 		<div className="container mx-auto px-4">
-			<div className="flex flex-wrap h-52">
+			<div className="flex flex-wrap mb-60">
 				<div className="w-full justify-center flex place-items-center place-content-center absolute left-0 top-5 flex-col">
 					<img src={user.picture} className=" shadow-xl rounded-full xl:w-1/12 lg:w-1/6 md:w-1/5 w-1/4" alt="..." />
 					<div className="text-center">
 						<h3 className="text-4xl font-semibold leading-normal my-2 text-gray-700">
 							{user.name}
 						</h3>
-						<div className="text-sm leading-normal mt-0 mb-2 text-gray-400 font-bold uppercase">
-							<i className="fas fa-map-marker-alt mr-2 text-lg text-gray-400"></i>
+						<div className="text-sm leading-normal mt-0 mb-2 text-gray-500 font-bold uppercase flex justify-center items-center gap-2">
+							<MdOutlineLanguage className="font-bold text-xl text-gray-500" />
 							{regionNames.of(user.locale)}
 						</div>
 					</div>

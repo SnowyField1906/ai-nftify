@@ -1,32 +1,27 @@
-import React from 'react'
-import { getUserDataByUserId } from '../data'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaRegFaceSmileWink } from 'react-icons/fa6'
 import { SiBitcoinsv } from 'react-icons/si'
-import { ImSad } from 'react-icons/im'
+import { getUsers } from '../helpers'
 
 function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, privateMeta, allowedUsers }) {
-    const userData = getUserDataByUserId(userId)
-    console.log(userData)
+    const [userData, setUserData] = useState({})
+
+    useEffect(() => {
+        getUsers(userId).then(res => setUserData(res))
+    }, [userId])
 
     return (
         <div className="px-3 w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
             <div className="bg-white overflow-hidden rounded-xl text-gray-500">
-                <a href="#" className="block group relative">
-                    <img src={thumbnail} className="group-hover:opacity-90 w-full" alt="..." width="600" height="600" />
-                    <div className="absolute bg-gray-900 bottom-4 gap-2 inline-flex items-center opacity-75 right-6 rounded-full text-white px-3 h-10 text-lg">
-                        {listing ?
-                            <>
-                                <span className="group-hover:block hidden text-sm">Available for sale</span>
-                                <FaRegFaceSmileWink />
-                            </>
-                            :
-                            <>
-                                <span className="group-hover:block hidden text-sm">Not for sale</span>
-                                <ImSad />
-                            </>
-                        }
-                    </div>
+                <a href="#" className="block relative">
+                    <img src={thumbnail} className="hover:opacity-90 w-full" alt="..." width="600" height="600" />
+                    {listing &&
+                        <div className="group absolute bg-gray-900 bottom-4 gap-2 inline-flex items-center opacity-75 right-6 rounded-full text-white px-3 h-10 text-lg">
+                            <span className="group-hover:block hidden text-sm">Prompt is available</span>
+                            <FaRegFaceSmileWink />
+                        </div>
+                    }
                 </a>
                 <div className="px-4 py-6 sm:px-6">
                     <div className="flex items-center justify-between">

@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Landing from './views/Landing';
 import Generate from './views/Generate';
-import Drops from './views/Drops';
 import Discover from './views/Discover';
 import Profile from './views/Profile';
 import Wrapper from './components/Wrapper';
-import { getAllUsers } from './data';
+import { getUsers } from './helpers';
 
 function App() {
-  const allUser = getAllUsers();
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    getUsers().then(res => setUsers(res))
+  }, []);
 
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}>
@@ -23,9 +26,6 @@ function App() {
           <Route path="/generate" element={
             <Wrapper children={<Generate />} />
           } />
-          <Route path="/drops" element={
-            <Wrapper children={<Drops />} />
-          } />
           <Route path="/discover" element={
             <Wrapper children={<Discover />} />
           } />
@@ -33,7 +33,7 @@ function App() {
             <Wrapper children={<Profile />} />
           } />
           {
-            allUser.map((user) => (
+            users.map((user) => (
               <Route path={`/profile/${user.id}`} element={
                 <Wrapper children={<Profile user={user} />} />
               } />

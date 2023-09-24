@@ -58,14 +58,13 @@ export const mintNFT = async (data, metadata) => {
     })
 
     if (success) {
-        console.log("data fixed", data)
         await axios.post(
             `${process.env.REACT_APP_NODE1_ENDPOINT}/storages`,
             data,
             { headers: { 'Content-Type': 'application/json' } }
-        ).then(res => {
-            console.log(res);
-        }).catch(() => { success = false })
+        )
+            .then(res => { })
+            .catch(() => { success = false })
     }
 
     return success
@@ -83,16 +82,19 @@ export const getNFTs = async (queryParams) => {
         }
     })
 
-    console.log(nfts)
-
     return nfts
 }
 
-export const getUsers = async () => {
+export const getUsers = async (id) => {
     let users
+
     await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/wallets`)
         .then(res => { users = res.data })
         .catch(error => console.log(error));
+
+    if (id) {
+        users = users.filter(user => user.id === id)
+    }
 
     return users
 }

@@ -1,27 +1,9 @@
 export const logo = "https://tailus.io/sources/blocks/social/preview/images/icon.svg";
 
+export const getNFTMetaById = async (id) => {
+    return allNFTsMeta.find((nft) => nft.id === id)
+}
 
-export const getAllOrdinalsNFTs = () => {
-    return allNFTs.filter(nft => nft.isRootStock === false)
-}
-export const getAllRootStockNFTs = () => {
-    return allNFTs
-}
-export const getAllListedNFTs = () => { // discover page
-    return allNFTs.filter(nft => nft.listing === true)
-}
-export const getAllUsers = () => {
-    return allUsers
-}
-export const getAllOrdinalsNFTsByUserId = (userId) => { // profile page
-    return allNFTs.filter(nft => nft.userId === userId && nft.isRootStock === false)
-}
-export const getAllRootStockNFTsByUserId = (userId) => { // profile page
-    return allNFTs.filter(nft => nft.userId === userId && nft.isRootStock === true)
-}
-export const getUserDataByUserId = (userId) => {
-    return allUsers.find(user => user.id === userId)
-}
 
 const wallet = {
     "ordinals": {
@@ -72,7 +54,7 @@ const allNFTsMeta = [
             outdir: "out",
             prompt: "a sexy girl hyperrealistic, full body, detailed clothing, highly detailed, cinematic lighting, stunningly beautiful, intricate, sharp focus, f/1. 8, 85mm, (centered image composition), (professionally color graded), ((bright soft diffused light)), volumetric fog, trending on instagram, trending on tumblr, HDR 4K, 8K",
             revision: "fp16",
-            safetychecker: "no",
+            safety_checker: "no",
             seed: 3693478389,
             steps: 20,
             vae: "stabilityai/sd-vae-ft-mse"
