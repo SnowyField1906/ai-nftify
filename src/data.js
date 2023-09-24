@@ -1,22 +1,26 @@
 export const logo = "https://tailus.io/sources/blocks/social/preview/images/icon.svg";
 
-export const getWallet = () => {
-    return wallet.data
-}
-export const getAllNFTs = (userName) => {
-    return allRootStockNFTs.filter(nft => nft.userName === userName)
-}
+
 export const getAllOrdinalsNFTs = () => {
-    return allRootStockNFTs[0]
+    return allNFTs.filter(nft => nft.isRootStock === false)
 }
 export const getAllRootStockNFTs = () => {
-    return allRootStockNFTs
+    return allNFTs
+}
+export const getAllListedNFTs = () => { // discover page
+    return allNFTs.filter(nft => nft.listing === true)
 }
 export const getAllUsers = () => {
     return allUsers
 }
-export const getAllNFTsByUserId = (userId) => {
-    return allRootStockNFTs.filter(nft => nft.userId === userId)
+export const getAllOrdinalsNFTsByUserId = (userId) => { // profile page
+    return allNFTs.filter(nft => nft.userId === userId && nft.isRootStock === false)
+}
+export const getAllRootStockNFTsByUserId = (userId) => { // profile page
+    return allNFTs.filter(nft => nft.userId === userId && nft.isRootStock === true)
+}
+export const getUserDataByUserId = (userId) => {
+    return allUsers.find(user => user.id === userId)
 }
 
 const wallet = {
@@ -52,14 +56,41 @@ const allUsers = [
     }
 ]
 
-const allRootStockNFTs = [
+const allNFTsMeta = [
     {
-        nftName: "Space and Gone",
+        id: "44139885",
+        meta: {
+            H: 768,
+            W: 512,
+            enable_attention_slicing: "true",
+            file_prefix: "cc63a9e3-f11b-47e7-a85c-ceb24cc855c5",
+            guidance_scale: 7.5,
+            instant_response: "no",
+            model: "runwayml/stable-diffusion-v1-5",
+            n_samples: 1,
+            negative_prompt: "(child:1.5), ((((underage)))), ((((child)))), (((kid))), (((preteen))), (teen:1.5) ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face, blurry, draft, grainy",
+            outdir: "out",
+            prompt: "a sexy girl hyperrealistic, full body, detailed clothing, highly detailed, cinematic lighting, stunningly beautiful, intricate, sharp focus, f/1. 8, 85mm, (centered image composition), (professionally color graded), ((bright soft diffused light)), volumetric fog, trending on instagram, trending on tumblr, HDR 4K, 8K",
+            revision: "fp16",
+            safetychecker: "no",
+            seed: 3693478389,
+            steps: 20,
+            vae: "stabilityai/sd-vae-ft-mse"
+        }
+    }
+]
+
+const allNFTs = [
+    {
         userId: "107107815598415229539",
+        nftId: "44139885",
+        nftName: "Space and Gone",
         price: "245",
         thumbnail: "https://images.unsplash.com/photo-1635373670332-43ea883bb081?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDI5M3x8M2QlMjByZW5kZXJ8ZW58MHx8fHwxNjM4OTE4NDE3&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=400&h=400&fit=crop",
         listing: true,
         isRootStock: true,
+        privateMeta: true,
+        allowedUsers: ["107107815598415229539", "107108710111255201784"],
     },
     {
         nftName: "An Apple You Can't Eat",

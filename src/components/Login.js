@@ -3,7 +3,7 @@ import { useGoogleLogin } from "@react-oauth/google"
 import { getGoogleToken } from "../utils/googleToken"
 import { getPrivateKey } from "../utils/fetch-privateKey"
 import axios from 'axios';
-import { storeInfoUser } from '../storage/session';
+import { storeInfoUser } from '../storage/local';
 
 function Login({ setSuccess, setLoginPopup }) {
   const handleReconstructMasterKey = async (email, jwt) => {
@@ -44,10 +44,10 @@ function Login({ setSuccess, setLoginPopup }) {
   });
 
   return (
-    <div className='-translate-x-5 -translate-y-5 fixed z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50'>
+    <div className='-translate-x-5 -translate-y-5 fixed z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50 select-none'>
       <div className="flex items-center justify-center text-gray-500 md:w-8/12 lg:w-6/12 xl:w-4/12">
         <div className="rounded-xl bg-white shadow-xl w-full">
-          <div className="p-6 sm:p-16">
+          <div className="p-10">
             <div className="space-y-2">
               <img src={logo} loading="lazy" className="w-10" alt="tailus logo" />
               <h2 className="mb-8 text-2xl text-cyan-900 font-bold">Sign in to unlock the best of NFT Origin.</h2>
@@ -70,10 +70,12 @@ function Login({ setSuccess, setLoginPopup }) {
                 </div>
               </button>
             </div>
-
-            <div className="mt-8 space-y-2 text-gray-600 text-center sm:-mb-8">
-              <p className="text-xs">Your account will be authorized by Key-Shared technology.</p>
-              <p className="text-xs">We are responsible to your data privacy and protection.</p>
+            <div className="mt-8 space-y-2 text-gray-600 text-center">
+              <p className="text-xs">Your account will be authorized by{' '}
+                <a href="https://medium.com/toruslabs/what-distributed-key-generation-is-866adc79620" target="_blank" rel="noreferrer"
+                  className="text-blue-600 hover:text-blue-700 hover:underline">Distributed Key Management</a>
+                {' '}technology. We are responsible to your data privacy and protection.</p>
+              <p className="text-xs">Account will be in local storage after logging in. Make sure you are not using public device or being hacked.</p>
             </div>
           </div>
         </div>

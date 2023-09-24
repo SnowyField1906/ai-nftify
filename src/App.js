@@ -34,7 +34,7 @@ function App() {
           } />
           {
             allUser.map((user) => (
-              <Route path={`/profile/${user.googleId}`} element={
+              <Route path={`/profile/${user.id}`} element={
                 <Wrapper children={<Profile user={user} />} />
               } />
             ))

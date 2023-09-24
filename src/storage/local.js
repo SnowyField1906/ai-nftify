@@ -7,7 +7,7 @@ const win = getWindow();
 export const storeInfoUser = async (data) => {
     try {
         const dataJson = JSON.stringify(data);
-        win.sessionStorage.setItem("info", dataJson);
+        win.localStorage.setItem("info", dataJson);
     } catch (error) {
         return;
     }
@@ -15,7 +15,7 @@ export const storeInfoUser = async (data) => {
 
 export const getInfoUser = () => {
     try {
-        const dataJson = win.sessionStorage.getItem("info");
+        const dataJson = win.localStorage.getItem("info");
         return JSON.parse(dataJson || "{}");
     } catch (error) {
         return null

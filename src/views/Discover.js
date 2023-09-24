@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import Navbar from "./../components/Navbar";
-import Footer from "./../components/Footer";
 import NFT from "../components/NFT";
 import { getAllRootStockNFTs } from "../data";
 
 export default function Discover() {
 	return (
-
-		<div className="-mx-4 flex flex-wrap gap-2 items-center mb-6">
+		<div className="flex flex-wrap gap-2 items-center mb-6">
 			<div className="px-4 w-full md:w-auto">
 				<form>
 					<div className="bg-white border border-gray-300 flex overflow-hidden p-1 rounded-full">
@@ -24,7 +21,7 @@ export default function Discover() {
 					</div>
 				</form>
 			</div>
-			<div className="-mx-3 flex flex-wrap gap-y-6 justify-center my-12">
+			<div className="flex flex-wrap gap-y-6 justify-center my-12">
 				{
 					getAllRootStockNFTs().map((nft) => (
 						<NFT {...nft} />
