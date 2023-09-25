@@ -14,8 +14,8 @@ function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, p
     return (
         <div className="px-3 w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
             <div className="bg-white overflow-hidden rounded-xl text-gray-500">
-                <a href="#" className="block relative">
-                    <img src={thumbnail} className="hover:opacity-90 w-full" alt="..." width="600" height="600" />
+                <a href="#" className="block relative object-cover">
+                    <img src={thumbnail} className="hover:opacity-90 h-96 w-96 object-cover" alt="..." />
                     {!privateMeta &&
                         <div className="group absolute bg-gray-900 bottom-4 gap-2 inline-flex items-center opacity-75 right-6 rounded-full text-white px-3 h-10 text-lg">
                             <span className="group-hover:block hidden text-sm">Prompt is available</span>
@@ -48,7 +48,7 @@ function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, p
                             {
                                 listing && <div className="group cursor-pointer">
                                     <p className="group-hover:text-primary-500 mb-1 text-gray-500 text-sm text-right">Buy with</p>
-                                    <span className="group-hover:text-primary-500 font-bold font-serif text-lg text-right flex items-center gap-1">{price}
+                                    <span className="group-hover:text-primary-500 font-bold font-serif text-lg text-right flex items-center gap-1">{(price / 1e8)}
                                         <SiBitcoinsv />
                                     </span>
                                 </div>

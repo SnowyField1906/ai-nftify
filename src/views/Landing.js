@@ -19,7 +19,7 @@ export default function Landing() {
 		}, 3000);
 
 		return () => clearInterval(intervalId);
-	}, []);
+	}, [nfts]);
 
 	return (
 		<div className="flex flex-wrap items-center space-y-6 lg:space-y-0">
