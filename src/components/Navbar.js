@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Login from "./Login";
 import { logo } from "../data";
 import { getInfoUser, storeInfoUser } from "../storage/local";

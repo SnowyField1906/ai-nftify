@@ -1,5 +1,4 @@
 import axios from "axios";
-import { _getNFTs, _getUsers } from "./data";
 
 export const generateImage = async (prompt) => {
     const myHeaders = new Headers();
@@ -85,6 +84,7 @@ export const handleUserExists = async (data) => {
                 conflict = true
             }
         })
+        console.log(oldUser, conflict)
     } else {
         await postUser(data)
         return true

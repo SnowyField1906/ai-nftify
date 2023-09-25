@@ -10,7 +10,7 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 		setOnQuery(true)
 		getNFTs({ userId }).then(nfts => setNFTs(nfts))
 		setOnQuery(false)
-	}, [])
+	}, [userId])
 
 	const toggleSelect = (index) => {
 		if (index === -1) {
@@ -25,8 +25,6 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 	useEffect(() => {
 		setSelected(Array(nfts.length).fill(false))
 	}, [nfts])
-
-	console.log(nfts)
 
 	return (
 		<div className='fixed top-0 right-0 z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50 select-none'>
