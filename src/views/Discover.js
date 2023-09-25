@@ -19,8 +19,6 @@ export default function Discover() {
 		setOnQuery(false)
 	}, [queryParams])
 
-	console.log("discover", nfts)
-
 	return (
 		<>
 			<div className="flex flex-wrap gap-2 items-center mb-6">

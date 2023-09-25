@@ -7,6 +7,7 @@ import {
   Put,
   NotFoundException,
   BadRequestException,
+  Delete,
 } from "@nestjs/common";
 import { secp256k1 } from "src/common/secp256k1";
 import { CreateStorageDto } from "src/dtos/create-storage.dto";
@@ -20,7 +21,7 @@ export class StorageController {
   constructor(private readonly storageService: StorageService) { }
 
   @Get(":owner")
-  async getMetadata(@Param("owner") owner: string): Promise<Storage> {
+  async getMetadata(@Param("owner") owner: string): Promise<Array<Storage>> {
     const metadata = await this.storageService.findMetadataByOwner(owner);
     if (!metadata) {
       throw new NotFoundException(`Can not find metadata with ${owner}`);
@@ -39,44 +40,34 @@ export class StorageController {
 
   @Post()
   async createMetadata(@Body() createStorage: CreateStorageDto): Promise<Storage> {
-    const existedMetadata = await this.storageService.findMetadataByOwner(createStorage.nftId);
+    const existedMetadata = await this.storageService.findMetadataByNfts(createStorage.nftId);
     if (existedMetadata) {
       throw new BadRequestException("Metadata already exists");
     }
 
-    // const validSig = this.verifySignature(
-    //   createStorage.encryptedMetadata,
-    //   createStorage.signature,
-    //   createStorage.publicKey,
-    // );
-    // if (!validSig) {
-    //   throw new BadRequestException("Signature is not valid");
-    // }
-
     return this.storageService.createMetadata(createStorage);
   }
 
-  // @Put()
-  // async updateMetadata(@Body() updateStorage: UpdateStorageDto): Promise<any> {
-  //   const existedMetadata = await this.storageService.findMetadataByOwner(updateStorage.owner);
-  //   if (!existedMetadata) {
-  //     throw new BadRequestException("Metadata does not exist");
-  //   }
+  @Put()
+  async updateMetadata(@Body() updateStorage: UpdateStorageDto): Promise<any> {
+    const existedMetadata = await this.storageService.findMetadataByOwner(updateStorage.nftId);
+    if (!existedMetadata) {
+      throw new BadRequestException("Metadata does not exist");
+    }
 
-  //   const validSig = this.verifySignature(
-  //     updateStorage.encryptedMetadata,
-  //     updateStorage.signature,
-  //     existedMetadata.publicKey,
-  //   );
-  //   if (!validSig) {
-  //     throw new BadRequestException("Signature is not valid");
-  //   }
+    return this.storageService.updateMetadata(updateStorage.nftId, updateStorage);
+  }
 
-  //   return this.storageService.updateMetadata(updateStorage.owner, updateStorage.encryptedMetadata);
-  // }
+  @Delete()
+  async deleteMetadata(@Body() userId: string, nftId: string): Promise<any> {
+    const existedMetadata = await this.storageService.findMetadataByNfts(nftId);
+    if (!existedMetadata) {
+      throw new BadRequestException("Metadata does not exist");
+    }
+    if (userId !== existedMetadata.userId) {
+      throw new BadRequestException("Your request denied");
+    }
+    return this.storageService.deleteMetadata(nftId);
+  }
 
-  // verifySignature(metadata: EncryptedMetadata, signature: string, publicKey: string): boolean {
-  //   const msg = createKeccak256(JSON.stringify(metadata));
-  //   return secp256k1.verify(msg, signature, Buffer.from(publicKey, "hex"));
-  // }
 }

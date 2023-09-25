@@ -76,6 +76,8 @@ export default function Generate() {
 		document.addEventListener("mouseout", resetTooltip);
 	}
 
+	console.log(response)
+
 
 	const [mintPopup, setMintPopup] = useState(false);
 

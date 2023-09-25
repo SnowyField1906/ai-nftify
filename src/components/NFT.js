@@ -5,10 +5,10 @@ import { SiBitcoinsv } from 'react-icons/si'
 import { getUsers } from '../helpers'
 
 function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, privateMeta, allowedUsers }) {
-    const [userData, setUserData] = useState({})
+    const [user, setUser] = useState({})
 
     useEffect(() => {
-        getUsers(userId).then(res => setUserData(res))
+        getUsers(userId).then(res => setUser(res))
     }, [userId])
 
     return (
@@ -16,7 +16,7 @@ function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, p
             <div className="bg-white overflow-hidden rounded-xl text-gray-500">
                 <a href="#" className="block relative">
                     <img src={thumbnail} className="hover:opacity-90 w-full" alt="..." width="600" height="600" />
-                    {listing &&
+                    {!privateMeta &&
                         <div className="group absolute bg-gray-900 bottom-4 gap-2 inline-flex items-center opacity-75 right-6 rounded-full text-white px-3 h-10 text-lg">
                             <span className="group-hover:block hidden text-sm">Prompt is available</span>
                             <FaRegFaceSmileWink />
@@ -40,9 +40,9 @@ function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, p
                     <div className="flex flex-col">
                         <div className='flex items-center justify-between'>
                             <div className='group items-start'>
-                                <Link to={"/profile/" + userData.id} className="group-hover:text-primary-500 inline-flex italic items-center space-x-2 text-sm">
-                                    <img src={userData.picture} className="border-2 group-hover:border-primary-500 border-white rounded-full" alt="..." width="36" height="36" />
-                                    <span>{userData.name}</span>
+                                <Link to={"/profile/" + user.id} className="group-hover:text-primary-500 inline-flex italic items-center space-x-2 text-sm">
+                                    <img src={user.picture} className="border-2 group-hover:border-primary-500 border-white rounded-full" alt="..." width="36" height="36" />
+                                    <span>{user.name}</span>
                                 </Link>
                             </div>
                             {

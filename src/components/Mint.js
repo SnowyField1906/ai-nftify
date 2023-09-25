@@ -20,7 +20,7 @@ function Mint({ response, setMintPopup }) {
 	}
 
 
-	const user = getInfoUser()
+	const { data: user } = getInfoUser()
 
 	const [mintParams, setMintParams] = useState({
 		userId: user.id,
@@ -31,7 +31,7 @@ function Mint({ response, setMintPopup }) {
 		listing: true,
 		isRootStock: true,
 		privateMeta: false,
-		allowedUsers: []
+		allowedUsers: [user.id],
 	});
 
 	useEffect(() => {
@@ -50,9 +50,9 @@ function Mint({ response, setMintPopup }) {
 	return (
 		<div className='fixed top-0 right-0 z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50 select-none'>
 			<div className="flex items-center justify-center text-gray-500 md:w-8/12 lg:w-6/12 xl:w-4/12">
-				<div className="rounded-xl bg-white shadow-xl w-full p-5">
-					<h3 className="font-extrabold text-4xl text-primary-800 text-center mt-4">Mint the NFT</h3>
-					<div className="py-10 px-6 sm:px-16">
+				<div className="rounded-xl bg-white shadow-xl w-full px-16 py-5">
+					<h3 className="font-extrabold text-4xl text-primary-800 text-center mt-4 mb-10">Mint the NFT</h3>
+					<div class="container mx-auto">
 						<div className="grid space-y-5">
 							<input type="text" placeholder="Name" className={`${inputClass[mintParams.nftName === ""]} w-full h-12 p-3 rounded-full border-2 cursor-text border-gray-200 flex items-center justify-center font-semibold`} onChange={(e) => setMintParams({ ...mintParams, nftName: e.target.value })} />
 							<div className='flex justify-between items-center'>
@@ -104,10 +104,10 @@ function Mint({ response, setMintPopup }) {
 								</div>
 							</button>
 						</div>
-						<div className="mt-10 space-y-2 text-gray-600 text-center sm:-mb-8">
-							<p className="text-xs">Your charge will be only for gas fee calculated by the Bitcoin network.</p>
-							<p className="text-xs">We do not take any fees from your minting process.</p>
-						</div>
+					</div>
+					<div className="py-10 space-y-2 text-gray-600 text-center sm:-mb-8">
+						<p className="text-xs">Your charge will be only for gas fee calculated by the Bitcoin network.</p>
+						<p className="text-xs">We do not take any fees from your minting process.</p>
 					</div>
 				</div>
 			</div>

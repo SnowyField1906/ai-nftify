@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
 import {
+  IsArray,
   IsDefined,
   IsEmpty,
   IsNotEmpty,
@@ -8,6 +9,7 @@ import {
   IsOptional,
   IsString,
   ValidateNested,
+  IsBoolean
 } from "class-validator";
 
 class EncryptedMetadataDto {
@@ -31,16 +33,49 @@ class EncryptedMetadataDto {
 export class UpdateStorageDto {
   @IsString()
   @IsNotEmpty()
-  readonly owner: string;
+  readonly userId: string;
 
   @IsString()
   @IsNotEmpty()
-  readonly signature: string;
+  readonly nftId: string;
 
-  @IsObject()
-  @ValidateNested()
-  @IsNotEmptyObject()
-  @Type(() => EncryptedMetadataDto)
+  @IsString()
   @IsNotEmpty()
-  readonly encryptedMetadata: EncryptedMetadataDto;
+  readonly nftName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly price: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly thumbnail: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  readonly listing: boolean;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  readonly isRootStock: boolean;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  readonly privateMeta: boolean;
+
+
+  @IsArray()
+  @IsNotEmpty()
+  readonly allowedUsers: Array<string>;
+
+  // @IsString()
+  // @IsNotEmpty()
+  // readonly signature: string;
+
+  // @IsObject()
+  // @ValidateNested()
+  // @IsNotEmptyObject()
+  // @Type(() => EncryptedMetadataDto)
+  // @IsNotEmpty()
+  // readonly encryptedMetadata: EncryptedMetadataDto;
 }

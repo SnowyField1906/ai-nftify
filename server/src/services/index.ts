@@ -4,3 +4,4 @@ export * from "./commitment.service";
 export * from "./shared-key.service";
 export * from "./storage.service";
 export * from "./mailer.service";
+export * from "./users.service";

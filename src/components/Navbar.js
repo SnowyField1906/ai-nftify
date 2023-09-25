@@ -11,13 +11,15 @@ export default function Navbar() {
 	let [loginPopup, setLoginPopup] = useState(false);
 	let [googleData, setGoogleData] = useState(null);
 	let [success, setSuccess] = useState(false);
-	const navigate = useNavigate();
 
 	useEffect(() => {
-		setGoogleData(getInfoUser());
+		setGoogleData(getInfoUser()?.data);
 	}, [loginPopup, success]);
 
 	const logout = () => {
+		setSettingsPopup(false);
+		setManageNFTsPopup(false);
+		setManagePromptsPopup(false);
 		storeInfoUser(null);
 		setGoogleData(null);
 		setSuccess(false);
@@ -52,9 +54,9 @@ export default function Navbar() {
 				(!googleData && !success && window.location.pathname !== "/")) && (
 					<Login setSuccess={setSuccess} setLoginPopup={setLoginPopup} />
 				)}
-			{settingsPopup && <Settings setSettingsPopup={setSettingsPopup} />}
-			{manageNFTsPopup && <ManageNFTs setManageNFTsPopup={setManageNFTsPopup} />}
-			{managePromptsPopup && <ManagePrompts setManagePromptsPopup={setManagePromptsPopup} />}
+			{settingsPopup && <Settings userId={googleData.id} setSettingsPopup={setSettingsPopup} />}
+			{manageNFTsPopup && <ManageNFTs userId={googleData.id} setManageNFTsPopup={setManageNFTsPopup} />}
+			{managePromptsPopup && <ManagePrompts userId={googleData.id} setManagePromptsPopup={setManagePromptsPopup} />}
 			<div className="container mx-auto relative z-50">
 				<nav className="flex flex-wrap items-center px-4 py-2">
 					<Link

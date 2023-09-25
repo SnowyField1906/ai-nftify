@@ -56,10 +56,4 @@ export class CreateStorageDto {
   @IsNotEmpty()
   readonly allowedUsers: Array<string>;
 
-  // @IsObject()
-  // @ValidateNested()
-  // @IsNotEmptyObject()
-  // @Type(() => EncryptedMetadataDto)
-  // @IsNotEmpty()
-  // readonly encryptedMetadata: EncryptedMetadataDto;
 }

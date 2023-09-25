@@ -10,7 +10,11 @@ export class StorageService {
     private storageModel: Model<StorageDocument>,
   ) { }
 
-  async findMetadataByOwner(nftId: string): Promise<Storage> {
+  async findMetadataByOwner(userId: string): Promise<Array<Storage>> {
+    return this.storageModel.find({ userId });
+  }
+
+  async findMetadataByNfts(nftId: string): Promise<Storage> {
     return this.storageModel.findOne({ nftId });
   }
 
@@ -22,7 +26,11 @@ export class StorageService {
     return this.storageModel.find();
   }
 
-  // async updatePriceMetadata(nftId: string, encryptedMetadata: EncryptedMetadata) {
-  //   return this.storageModel.updateOne({ nftId }, { encryptedMetadata });
-  // }
+  async updateMetadata(nftId: string, data: Storage) {
+    return this.storageModel.updateOne({ nftId }, { data });
+  }
+
+  async deleteMetadata(nftId: string) {
+    return this.storageModel.deleteOne({ nftId })
+  }
 }

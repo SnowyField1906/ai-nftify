@@ -16,7 +16,7 @@ export class Storage {
   userId: string;
 
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true, index: true, sparse: true })
   nftId: string;
 
   @Prop({ required: true })
@@ -39,8 +39,7 @@ export class Storage {
 
   @Prop({ required: true, type: Array<string> })
   allowedUsers: Array<string>
-  // @Prop({ required: true, type: EncryptedMetadata })
-  // encryptedMetadata: EncryptedMetadata;
+
 }
 
 export const StorageSchema = SchemaFactory.createForClass(Storage);
