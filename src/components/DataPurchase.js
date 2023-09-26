@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function DataPurchase({ id, nftName, price, userName, setDatapurchasePopup }) {
+function DataPurchase({ id, nftName, promptPrice, userName, setDataPurchasePopup }) {
     const [onSummit, setOnSummit] = useState(false)
     const [onSuccess, setOnSuccess] = useState(null)
     const summit = async () => {
@@ -19,7 +19,7 @@ function DataPurchase({ id, nftName, price, userName, setDatapurchasePopup }) {
                     <h3 className="font-extrabold text-4xl text-primary-800 text-center mt-4 mb-10">Purchase confirmation</h3>
                     <div class="container mx-auto">
                         <p className='text-lg text-center text-gray-600'>You are about to purchase the
-                            <span className='text-primary-500'> {nftName}</span>
+                            <span className='text-primary-500 font-semibold'> {nftName}</span>
                             's <span className='font-semibold'>generation data</span>.
                         </p>
                         <div className='grid grid-cols-3 gap-4 mt-10 w-3/4 mx-auto'>
@@ -30,7 +30,7 @@ function DataPurchase({ id, nftName, price, userName, setDatapurchasePopup }) {
                             <p className='text-lg text-gray-700 font-semibold'>Transfer to</p>
                             <p className='col-span-2 text-lg font-semibold'>{userName}</p>
                             <p className='text-lg text-gray-700 font-semibold'>Data price</p>
-                            <p className='col-span-2 text-lg font-semibold'>{price / 1e8} BTC</p>
+                            <p className='col-span-2 text-lg font-semibold'>{promptPrice / 1e8} BTC</p>
                         </div>
                         <div className='flex'>
                             <button className={`${onSummit || onSuccess ? "border-primary-500 cursor-default" : "hover:border-primary-500"} group h-12 px-6 mt-10 mx-auto border-2 border-gray-200 rounded-full transition duration-300 w-1/3 disabled:cursor-default disabled:pointer-events-none`} onClick={() => summit()} disabled={onSummit || onSuccess}>
@@ -61,7 +61,7 @@ function DataPurchase({ id, nftName, price, userName, setDatapurchasePopup }) {
                     </div>
                 </div>
             </div>
-            <div className='h-screen w-screen absolute -z-10' onClick={() => !onSummit && setDatapurchasePopup(false)}></div>
+            <div className='h-screen w-screen absolute -z-10' onClick={() => !onSummit && setDataPurchasePopup(false)}></div>
         </div >
     )
 }

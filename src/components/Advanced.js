@@ -152,7 +152,11 @@ function Advanced({ setAdvancedPopup }) {
                         </div>
                         <div className="mt-10 space-y-2 text-gray-600 text-center sm:-mb-8">
                             <p className="text-xs">Your Bitcoin and RootStock keys which is associated with this account is shown up here.</p>
-                            <p className="text-xs">Protect your private keys by all means if you don't want to lose the NFTs.</p>
+                            <p className="text-xs">
+                                <span className='font-bold'>
+                                    Protect your private keys
+                                </span>{' '}
+                                by all means if you don't want to lose the NFTs.</p>
                         </div>
                     </div>
                 </div>

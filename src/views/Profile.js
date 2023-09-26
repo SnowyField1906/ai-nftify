@@ -69,7 +69,7 @@ function Profile({ user }) {
 						</div>
 					</div>
 					<div className="z-20 bg-white border border-gray-300 flex p-1 rounded-full">
-						<input className="appearance-none rounded-full flex-1 outline-none px-4 py-1 text-gray-600 w-full" placeholder="Find user by email address" type="text" required="" onChange={(e) => setEmail(e.target.value)} />
+						<input className="appearance-none rounded-full flex-1 outline-none px-4 py-1 text-gray-600 w-full" placeholder="Find user by email" type="text" required="" onChange={(e) => setEmail(e.target.value)} />
 						<button onClick={() => search()}
 							type="submit" className="bg-gradient-to-t bg-primary-500 from-primary-500 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-500 inline-block p-2 rounded-full text-white to-primary-400" aria-label="search">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em">

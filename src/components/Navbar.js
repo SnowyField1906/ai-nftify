@@ -5,7 +5,7 @@ import { logo } from "../data";
 import { getInfoUser, storeInfoUser } from "../storage/local";
 import Advanced from "./Advanced";
 import ManageNFTs from "./ManageNFTs";
-import ManageMetadata from "./ManageMetadata";
+import PurchasedData from "./PurchasedData";
 
 export default function Navbar() {
 	let [loginPopup, setLoginPopup] = useState(false);
@@ -19,7 +19,7 @@ export default function Navbar() {
 	const logout = () => {
 		setAdvancedPopup(false);
 		setManageNFTsPopup(false);
-		setManageMetadataPopup(false);
+		setPurchasedDataPopup(false);
 		storeInfoUser(null);
 		setGoogleData(null);
 		setSuccess(false);
@@ -30,19 +30,19 @@ export default function Navbar() {
 	const advanced = () => {
 		setAdvancedPopup(true);
 		setManageNFTsPopup(false);
-		setManageMetadataPopup(false);
+		setPurchasedDataPopup(false);
 	};
 
 	const [manageNFTsPopup, setManageNFTsPopup] = useState(false);
 	const manageNFTs = () => {
 		setManageNFTsPopup(true);
 		setAdvancedPopup(false);
-		setManageMetadataPopup(false);
+		setPurchasedDataPopup(false);
 	};
 
-	const [manageMetadataPopup, setManageMetadataPopup] = useState(false);
-	const manageMetadata = () => {
-		setManageMetadataPopup(true);
+	const [purchasedDataPopup, setPurchasedDataPopup] = useState(false);
+	const purchasedData = () => {
+		setPurchasedDataPopup(true);
 		setAdvancedPopup(false);
 		setManageNFTsPopup(false);
 	};
@@ -56,7 +56,7 @@ export default function Navbar() {
 				)}
 			{advancedPopup && <Advanced userId={googleData.id} setAdvancedPopup={setAdvancedPopup} />}
 			{manageNFTsPopup && <ManageNFTs userId={googleData.id} setManageNFTsPopup={setManageNFTsPopup} />}
-			{manageMetadataPopup && <ManageMetadata userId={googleData.id} setManageMetadataPopup={setManageMetadataPopup} />}
+			{purchasedDataPopup && <PurchasedData userId={googleData.id} setPurchasedDataPopup={setPurchasedDataPopup} />}
 			<div className="container mx-auto relative z-50">
 				<nav className="flex flex-wrap items-center px-4 py-2">
 					<Link
@@ -108,40 +108,43 @@ export default function Navbar() {
 											{googleData.name}
 										</span>
 									</Link>
-									<ul className="absolute hidden text-gray-700 group-hover:block w-full bg-gray-100 drop-shadow-2xl p-2 rounded-lg">
-										<li className="">
-											<button
-												onClick={() => manageNFTs()}
-												className="x-2 rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
-											>
-												Manage NFTs
-											</button>
-										</li>
-										<li className="">
-											<button
-												onClick={() => manageMetadata()}
-												className="x-2 rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
-											>
-												Manage Prompts
-											</button>
-										</li>
-										<li className="">
-											<button
-												onClick={() => advanced()}
-												className="x-2 rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
-											>
-												Advanced
-											</button>
-										</li>
-										<div className="h-[1px] bg-gray-400 my-2"></div>
-										<li className="">
-											<button
-												onClick={() => logout()}
-												className=" font-semibold text-left rounded hover:bg-red-700 py-2 px-4 block whitespace-no-wrap w-full text-red-700 hover:text-white"
-											>
-												Logout
-											</button>
-										</li>
+									<ul className="absolute hidden group-hover:block  text-gray-700 w-max  right-0">
+										<div className="h-3 invisible"></div>
+										<div className=" bg-gray-100 drop-shadow-2xl p-2 rounded-lg">
+											<li className="">
+												<button
+													onClick={() => manageNFTs()}
+													className="x-2 rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
+												>
+													Manage NFTs
+												</button>
+											</li>
+											<li className="">
+												<button
+													onClick={() => purchasedData()}
+													className="x-2 rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
+												>
+													Purchased Data
+												</button>
+											</li>
+											<li className="">
+												<button
+													onClick={() => advanced()}
+													className="x-2 rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
+												>
+													Advanced
+												</button>
+											</li>
+											<div className="h-[1px] bg-gray-400 my-2"></div>
+											<li className="">
+												<button
+													onClick={() => logout()}
+													className=" font-semibold text-left rounded hover:bg-red-700 py-2 px-4 block whitespace-no-wrap w-full text-red-700 hover:text-white"
+												>
+													Logout
+												</button>
+											</li>
+										</div>
 									</ul>
 								</div>
 							) : (
@@ -156,8 +159,8 @@ export default function Navbar() {
 							)}
 						</div>
 					</div>
-				</nav>
-			</div>
+				</nav >
+			</div >
 		</>
 	);
 }

@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
 import { getNFTs } from '../helpers'
+import EditNFTPrice from './EditNFTPrice'
+import EditNFTDataPrice from './EditNFTDataPrice'
+import Bridge from './Bridge'
 
 function ManageNFTs({ userId, setManageNFTsPopup }) {
 	const [nfts, setNFTs] = useState([])
@@ -23,8 +26,8 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 	}
 
 	const [editNftPricePopup, setEditPricePopup] = useState(false)
-	const [editPromptPricePopup, setEditPromptPricePopup] = useState(false)
-	const [editNftNamePopup, setEditNftNamePopup] = useState(false)
+	const [editDataPricePopup, setEditDataPricePopup] = useState(false)
+	const [bridgePopup, setBridgePopup] = useState(false)
 
 	useEffect(() => {
 		setSelected(Array(nfts.length).fill(false))
@@ -32,30 +35,24 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 
 	return (
 		<div className='fixed top-0 right-0 z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50 select-none'>
+			{editNftPricePopup && <EditNFTPrice ids={nfts.filter((_, index) => selected[index]).map(nft => nft.nftId)} setEditPricePopup={setEditPricePopup} />}
+			{editDataPricePopup && <EditNFTDataPrice ids={nfts.filter((_, index) => selected[index]).map(nft => nft.nftId)} setEditPricePopup={setEditDataPricePopup} />}
+			{bridgePopup && <Bridge ids={nfts.filter((_, index) => selected[index]).map(nft => nft.nftId)} setBridgePopup={setBridgePopup} />}
 			<div className="flex items-center justify-center text-gray-500 md:w-11/12 lg:w-3/4 xl:w-1/2 w-3/4">
 				<div className="rounded-xl bg-white shadow-xl w-full px-16 py-5 relative">
 					<h3 className="font-extrabold text-4xl text-primary-800 text-center mt-4 mb-10">Manage NFTs</h3>
-					<div className='absolute top-10 right-10'>
-						<div className='editPrice w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center hover:bg-primary-600 cursor-pointer' onClick={() => setEditPricePopup(true)}>
-							<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
-								<path fillRule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-								<path fillRule="evenodd" d="M3 10a7 7 0 1114 0 7 7 0 01-14 0zm7-9a9 9 0 100 18A9 9 0 0010 1z" clipRule="evenodd" />
-							</svg>
-						</div>
-						<div className='editPromptPrice w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center hover:bg-primary-600 cursor-pointer' onClick={() => setEditPromptPricePopup(true)}>
-							<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
-								<path fillRule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-								<path fillRule="evenodd" d="M3 10a7 7 0 1114 0 7 7 0 01-14 0zm7-9a9 9 0 100 18A9 9 0 0010 1z" clipRule="evenodd" />
-							</svg>
-						</div>
-						<div className='editNftName w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center hover:bg-primary-600 cursor-pointer' onClick={() => setEditNftNamePopup(true)}>
-							<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
-								<path fillRule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-								<path fillRule="evenodd" d="M3 10a7 7 0 1114 0 7 7 0 01-14 0zm7-9a9 9 0 100 18A9 9 0 0010 1z" clipRule="evenodd" />
-							</svg>
-						</div>
+					<div className='flex absolute top-24 right-16 gap-x-3'>
+						<button className='rounded-full bg-blue-600 flex items-center justify-center hover:bg-blue-700 cursor-pointer px-5 py-2 disabled:pointer-events-none disabled:bg-opacity-50' onClick={() => setEditPricePopup(true)} disabled={!selected.includes(true)}>
+							<p className='text-white text-sm font-semibold'>Edit NFT Price</p>
+						</button>
+						<button className='rounded-full bg-green-600 flex items-center justify-center hover:bg-green-700 cursor-pointer px-5 py-2 disabled:pointer-events-none disabled:bg-opacity-50' onClick={() => setEditDataPricePopup(true)} disabled={!selected.includes(true)}>
+							<p className='text-white text-sm font-semibold'>Edit Data Price</p>
+						</button>
+						<button className='rounded-full bg-yellow-600 flex items-center justify-center hover:bg-yellow-700 cursor-pointer px-5 py-2 disabled:pointer-events-none disabled:bg-opacity-50' onClick={() => setBridgePopup(true)} disabled={!selected.includes(true)}>
+							<p className='text-white text-sm font-semibold'>Bridge NFT</p>
+						</button>
 					</div>
-					<div className="container mx-auto">
+					<div className="mt-20 container mx-auto">
 						{onQuery ?
 							<div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500"></div>
 							: nfts.length === 0 ?
@@ -85,13 +82,10 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 											<span className="text-xs text-gray-600 font-bold">Price</span>
 										</span>
 										<span className="text-center w-1/5">
-											<span className="text-xs text-gray-600 font-bold">Listing</span>
+											<span className="text-xs text-gray-600 font-bold">Data Price</span>
 										</span>
 										<span className="text-center w-1/5">
 											<span className="text-xs text-gray-600 font-bold">Chain</span>
-										</span>
-										<span className="text-center w-1/5">
-											<span className="text-xs text-gray-600 font-bold">Metadata</span>
 										</span>
 									</div>
 									{
@@ -112,16 +106,13 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 													<span className="text-sm text-gray-600">{nft.nftName}</span>
 												</div>
 												<div className="text-center w-1/5">
-													<span className="text-gray-600 text-sm">{nft.price / 1e8}</span>
+													<span className="text-gray-600 text-sm">{nft.listing === false ? "Not for sale" : nft.price / 1e8}</span>
 												</div>
 												<div className="text-center w-1/5">
-													<span className="text-gray-600 text-sm">{nft.listing ? "On Sale" : "Not sale"}</span>
+													<span className="text-gray-600 text-sm">{nft.privateMeta ? nft.promptPrice / 1e8 : "Public data"}</span>
 												</div>
 												<div className="text-center w-1/5">
 													<span className="text-gray-600 text-sm">{nft.isRootStock ? "RootStock" : "Ordinals"}</span>
-												</div>
-												<div className="text-center w-1/5">
-													<span className="text-gray-600 text-sm">{nft.privateMeta ? "Private" : "Public"}</span>
 												</div>
 											</div>
 										))

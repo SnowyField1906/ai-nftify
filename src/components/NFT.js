@@ -7,11 +7,13 @@ import GenerationData from './GenerationData'
 import { getInfoUser } from '../storage/local'
 import DataPurchase from './DataPurchase'
 import { btcLogo, rskLogo } from '../data'
+import NFTPurchase from './NFTPurchase'
 
 function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, privateMeta, allowedUsers }) {
     const [user, setUser] = useState({})
     const [metaPopup, setMetaPopup] = useState(false)
-    const [datapurchasePopup, setDatapurchasePopup] = useState(false)
+    const [dataPurchasePopup, setDataPurchasePopup] = useState(false)
+    const [nftPurchasePopup, setNFTPurchasePopup] = useState(false)
     const [account, setAccount] = useState({})
 
     useEffect(() => {
@@ -22,7 +24,8 @@ function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, p
     return (
         <>
             {metaPopup && <GenerationData id={nftId} setMetaPopup={setMetaPopup} />}
-            {datapurchasePopup && <DataPurchase id={nftId} price={price} nftName={nftName} userName={user.name} setDatapurchasePopup={setDatapurchasePopup} />}
+            {dataPurchasePopup && <DataPurchase id={nftId} promptPrice={price} nftName={nftName} userName={user.name} setDataPurchasePopup={setDataPurchasePopup} />}
+            {nftPurchasePopup && <NFTPurchase id={nftId} price={price} nftName={nftName} userName={user.name} setNFTPurchasePopup={setNFTPurchasePopup} />}
             <div className="m-3 w-[23rem] h-[30rem]">
                 <div className="bg-white overflow-hidden rounded-xl text-gray-500">
                     <a className="block relative object-cover w-[23rem] h-[23rem]">
@@ -42,7 +45,7 @@ function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, p
                                     <span className="group-hover:block hidden text-base">You have access to this generation data</span>
                                     <AiOutlineCheck />
                                 </div>
-                                : <div className="group absolute bg-red-700 bottom-4 right-4 gap-2 inline-flex items-center opacity-80 rounded-full text-white px-3 h-12 text-2xl cursor-pointer" onClick={() => setDatapurchasePopup(true)}>
+                                : <div className="group absolute bg-red-700 bottom-4 right-4 gap-2 inline-flex items-center opacity-80 rounded-full text-white px-3 h-12 text-2xl cursor-pointer" onClick={() => setDataPurchasePopup(true)}>
                                     <span className="group-hover:block hidden text-base">Purchase this generation data</span>
                                     <AiOutlineVerticalAlignBottom />
                                 </div>
@@ -72,12 +75,12 @@ function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, p
                                     </Link>
                                 </div>
                                 {
-                                    listing && <div className="group cursor-pointer">
+                                    listing && <button className="group cursor-pointer disabled:pointer-events-none" onClick={() => setNFTPurchasePopup(true)} disabled={userId === account.id}>
                                         <p className="group-hover:text-primary-500 mb-1 text-gray-500 text-sm text-right">Buy with</p>
                                         <span className="group-hover:text-primary-500 font-bold font-serif text-lg text-right flex items-center gap-1">{(price / 1e8)}
                                             <SiBitcoinsv />
                                         </span>
-                                    </div>
+                                    </button>
                                 }
                             </div>
                         </div>

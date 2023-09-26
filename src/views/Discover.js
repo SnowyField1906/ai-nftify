@@ -34,7 +34,7 @@ export default function Discover() {
 				<div className="w-full z-10 flex justify-between items-center">
 					<h1 className="font-extrabold text-4xl text-white mix-blend-lighten">Explore our exhibition</h1>
 					<div className="bg-white border border-gray-300 flex p-1 rounded-full">
-						<input className="appearance-none rounded-full flex-1 outline-none px-4 py-1 text-gray-600 w-full" placeholder="Find your next NFTs" type="text" required="" onChange={(e) => setSearch(e.target.value)} />
+						<input className="appearance-none rounded-full flex-1 outline-none px-5 py-1 text-gray-600 w-full" placeholder="Find your next NFTs" type="text" required="" onChange={(e) => setSearch(e.target.value)} />
 						<button type="submit" className="bg-gradient-to-t bg-primary-500 from-primary-500 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-500 inline-block p-2 rounded-full text-white to-primary-400" aria-label="search">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1.25em" height="1.25em">
 								<g>
