@@ -1,7 +1,7 @@
 export const logo = "https://tailus.io/sources/blocks/social/preview/images/icon.svg";
 
-export const getNFTMetaById = async (id) => {
-    return allNFTsMeta.find((nft) => nft.id === id)
+export const _getNFTMeta = async (id) => {
+    return allNFTsMeta[0]
 }
 export const _getNFTs = async (queryParams) => {
     let nfts = allNFTs
@@ -87,11 +87,11 @@ const allNFTs = [
         userId: "107107815598415229539",
         nftId: "44139885",
         nftName: "Space and Gone",
-        price: "0.00035",
+        price: "21335",
         thumbnail: "https://images.unsplash.com/photo-1635373670332-43ea883bb081?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDI5M3x8M2QlMjByZW5kZXJ8ZW58MHx8fHwxNjM4OTE4NDE3&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=400&h=400&fit=crop",
         listing: true,
         isRootStock: true,
-        privateMeta: true,
+        metaPrice: "123",
         allowedUsers: ["107107815598415229539", "107108710111255201784"],
     },
     {

@@ -5,7 +5,7 @@ import { logo } from "../data";
 import { getInfoUser, storeInfoUser } from "../storage/local";
 import Settings from "./Settings";
 import ManageNFTs from "./ManageNFTs";
-import ManagePrompts from "./ManagePrompts";
+import ManageMetadata from "./ManageMetadata";
 
 export default function Navbar() {
 	let [loginPopup, setLoginPopup] = useState(false);
@@ -19,7 +19,7 @@ export default function Navbar() {
 	const logout = () => {
 		setSettingsPopup(false);
 		setManageNFTsPopup(false);
-		setManagePromptsPopup(false);
+		setManageMetadataPopup(false);
 		storeInfoUser(null);
 		setGoogleData(null);
 		setSuccess(false);
@@ -30,19 +30,19 @@ export default function Navbar() {
 	const settings = () => {
 		setSettingsPopup(true);
 		setManageNFTsPopup(false);
-		setManagePromptsPopup(false);
+		setManageMetadataPopup(false);
 	};
 
 	const [manageNFTsPopup, setManageNFTsPopup] = useState(false);
 	const manageNFTs = () => {
 		setManageNFTsPopup(true);
 		setSettingsPopup(false);
-		setManagePromptsPopup(false);
+		setManageMetadataPopup(false);
 	};
 
-	const [managePromptsPopup, setManagePromptsPopup] = useState(false);
-	const managePrompts = () => {
-		setManagePromptsPopup(true);
+	const [manageMetadataPopup, setManageMetadataPopup] = useState(false);
+	const manageMetadata = () => {
+		setManageMetadataPopup(true);
 		setSettingsPopup(false);
 		setManageNFTsPopup(false);
 	};
@@ -56,7 +56,7 @@ export default function Navbar() {
 				)}
 			{settingsPopup && <Settings userId={googleData.id} setSettingsPopup={setSettingsPopup} />}
 			{manageNFTsPopup && <ManageNFTs userId={googleData.id} setManageNFTsPopup={setManageNFTsPopup} />}
-			{managePromptsPopup && <ManagePrompts userId={googleData.id} setManagePromptsPopup={setManagePromptsPopup} />}
+			{manageMetadataPopup && <ManageMetadata userId={googleData.id} setManageMetadataPopup={setManageMetadataPopup} />}
 			<div className="container mx-auto relative z-50">
 				<nav className="flex flex-wrap items-center px-4 py-2">
 					<Link
@@ -82,6 +82,12 @@ export default function Navbar() {
 								className="font-semibold text-lg hover:text-primary-200 py-2 text-white lg:p-4 xl:px-6"
 							>
 								Discover
+							</Link>
+							<Link
+								to="/leaderboard"
+								className="font-semibold text-lg hover:text-primary-200 py-2 text-white lg:p-4 xl:px-6"
+							>
+								Leaderboard
 							</Link>
 						</div>
 						<div className="w-1/5 flex place-content-end">
@@ -113,7 +119,7 @@ export default function Navbar() {
 										</li>
 										<li className="">
 											<button
-												onClick={() => managePrompts()}
+												onClick={() => manageMetadata()}
 												className="x-2 rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
 											>
 												Manage Prompts

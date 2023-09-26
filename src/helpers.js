@@ -129,11 +129,16 @@ export const getUsers = async (id) => {
         .then(res => { users = res.data })
         .catch(error => console.log(error));
 
-    // if (id) {
-    //     users = users.filter(user => user.id === id)
-    // }
-
-    // await _getUsers(id).then(res => users = res)
-
     return users
+}
+
+export const emailToId = async (email) => {
+    let users
+
+    // await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/users/${email}`)
+    //     .then(res => { users = res.data })
+    //     .catch(error => console.log(error));
+
+    await getUsers().then(res => users = res)
+    return users.find(user => user.email === email).id
 }

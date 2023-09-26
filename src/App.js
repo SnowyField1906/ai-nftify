@@ -8,6 +8,7 @@ import Discover from './views/Discover';
 import Profile from './views/Profile';
 import Wrapper from './components/Wrapper';
 import { getUsers } from './helpers';
+import LeaderBoard from './views/Leaderboard';
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -29,6 +30,9 @@ function App() {
           <Route path="/discover" element={
             <Wrapper children={<Discover />} />
           } />
+          <Route path="/leaderboard" element={
+            <Wrapper children={<LeaderBoard />} />
+          } />
           <Route path='/profile' element={
             <Wrapper children={<Profile />} />
           } />
@@ -39,6 +43,7 @@ function App() {
               } />
             ))
           }
+          <Route path="/assets/*" />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
