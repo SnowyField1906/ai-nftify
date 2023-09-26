@@ -22,6 +22,10 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 		}
 	}
 
+	const [editNftPricePopup, setEditPricePopup] = useState(false)
+	const [editPromptPricePopup, setEditPromptPricePopup] = useState(false)
+	const [editNftNamePopup, setEditNftNamePopup] = useState(false)
+
 	useEffect(() => {
 		setSelected(Array(nfts.length).fill(false))
 	}, [nfts])
@@ -29,8 +33,28 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 	return (
 		<div className='fixed top-0 right-0 z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50 select-none'>
 			<div className="flex items-center justify-center text-gray-500 md:w-11/12 lg:w-3/4 xl:w-1/2 w-3/4">
-				<div className="rounded-xl bg-white shadow-xl w-full px-16 py-5">
+				<div className="rounded-xl bg-white shadow-xl w-full px-16 py-5 relative">
 					<h3 className="font-extrabold text-4xl text-primary-800 text-center mt-4 mb-10">Manage NFTs</h3>
+					<div className='absolute top-10 right-10'>
+						<div className='editPrice w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center hover:bg-primary-600 cursor-pointer' onClick={() => setEditPricePopup(true)}>
+							<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
+								<path fillRule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+								<path fillRule="evenodd" d="M3 10a7 7 0 1114 0 7 7 0 01-14 0zm7-9a9 9 0 100 18A9 9 0 0010 1z" clipRule="evenodd" />
+							</svg>
+						</div>
+						<div className='editPromptPrice w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center hover:bg-primary-600 cursor-pointer' onClick={() => setEditPromptPricePopup(true)}>
+							<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
+								<path fillRule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+								<path fillRule="evenodd" d="M3 10a7 7 0 1114 0 7 7 0 01-14 0zm7-9a9 9 0 100 18A9 9 0 0010 1z" clipRule="evenodd" />
+							</svg>
+						</div>
+						<div className='editNftName w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center hover:bg-primary-600 cursor-pointer' onClick={() => setEditNftNamePopup(true)}>
+							<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
+								<path fillRule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+								<path fillRule="evenodd" d="M3 10a7 7 0 1114 0 7 7 0 01-14 0zm7-9a9 9 0 100 18A9 9 0 0010 1z" clipRule="evenodd" />
+							</svg>
+						</div>
+					</div>
 					<div className="container mx-auto">
 						{onQuery ?
 							<div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500"></div>
@@ -88,7 +112,7 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 													<span className="text-sm text-gray-600">{nft.nftName}</span>
 												</div>
 												<div className="text-center w-1/5">
-													<span className="text-gray-600 text-sm">{nft.price}</span>
+													<span className="text-gray-600 text-sm">{nft.price / 1e8}</span>
 												</div>
 												<div className="text-center w-1/5">
 													<span className="text-gray-600 text-sm">{nft.listing ? "On Sale" : "Not sale"}</span>
