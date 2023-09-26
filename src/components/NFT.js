@@ -6,6 +6,7 @@ import { getUsers } from '../helpers'
 import GenerationData from './GenerationData'
 import { getInfoUser } from '../storage/local'
 import DataPurchase from './DataPurchase'
+import { btcLogo, rskLogo } from '../data'
 
 function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, privateMeta, allowedUsers }) {
     const [user, setUser] = useState({})
@@ -56,8 +57,8 @@ function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, p
                             <a className="inline-block rounded-full text-gray-900" >
                                 {
                                     isRootStock ?
-                                        <img src='https://www.nicepng.com/png/full/193-1937174_bitcoin-smart-contact-developer-rsk-releases-mainnet-rsk.png' alt="..." width="42" height="42" />
-                                        : <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png' alt="..." width="36" height="36" />
+                                        <img src={rskLogo} alt="..." width="42" height="42" />
+                                        : <img src={btcLogo} alt="..." width="36" height="36" />
                                 }
                             </a>
                         </div>

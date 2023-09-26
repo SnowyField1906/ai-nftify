@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import NFT from '../components/NFT';
 import { getNFTs, emailToId } from '../helpers'
 import { MdOutlineLanguage } from 'react-icons/md';

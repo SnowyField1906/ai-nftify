@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getNFTs } from '../helpers'
 
 function ManageNFTs({ userId, setManageNFTsPopup }) {
@@ -106,8 +106,8 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 						}
 					</div>
 					<div className="py-10 space-y-2 text-gray-600 text-center sm:-mb-8">
-						<p className="text-xs">Your charge will be only for gas fee calculated by the Bitcoin network.</p>
-						<p className="text-xs">We do not take any fees from your minting process.</p>
+						<p className="text-xs">Actions to your owned NFTs is accessed from here.</p>
+						<p className="text-xs">Any action will all need to send a transaction to the blockchain.</p>
 					</div>
 				</div>
 			</div>

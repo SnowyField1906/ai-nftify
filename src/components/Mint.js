@@ -106,7 +106,7 @@ function Mint({ response, setMintPopup }) {
 						</div>
 					</div>
 					<div className="py-10 space-y-2 text-gray-600 text-center sm:-mb-8">
-						<p className="text-xs">Your charge will be only for gas fee calculated by the Bitcoin network.</p>
+						<p className="text-xs">Your charge is only for gas fee calculated by the Bitcoin network.</p>
 						<p className="text-xs">We do not take any fees from your minting process.</p>
 					</div>
 				</div>

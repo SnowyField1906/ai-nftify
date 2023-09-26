@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';

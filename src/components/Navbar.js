@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Login from "./Login";
 import { logo } from "../data";
 import { getInfoUser, storeInfoUser } from "../storage/local";
-import Settings from "./Settings";
+import Advanced from "./Advanced";
 import ManageNFTs from "./ManageNFTs";
 import ManageMetadata from "./ManageMetadata";
 
@@ -17,7 +17,7 @@ export default function Navbar() {
 	}, [loginPopup, success]);
 
 	const logout = () => {
-		setSettingsPopup(false);
+		setAdvancedPopup(false);
 		setManageNFTsPopup(false);
 		setManageMetadataPopup(false);
 		storeInfoUser(null);
@@ -26,9 +26,9 @@ export default function Navbar() {
 		// navigate("/");
 	};
 
-	const [settingsPopup, setSettingsPopup] = useState(false);
-	const settings = () => {
-		setSettingsPopup(true);
+	const [advancedPopup, setAdvancedPopup] = useState(false);
+	const advanced = () => {
+		setAdvancedPopup(true);
 		setManageNFTsPopup(false);
 		setManageMetadataPopup(false);
 	};
@@ -36,14 +36,14 @@ export default function Navbar() {
 	const [manageNFTsPopup, setManageNFTsPopup] = useState(false);
 	const manageNFTs = () => {
 		setManageNFTsPopup(true);
-		setSettingsPopup(false);
+		setAdvancedPopup(false);
 		setManageMetadataPopup(false);
 	};
 
 	const [manageMetadataPopup, setManageMetadataPopup] = useState(false);
 	const manageMetadata = () => {
 		setManageMetadataPopup(true);
-		setSettingsPopup(false);
+		setAdvancedPopup(false);
 		setManageNFTsPopup(false);
 	};
 
@@ -54,7 +54,7 @@ export default function Navbar() {
 				(!googleData && !success && window.location.pathname !== "/")) && (
 					<Login setSuccess={setSuccess} setLoginPopup={setLoginPopup} />
 				)}
-			{settingsPopup && <Settings userId={googleData.id} setSettingsPopup={setSettingsPopup} />}
+			{advancedPopup && <Advanced userId={googleData.id} setAdvancedPopup={setAdvancedPopup} />}
 			{manageNFTsPopup && <ManageNFTs userId={googleData.id} setManageNFTsPopup={setManageNFTsPopup} />}
 			{manageMetadataPopup && <ManageMetadata userId={googleData.id} setManageMetadataPopup={setManageMetadataPopup} />}
 			<div className="container mx-auto relative z-50">
@@ -127,10 +127,10 @@ export default function Navbar() {
 										</li>
 										<li className="">
 											<button
-												onClick={() => settings()}
+												onClick={() => advanced()}
 												className="x-2 rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
 											>
-												Settings
+												Advanced
 											</button>
 										</li>
 										<div className="h-[1px] bg-gray-400 my-2"></div>

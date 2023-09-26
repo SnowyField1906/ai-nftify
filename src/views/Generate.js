@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { generateImage, fetchImage } from "../helpers";
 import { RiNftFill } from "react-icons/ri"

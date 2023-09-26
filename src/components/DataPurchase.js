@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 function DataPurchase({ id, nftName, price, userName, setDatapurchasePopup }) {
     const [onSummit, setOnSummit] = useState(false)

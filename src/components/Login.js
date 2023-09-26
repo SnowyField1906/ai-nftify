@@ -87,7 +87,7 @@ function Login({ setSuccess, setLoginPopup }) {
             </div>
           </div>
           <div className="py-10 space-y-2 text-gray-600 text-center sm:-mb-8">
-            <p className="text-xs">Your account will be authorized by{' '}
+            <p className="text-xs">Your account is authorized by{' '}
               <a href="https://medium.com/toruslabs/what-distributed-key-generation-is-866adc79620" target="_blank" rel="noreferrer"
                 className="text-blue-700 hover:text-blue-800 hover:underline">Distributed Key Management</a>
               {' '}technology. We are responsible to your data privacy and protection.</p>
