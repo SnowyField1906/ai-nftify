@@ -31,7 +31,6 @@ function Mint({ response, setMintPopup }) {
 		promptPrice: null,
 		thumbnail: response.output[0],
 		isRootStock: true,
-		allowedUsers: [user.id],
 	});
 
 	useEffect(() => {

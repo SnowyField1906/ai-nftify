@@ -58,7 +58,6 @@ export const mintNFT = async (data, metadata) => {
         }, 3000)
     })
 
-    const { access_token, id_token, refresh_token } = getInfoUser().tokens
 
     if (success) {
         await axios.post(
@@ -67,7 +66,6 @@ export const mintNFT = async (data, metadata) => {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${access_token}`,
                 }
             }
         )
