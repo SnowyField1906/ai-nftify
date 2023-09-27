@@ -91,9 +91,8 @@ const allNFTs = [
         nftName: "Space and Gone",
         price: "21335",
         thumbnail: "https://images.unsplash.com/photo-1635373670332-43ea883bb081?ixid=MnwyMDkyMnwwfDF8c2VhcmNofDI5M3x8M2QlMjByZW5kZXJ8ZW58MHx8fHwxNjM4OTE4NDE3&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=400&h=400&fit=crop",
-        listing: true,
         isRootStock: true,
-        metaPrice: "123",
+        promptPrice: "123",
         allowedUsers: ["107107815598415229539", "107108710111255201784"],
     },
     {

@@ -3,6 +3,7 @@ import { getNFTs } from '../helpers'
 import EditNFTPrice from './EditNFTPrice'
 import EditNFTDataPrice from './EditNFTDataPrice'
 import Bridge from './Bridge'
+import Withdraw from './Withdraw'
 
 function ManageNFTs({ userId, setManageNFTsPopup }) {
 	const [nfts, setNFTs] = useState([])
@@ -22,12 +23,22 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 			let newSelected = [...selected]
 			newSelected[index] = !newSelected[index]
 			setSelected(newSelected)
+
+			// const filteredNFTs = nfts.filter((_, index) => newSelected[index])
+
+			// setBridgePopup()
+			// setWithdrawPopup(filteredNFTs.every(nft => nft.isRootStock === filteredNFTs[0].isRootStock))
 		}
 	}
 
 	const [editNftPricePopup, setEditPricePopup] = useState(false)
 	const [editDataPricePopup, setEditDataPricePopup] = useState(false)
 	const [bridgePopup, setBridgePopup] = useState(false)
+	const [withdrawPopup, setWithdrawPopup] = useState(false)
+
+	// useEffect(() => {
+	// 	cons
+	// }, [selected])
 
 	useEffect(() => {
 		setSelected(Array(nfts.length).fill(false))
@@ -38,6 +49,7 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 			{editNftPricePopup && <EditNFTPrice ids={nfts.filter((_, index) => selected[index]).map(nft => nft.nftId)} setEditPricePopup={setEditPricePopup} />}
 			{editDataPricePopup && <EditNFTDataPrice ids={nfts.filter((_, index) => selected[index]).map(nft => nft.nftId)} setEditPricePopup={setEditDataPricePopup} />}
 			{bridgePopup && <Bridge ids={nfts.filter((_, index) => selected[index]).map(nft => nft.nftId)} setBridgePopup={setBridgePopup} />}
+			{withdrawPopup && <Withdraw ids={nfts.filter((_, index) => selected[index]).map(nft => nft.nftId)} setWithdrawPopup={setWithdrawPopup} />}
 			<div className="flex items-center justify-center text-gray-500 md:w-11/12 lg:w-3/4 xl:w-1/2 w-3/4">
 				<div className="rounded-xl bg-white shadow-xl w-full px-16 py-5 relative">
 					<h3 className="font-extrabold text-4xl text-primary-800 text-center mt-4 mb-10">Manage NFTs</h3>
@@ -50,6 +62,9 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 						</button>
 						<button className='rounded-full bg-yellow-600 flex items-center justify-center hover:bg-yellow-700 cursor-pointer px-5 py-2 disabled:pointer-events-none disabled:bg-opacity-50' onClick={() => setBridgePopup(true)} disabled={!selected.includes(true)}>
 							<p className='text-white text-sm font-semibold'>Bridge NFT</p>
+						</button>
+						<button className='rounded-full bg-red-600 flex items-center justify-center hover:bg-red-700 cursor-pointer px-5 py-2 disabled:pointer-events-none disabled:bg-opacity-50' onClick={() => setWithdrawPopup(true)} disabled={!selected.includes(true)}>
+							<p className='text-white text-sm font-semibold'>Withdraw NFT</p>
 						</button>
 					</div>
 					<div className="mt-20 container mx-auto">

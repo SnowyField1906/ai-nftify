@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getInfoUser } from "./storage/local";
 
 export const generateImage = async (prompt) => {
     const myHeaders = new Headers();
@@ -57,11 +58,18 @@ export const mintNFT = async (data, metadata) => {
         }, 3000)
     })
 
+    const { access_token, id_token, refresh_token } = getInfoUser().tokens
+
     if (success) {
         await axios.post(
             `${process.env.REACT_APP_NODE1_ENDPOINT}/storages`,
             data,
-            { headers: { 'Content-Type': 'application/json' } }
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${access_token}`,
+                }
+            }
         )
             .then(res => { console.log(res) })
             .catch(() => { success = false })

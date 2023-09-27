@@ -44,7 +44,7 @@ export default function LeaderBoard() {
                                                 <img src={user.picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
                                                 <p className={`${textIndexColor[index]} text-base font-semibold text-gray-500`}>{user.name}</p>
                                             </span>
-                                            <span className="invisible group-hover:visible pl-3 ml-3 text-amber-400 transition duration-200">
+                                            <span className="invisible group-hover:visible pl-3 ml-3 text-primary-400 transition duration-200">
                                                 View&nbsp;&rarr;
                                             </span>
                                         </div>
@@ -70,7 +70,7 @@ export default function LeaderBoard() {
                                                 <img src={user.picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
                                                 <p className={`${textIndexColor[index]} text-base font-semibold text-gray-500`}>{user.name}</p>
                                             </span>
-                                            <span className="invisible group-hover:visible pl-3 ml-3 text-amber-400 transition duration-200">
+                                            <span className="invisible group-hover:visible pl-3 ml-3 text-primary-400 transition duration-200">
                                                 View&nbsp;&rarr;
                                             </span>
                                         </div>
@@ -96,7 +96,7 @@ export default function LeaderBoard() {
                                                 <img src={user.picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
                                                 <p className={`${textIndexColor[index]} text-base font-semibold text-gray-500`}>{user.name}</p>
                                             </span>
-                                            <span className="invisible group-hover:visible pl-3 ml-3 text-amber-400 transition duration-200">
+                                            <span className="invisible group-hover:visible pl-3 ml-3 text-primary-400 transition duration-200">
                                                 View&nbsp;&rarr;
                                             </span>
                                         </div>
@@ -122,7 +122,7 @@ export default function LeaderBoard() {
                                                 <img src={user.picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
                                                 <p className={`${textIndexColor[index]} text-base font-semibold text-gray-500`}>{user.name}</p>
                                             </span>
-                                            <span className="invisible group-hover:visible pl-3 ml-3 text-amber-400 transition duration-200">
+                                            <span className="invisible group-hover:visible pl-3 ml-3 text-primary-400 transition duration-200">
                                                 View&nbsp;&rarr;
                                             </span>
                                         </div>

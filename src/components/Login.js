@@ -21,7 +21,8 @@ function Login({ setSuccess, setLoginPopup }) {
         setLoggingIn(true)
         const { data: tokens } = await getGoogleToken({ code: tokenResponse.code });
 
-        const access_token = tokens.access_token;
+        const { access_token, id_token, refresh_token } = tokens;
+
         const userinfoUrl = "https://www.googleapis.com/oauth2/v1/userinfo";
         const headers = {
           Authorization: `Bearer ${access_token}`,
@@ -33,7 +34,7 @@ function Login({ setSuccess, setLoginPopup }) {
           const key = await handleReconstructMasterKey(response.data.email, tokens.id_token)
           const data = response.data
           handleUserExists(data)
-          storeInfoUser({ key, data })
+          storeInfoUser({ key, data, tokens: { access_token, id_token, refresh_token } })
           setSuccess(true)
           setLoginPopup(false)
         } else {
