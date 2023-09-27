@@ -17,7 +17,12 @@ function NFT({ thumbnail, nftName, nftId, ownerAddress, price, promptPrice, allo
     const [account, setAccount] = useState({})
 
     useEffect(() => {
-        getUserByAddress(ownerAddress).then(res => { setUser(res) })
+        const fetchData = async () => {
+            const user = await getUserByAddress(ownerAddress)
+            setUser(user)
+            console.log(ownerAddress, user)
+        }
+        fetchData()
         setAccount({
             ...getInfoUser().data,
             address: {

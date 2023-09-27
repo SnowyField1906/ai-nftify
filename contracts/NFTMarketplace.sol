@@ -301,7 +301,7 @@ contract NFTMarketplace is ERC721URIStorage {
         payable(owner).transfer(msg.value);
     }
 
-    function transfer(uint256 tokenId, address to) public {
+    function transferNFT(uint256 tokenId, address to) private {
         require(
             msg.sender == idToListedToken[tokenId].owner,
             "Permission Denied"
@@ -314,5 +314,11 @@ contract NFTMarketplace is ERC721URIStorage {
         }
         idToListedToken[tokenId].owner = payable(to);
         userToOwnedPrompts[to].push(tokenId);
+    }
+
+    function transferNFTs(uint256[] tokenId, address to) public {
+        for (uint i = 0; i < tokenId.length; i++) {
+            transferNFT(tokenId[i], to);
+        }
     }
 }

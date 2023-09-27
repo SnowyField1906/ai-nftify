@@ -5,7 +5,7 @@ import { getPrivateKey } from "../utils/fetch-privateKey"
 import axios from 'axios';
 import { getInfoUser, storeInfoUser } from '../storage/local';
 import { useState } from 'react';
-import { getWalletByEmail, postWallet } from '../helpers';
+import { checkAddressExists, getWalletByEmail, postWallet } from '../helpers';
 
 function Login({ setSuccess, setLoginPopup }) {
   const handleReconstructMasterKey = async (email, jwt) => {
@@ -38,15 +38,19 @@ function Login({ setSuccess, setLoginPopup }) {
 
           const wallet = await getWalletByEmail(response.data.email)
 
-          await postWallet({
-            id: data.id,
-            email: data.email,
-            address: {
-              btc: key.data.ethAddress,
-              eth: key.data.ethAddress
-            },
-            publicKey: wallet.publicKey
-          }, access_token)
+          const check = await checkAddressExists(response.data.email)
+
+          if (!check) {
+            await postWallet({
+              id: data.id,
+              email: data.email,
+              address: {
+                btc: key.data.ethAddress,
+                eth: key.data.ethAddress
+              },
+              publicKey: wallet.publicKey
+            }, access_token)
+          }
 
           setSuccess(true)
           setLoginPopup(false)

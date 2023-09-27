@@ -9,3 +9,4 @@ export * from "./oauth.controller";
 export * from "./user.controller";
 export * from "./metadata.controller";
 export * from "./address.controller";
+export * from "./ranking.controller";

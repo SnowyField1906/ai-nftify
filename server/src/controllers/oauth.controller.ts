@@ -5,13 +5,13 @@ import { ConfigService } from "@nestjs/config";
 import { OAuth2Client } from "google-auth-library";
 import { GetTokenResponse } from "google-auth-library/build/src/auth/oauth2client";
 import { CreateUserDto } from "src/dtos/create-user.dto";
-import { UserService } from "src/services";
-import { User } from "src/schemas";
+import { UserService, RankingService } from "src/services";
+import { User, Ranking } from "src/schemas";
 import { verifyAccessToken } from "src/verifier/oauth.verifier";
 @Controller("/oauth")
 export class OauthController {
     oAuth2Client: OAuth2Client
-    constructor(private configService: ConfigService, private readonly userService: UserService) {
+    constructor(private configService: ConfigService, private readonly userService: UserService, private readonly rankingService: RankingService) {
         this.oAuth2Client = new OAuth2Client(
             this.configService.get<string>("ggClientId"),
             this.configService.get<string>("ggClientSecret"),
@@ -27,6 +27,14 @@ export class OauthController {
         const existedUser = await this.userService.findUserById(user.id);
         if (!existedUser) {
             await this.userService.createUser(user);
+            const newRanking: Ranking = {
+                id: user.id,
+                numSold: 0,
+                numPurchased: 0,
+                numPromptPurchased: 0,
+                numPromptSold: 0
+            }
+            await this.rankingService.createRanking(newRanking);
         }
         else {
             if (existedUser.picture !== user.picture || existedUser.name !== user.name ||

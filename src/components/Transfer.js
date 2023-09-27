@@ -1,19 +1,19 @@
 import { get } from 'lodash'
 import { useEffect, useState } from 'react'
-import { getWallet } from '../helpers'
+import { getWallet, transferToAddress } from '../helpers'
 
 function Transfer({ nfts, setTransferPopup }) {
     const [onSummit, setOnSummit] = useState(false)
     const [onSuccess, setOnSuccess] = useState(null)
     const [email, setEmail] = useState("")
-    const [valid, setValid] = useState(false)
+    const [userWallet, setUserWallet] = useState(null)
 
     const isRootStock = nfts[0].isRootStock
 
     const summit = async () => {
         setOnSummit(true)
 
-        const res = false
+        const res = await transferToAddress(nfts.map(nft => nft.nftId), userWallet.address.eth)
 
         setOnSuccess(res)
         setOnSummit(false)
@@ -22,16 +22,13 @@ function Transfer({ nfts, setTransferPopup }) {
     useEffect(() => {
         const fetchData = async () => {
             const res = await getWallet(email)
-            console.log("res", res)
-            setValid(res !== null)
+            setUserWallet(res)
         };
 
-        if (email === "") {
+        if (email !== "") {
             fetchData();
         }
     }, [email])
-
-    console.log(valid)
 
     const inputClass = {
         false: "bg-white border-primary-500 text-primary-500",
@@ -46,7 +43,7 @@ function Transfer({ nfts, setTransferPopup }) {
                     <div class="container mx-auto">
                         <div className="grid space-y-5">
                             <div className='flex justify-between items-center'>
-                                <input type="text" placeholder="Email" className={`${inputClass[email === ""]} w-full h-12 p-3 rounded-full border-2 cursor-text border-gray-200 flex items-center justify-center font-semibold`} onChange={(e) => setEmail(e.target.value)} />
+                                <input type="text" placeholder="Email" className={`${inputClass[email === "" || userWallet === null]} w-full h-12 p-3 rounded-full border-2 cursor-text border-gray-200 flex items-center justify-center font-semibold`} onChange={(e) => setEmail(e.target.value)} />
                             </div>
                             <div className='flex justify-between items-center'>
                                 <button className={`${inputClass[!isRootStock]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} defaultValue={!isRootStock}>
@@ -58,7 +55,7 @@ function Transfer({ nfts, setTransferPopup }) {
                             </div>
                         </div>
                         <div className='flex'>
-                            <button className={`${onSummit ? "border-primary-500 cursor-default" : "hover:border-primary-500"} group h-12 px-6 mt-10 mx-auto border-2 border-gray-200 rounded-full transition duration-300 w-1/3 disabled:cursor-default disabled:pointer-events-none`} onClick={() => summit()} disabled={email === "" || valid || onSummit === onSuccess}>
+                            <button className={`${onSummit ? "border-primary-500 cursor-default" : "hover:border-primary-500"} group h-12 px-6 mt-10 mx-auto border-2 border-gray-200 rounded-full transition duration-300 w-1/3 disabled:cursor-default disabled:pointer-events-none`} onClick={() => summit()} disabled={email === "" || userWallet === null || onSummit === onSuccess}>
                                 <div className="relative flex items-center space-x-4 justify-center">
                                     <span className="block font-semibold tracking-wide">
                                         {

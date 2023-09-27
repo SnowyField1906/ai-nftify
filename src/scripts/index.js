@@ -4,7 +4,7 @@ const { getInfoUser } = require("../storage/local");
 
 
 const provider = new JsonRpcProvider("https://public-node.testnet.rsk.co");
-const contractAddress = "0x3505033152D75bEb37EfC3144F2b5322FD441334";
+const contractAddress = "0xff767fdFC738fC21C24bfc1c5F597dcf1EFC5fB6";
 
 const getContract = async () => {
     const privateKey = getInfoUser().key.data.privKey
@@ -70,8 +70,8 @@ export const updateTokenPrices = async (ids, newPrice) => {
     return res;
 }
 
-export const transfer = async (ids, to) => {
+export const transferNFTs = async (ids, to) => {
     const contract = await getContract();
-    const res = await contract.transfer(ids, to).then(tx => tx.wait());
+    const res = await contract.transferNFTs(ids, to).then(tx => tx.wait());
     return res;
 }

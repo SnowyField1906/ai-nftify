@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getInfoUser } from "./storage/local";
-import { createToken, transfer, updatePromptPrices, updateTokenPrices } from "./scripts";
+import { createToken, transferNFTs, updatePromptPrices, updateTokenPrices } from "./scripts";
 
 export const generateImage = async (prompt) => {
     const myHeaders = new Headers();
@@ -94,9 +94,27 @@ export const getWalletByEmail = async (email) => {
     return wallet
 }
 
+export const checkAddressExists = async (email) => {
+    let exists
+
+    await axios.get(
+        `${process.env.REACT_APP_NODE1_ENDPOINT}/address/${email}`,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+    ).then(res => { exists = res.data })
+        .catch(error => { exists = null })
+
+    return exists
+}
+
 export const mintNFT = async (data, metadata) => {
     let success
     await createToken(data.thumbnail, data.price, data.promptPrice).then(res => success = res.status === 1)
+
+    console.log(data)
     if (success) {
         await axios.post(
             `${process.env.REACT_APP_NODE1_ENDPOINT}/storages`,
@@ -138,18 +156,11 @@ export const editPromptPrices = async (ids, promptPrice) => {
 }
 
 export const transferToAddress = async (ids, to) => {
+    console.log({ ids, to })
     let success
-    await transfer(ids, to).then(res => success = res.status === 1)
+    await transferNFTs(ids, to).then(res => success = res.status === 1)
     return success
 }
-
-export const transferToUser = async (ids, to) => {
-    let success
-    let userId = await emailToId(to)
-    await transfer(ids, userId).then(res => success = res.status === 1)
-    return success
-}
-
 
 export const getNFTs = async (queryParams) => {
     let nfts
@@ -163,8 +174,6 @@ export const getNFTs = async (queryParams) => {
             nfts = nfts.filter(nft => nft[key] === queryParams[key])
         }
     })
-
-    // await _getNFTs(queryParams).then(res => nfts = res)
 
     return nfts
 }
@@ -183,15 +192,17 @@ export const getUsers = async (id) => {
 
     await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/users/${id ?? ''}`)
         .then(res => { users = res.data })
-        .catch(error => console.log(error));
+        .catch(error => { users = null });
 
     return users
 }
 
 export const getUserByAddress = async (address) => {
-    let users
+    let wallet = await getWallet(address)
 
-    await getUsers().then(res => users = res[0])
+    let users = await getUsers(wallet.id)
+
+    console.log(users)
 
     return users
 }
