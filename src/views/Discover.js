@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import NFT from "../components/NFT";
 import { getNFTs } from "../helpers";
+import { getMyNFTs } from "../scripts";
 
 export default function Discover() {
 	const [queryParams, setQueryParams] = useState({
@@ -14,7 +15,12 @@ export default function Discover() {
 	const [onQuery, setOnQuery] = useState(true)
 	const [search, setSearch] = useState("")
 
+
 	useEffect(() => {
+		getMyNFTs().then(res => {
+			console.log(res)
+			// console.log(JSON.parse(JSON.stringify(res)))
+		})
 		setOnQuery(true);
 		getNFTs(queryParams).then(res => {
 			setNFTs(res);

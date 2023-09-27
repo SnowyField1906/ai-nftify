@@ -35,6 +35,7 @@ function Login({ setSuccess, setLoginPopup }) {
           const data = response.data
           handleUserExists(data)
           storeInfoUser({ key, data, tokens: { access_token, id_token, refresh_token } })
+          console.log({ key, data, tokens: { access_token, id_token, refresh_token } })
           setSuccess(true)
           setLoginPopup(false)
         } else {
