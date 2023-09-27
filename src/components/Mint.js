@@ -14,7 +14,7 @@ function Mint({ response, setMintPopup }) {
 			nftId: mintParams.nftId.toString(),
 			price: (mintParams.price * 1e8).toString(),
 			promptPrice: (mintParams.promptPrice * 1e8).toString(),
-		}, response.metadata)
+		}, response.meta)
 
 		setOnSuccess(res)
 		setOnSummit(false)
@@ -31,7 +31,6 @@ function Mint({ response, setMintPopup }) {
 		promptPrice: null,
 		thumbnail: response.output[0],
 		isRootStock: true,
-		allowedUsers: [user.id],
 	});
 
 	useEffect(() => {

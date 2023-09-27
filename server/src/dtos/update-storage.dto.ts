@@ -12,23 +12,6 @@ import {
   IsBoolean
 } from "class-validator";
 
-class EncryptedMetadataDto {
-  @IsString()
-  @IsOptional()
-  mac: string;
-
-  @IsString()
-  @IsOptional()
-  ciphertext: string;
-
-  @IsString()
-  @IsOptional()
-  iv: string;
-
-  @IsString()
-  @IsOptional()
-  ephemPublicKey: string;
-}
 
 export class UpdateStorageDto {
   @IsString()
@@ -49,33 +32,14 @@ export class UpdateStorageDto {
 
   @IsString()
   @IsNotEmpty()
-  readonly thumbnail: string;
+  readonly promptPrice: string;
 
-  @IsBoolean()
+  @IsString()
   @IsNotEmpty()
-  readonly listing: boolean;
+  readonly thumbnail: string;
 
   @IsBoolean()
   @IsNotEmpty()
   readonly isRootStock: boolean;
 
-  @IsBoolean()
-  @IsNotEmpty()
-  readonly privateMeta: boolean;
-
-
-  @IsArray()
-  @IsNotEmpty()
-  readonly allowedUsers: Array<string>;
-
-  // @IsString()
-  // @IsNotEmpty()
-  // readonly signature: string;
-
-  // @IsObject()
-  // @ValidateNested()
-  // @IsNotEmptyObject()
-  // @Type(() => EncryptedMetadataDto)
-  // @IsNotEmpty()
-  // readonly encryptedMetadata: EncryptedMetadataDto;
 }

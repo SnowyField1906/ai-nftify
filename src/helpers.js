@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getInfoUser } from "./storage/local";
+import { createToken } from "./scripts";
 
 export const generateImage = async (prompt) => {
     const myHeaders = new Headers();
@@ -52,13 +53,11 @@ export const fetchImage = async (id) => {
 
 export const mintNFT = async (data, metadata) => {
     // return true after 3s
-    let success = new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(true)
-        }, 3000)
-    })
+    let success = true
 
-    const { access_token, id_token, refresh_token } = getInfoUser().tokens
+    let a = createToken(data.thumbnail, data.price, data.promptPrice)
+
+    console.log(a)
 
     if (success) {
         await axios.post(
@@ -67,7 +66,20 @@ export const mintNFT = async (data, metadata) => {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${access_token}`,
+                }
+            }
+        )
+            .then(res => { console.log(res) })
+            .catch(() => { success = false })
+
+        console.log({ id: data.nftId.toString(), meta: metadata })
+
+        await axios.post(
+            `${process.env.REACT_APP_NODE1_ENDPOINT}/metadatas`,
+            { id: data.nftId.toString(), meta: metadata },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
                 }
             }
         )

@@ -14,20 +14,28 @@ const getContract = async () => {
     return contract;
 };
 
+const parseCallResult = (res) => res.map(r => ({ ...r }))
+
 export const getAllNFTs = async () => {
     const contract = await getContract();
     const res = await contract.getAllNFTs();
-    return res;
+    return parseCallResult(res);
 }
 
 export const getMyNFTs = async () => {
     const contract = await getContract();
     const res = await contract.getMyNFTs();
-    return res;
+    return parseCallResult(res);
 }
 
 export const getMyPrompt = async () => {
     const contract = await getContract();
     const res = await contract.getMyPrompt();
+    return parseCallResult(res);
+}
+
+export const createToken = async (tokenURI, price, promptPrice) => {
+    const contract = await getContract();
+    const res = await contract.createToken(tokenURI, price, promptPrice);
     return res;
 }

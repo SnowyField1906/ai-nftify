@@ -5,7 +5,7 @@ export type WalletDocument = HydratedDocument<Wallet>;
 
 @Schema({ timestamps: true })
 export class Wallet {
-  @Prop({ required: true, lowercase: true, trim: true })
+  @Prop({ required: true, lowercase: true, trim: true, unique: true, index: true })
   owner: string;
 
   @Prop()

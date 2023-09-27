@@ -15,7 +15,6 @@ export class Storage {
   @Prop({ required: true })
   userId: string;
 
-
   @Prop({ required: true, unique: true, index: true, sparse: true })
   nftId: string;
 
@@ -26,19 +25,13 @@ export class Storage {
   price: string;
 
   @Prop({ required: true })
+  promptPrice: string;
+
+  @Prop({ required: true })
   thumbnail: string;
 
   @Prop({ required: true })
-  listing: boolean;
-
-  @Prop({ required: true })
   isRootStock: boolean;
-
-  @Prop({ required: true })
-  privateMeta: boolean;
-
-  @Prop({ required: true, type: Array<string> })
-  allowedUsers: Array<string>
 
 }
 
