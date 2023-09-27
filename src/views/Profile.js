@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import NFT from '../components/NFT';
-import { getNFTs, emailToId } from '../helpers'
+import { emailToId, formatNFTs, getWallet } from '../helpers'
 import { MdOutlineLanguage } from 'react-icons/md';
 import { HiOutlineMail } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom';
+import { getNFTsFromAddress } from '../scripts';
 
 function Profile({ user }) {
 	const regionNames = new Intl.DisplayNames(['en'], {
@@ -16,9 +17,22 @@ function Profile({ user }) {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		setOnQuery(true)
-		getNFTs({ userId: user.id }).then(res => setNFTs(res))
-		setOnQuery(false)
+		const fetchData = async () => {
+			setOnQuery(true);
+			try {
+				const address = await getWallet(user.id).then(res => res.address.eth)
+				const res = await getNFTsFromAddress(address);
+				const formattedNFTs = await formatNFTs(res);
+
+				setNFTs(formattedNFTs);
+			} catch (error) {
+				console.error('Error fetching and formatting NFTs:', error);
+			} finally {
+				setOnQuery(false);
+			}
+		};
+
+		fetchData();
 	}, [user])
 
 	const search = async () => {

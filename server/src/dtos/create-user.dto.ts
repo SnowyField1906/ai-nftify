@@ -19,11 +19,9 @@ export class CreateUserDto {
   readonly name: string;
 
   @IsString()
-  @IsNotEmpty()
   readonly given_name: string;
 
   @IsString()
-  @IsNotEmpty()
   readonly family_name: string;
 
   @IsString()

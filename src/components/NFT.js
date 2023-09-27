@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { SiBitcoinsv } from 'react-icons/si'
 import { AiOutlineVerticalAlignBottom, AiOutlineSmile, AiOutlineCheck } from 'react-icons/ai'
-import { getUsers } from '../helpers'
+import { getUserByAddress } from '../helpers'
 import GenerationData from './GenerationData'
 import { getInfoUser } from '../storage/local'
 import DataPurchase from './DataPurchase'
 import { btcLogo, rskLogo } from '../data'
 import NFTPurchase from './NFTPurchase'
 
-function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, privateMeta, allowedUsers }) {
+function NFT({ thumbnail, nftName, nftId, ownerAddress, price, promptPrice, allowedUsers, isRootStock }) {
     const [user, setUser] = useState({})
     const [metaPopup, setMetaPopup] = useState(false)
     const [dataPurchasePopup, setDataPurchasePopup] = useState(false)
@@ -17,9 +17,15 @@ function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, p
     const [account, setAccount] = useState({})
 
     useEffect(() => {
-        getUsers(userId).then(res => setUser(res))
-        setAccount(getInfoUser().data)
-    }, [userId])
+        getUserByAddress(ownerAddress).then(res => { setUser(res) })
+        setAccount({
+            ...getInfoUser().data,
+            address: {
+                eth: getInfoUser().key.data.ethAddress,
+                btc: getInfoUser().key.data.ethAddress
+            }
+        })
+    }, [])
 
     return (
         <>
@@ -35,12 +41,12 @@ function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, p
                             alt="..."
                             style={{ objectFit: 'cover', backgroundSize: 'cover', backgroundClip: 'cover' }}
                         />
-                        {!privateMeta ?
+                        {promptPrice == 0 ?
                             <div className="group absolute bg-green-700 bottom-4 right-4 gap-2 inline-flex items-center opacity-80 rounded-full text-white px-3 h-12 text-2xl cursor-pointer" onClick={() => setMetaPopup(true)}>
                                 <span className="group-hover:block hidden text-base">Generation data is shown publicly</span>
                                 <AiOutlineSmile />
                             </div>
-                            : allowedUsers.includes(account?.id) ?
+                            : allowedUsers.includes(account?.address?.eth) ?
                                 <div className="group absolute bg-primary-700 bottom-4 right-4 gap-2 inline-flex items-center opacity-80 rounded-full text-white px-3 h-12 text-2xl cursor-pointer" onClick={() => setMetaPopup(true)}>
                                     <span className="group-hover:block hidden text-base">You have access to this generation data</span>
                                     <AiOutlineCheck />
@@ -75,9 +81,9 @@ function NFT({ userId, nftId, nftName, price, thumbnail, listing, isRootStock, p
                                     </Link>
                                 </div>
                                 {
-                                    listing && <button className="group cursor-pointer disabled:pointer-events-none" onClick={() => setNFTPurchasePopup(true)} disabled={userId === account.id}>
+                                    price != 0 && <button className="group cursor-pointer disabled:pointer-events-none" onClick={() => setNFTPurchasePopup(true)} disabled={ownerAddress === account?.address?.eth || ownerAddress === account?.address?.btc}>
                                         <p className="group-hover:text-primary-500 mb-1 text-gray-500 text-sm text-right">Buy with</p>
-                                        <span className="group-hover:text-primary-500 font-bold font-serif text-lg text-right flex items-center gap-1">{(price / 1e8)}
+                                        <span className="group-hover:text-primary-500 font-bold font-serif text-lg text-right flex items-center gap-1">{price}
                                             <SiBitcoinsv />
                                         </span>
                                     </button>

@@ -102,6 +102,7 @@ contract NFTMarketplace is ERC721URIStorage {
             promptPrice,
             promptBuyer
         );
+        idToListedToken[tokenId].promptBuyer.push(msg.sender);
 
         if (price > 0) {
             _transfer(msg.sender, address(this), tokenId);
@@ -234,6 +235,35 @@ contract NFTMarketplace is ERC721URIStorage {
         return items;
     }
 
+    function getNFTsFromAddress(
+        address addr
+    ) public view returns (ListedToken[] memory) {
+        uint totalItemCount = _tokenIds.current();
+        uint itemCount = 0;
+
+        // Count the NFTs owned by the caller
+        for (uint i = 1; i <= totalItemCount; i++) {
+            if (idToListedToken[i].owner == addr) {
+                itemCount++;
+            }
+        }
+
+        // Create an array to store the caller's NFTs
+        ListedToken[] memory items = new ListedToken[](itemCount);
+
+        // Populate the array with the caller's NFTs
+        uint currentIndex = 0;
+        for (uint i = 1; i <= totalItemCount; i++) {
+            console.log(idToListedToken[i].owner);
+            if (idToListedToken[i].owner == addr) {
+                items[currentIndex] = idToListedToken[i];
+                currentIndex++;
+            }
+        }
+
+        return items;
+    }
+
     //Return all the NFTs that the current user is the owner of their prompts
     function getMyPrompts() public view returns (ListedToken[] memory) {
         uint totalItemCount = userToOwnedPrompts[msg.sender].length;
@@ -269,5 +299,20 @@ contract NFTMarketplace is ERC721URIStorage {
 
         //Transfer the proceeds from the sale to the msg.sender of the NFT
         payable(owner).transfer(msg.value);
+    }
+
+    function transfer(uint256 tokenId, address to) public {
+        require(
+            msg.sender == idToListedToken[tokenId].owner,
+            "Permission Denied"
+        );
+
+        if (idToListedToken[tokenId].price != 0) {
+            _transfer(address(this), to, tokenId);
+        } else {
+            _transfer(msg.sender, to, tokenId);
+        }
+        idToListedToken[tokenId].owner = payable(to);
+        userToOwnedPrompts[to].push(tokenId);
     }
 }

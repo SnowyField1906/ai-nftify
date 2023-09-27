@@ -17,11 +17,14 @@ export default function Navbar() {
 	const [btcBalance, setBtcBalance] = useState(0)
 
 	useEffect(() => {
-		const info = getInfoUser()
-		setGoogleData(info.data);
-		getBalance(info.key.data.ethAddress).then(res => {
-			setBtcBalance(res); setRskBalance(res)
-		})
+		const info = getInfoUser();
+		setGoogleData(info?.data);
+		if (info?.data) {
+			getBalance(info.key.data.ethAddress).then(res => {
+				setBtcBalance(res); setRskBalance(res)
+			})
+		}
+		setSuccess(true);
 	}, [loginPopup, success]);
 
 	const logout = () => {

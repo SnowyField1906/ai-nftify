@@ -5,3 +5,4 @@ export * from "./storage.schema";
 export * from "./shared-key.schema";
 export * from "./user.schema";
 export * from "./metadata.schema";
+export * from "./address.schema";

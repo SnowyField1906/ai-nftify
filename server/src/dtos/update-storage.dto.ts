@@ -28,18 +28,5 @@ export class UpdateStorageDto {
 
   @IsString()
   @IsNotEmpty()
-  readonly price: string;
-
-  @IsString()
-  @IsNotEmpty()
-  readonly promptPrice: string;
-
-  @IsString()
-  @IsNotEmpty()
   readonly thumbnail: string;
-
-  @IsBoolean()
-  @IsNotEmpty()
-  readonly isRootStock: boolean;
-
 }

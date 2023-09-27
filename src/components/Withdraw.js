@@ -32,10 +32,10 @@ function Withdraw({ nfts, setWithdrawPopup }) {
                             </div>
                             <div className='flex justify-between items-center'>
                                 <button className={`${inputClass[!isRootStock]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} defaultValue={!isRootStock}>
-                                    Withdraw to RootStock
+                                    Withdraw at RootStock
                                 </button>
                                 <button className={`${inputClass[isRootStock]} rounded-full border-2 cursor-pointer rounded-l-none h-12 font-semibold w-1/2 flex items-center justify-center`} defaultValue={!isRootStock}>
-                                    Withdraw to Ordinals
+                                    Withdraw at Ordinals
                                 </button>
                             </div>
                         </div>

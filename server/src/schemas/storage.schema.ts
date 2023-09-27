@@ -12,9 +12,6 @@ export type StorageDocument = HydratedDocument<Storage>;
 
 @Schema()
 export class Storage {
-  @Prop({ required: true })
-  userId: string;
-
   @Prop({ required: true, unique: true, index: true, sparse: true })
   nftId: string;
 
@@ -22,16 +19,7 @@ export class Storage {
   nftName: string;
 
   @Prop({ required: true })
-  price: string;
-
-  @Prop({ required: true })
-  promptPrice: string;
-
-  @Prop({ required: true })
   thumbnail: string;
-
-  @Prop({ required: true })
-  isRootStock: boolean;
 
 }
 

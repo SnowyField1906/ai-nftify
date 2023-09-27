@@ -25,12 +25,11 @@ export default function Footer() {
 			<section className="bg-gray-800 pb-8 text-center text-gray-400 sm:px-4">
 				<div className="container mx-auto px-4 relative">
 					<div className="mx-auto w-full lg:w-8/12 xl:w-6/12">
-						<h2 className="capitalize font-bold mb-4 text-3xl text-white">Explore &bull; Create &bull; Trade</h2>
-						<p className="font-light fw-light mb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pulvinar faucibus neque, nec rhoncus nunc ultrices sit amet. Curabitur ac sagittis neque, vel egestas est.</p>
-						<a href="#" className="bg-gradient-to-t bg-primary-500 from-primary-500 hover:bg-primary-600 hover:from-primary-600 hover:to-primary-500 inline-block px-6 py-2 rounded text-white to-primary-400">Register Now</a>
+						<h2 className="capitalize font-bold mb-4 text-3xl text-white">Explore &bull; Create &bull; Trade &bull; Walletless</h2>
+						<p className="font-light fw-light mb-6">Librate your creativity with NFTs powered by AI. Create, collect, and trade digital items secured by blockchain technology. Fully decentralized marketplace, no wallet required.</p>
 					</div>
 				</div>
 			</section>
-		</footer>
+		</footer >
 	);
 }

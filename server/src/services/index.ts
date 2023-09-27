@@ -6,3 +6,4 @@ export * from "./storage.service";
 export * from "./mailer.service";
 export * from "./users.service";
 export * from "./metadata.service";
+export * from "./address.service";

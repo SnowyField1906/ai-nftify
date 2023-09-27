@@ -30,7 +30,7 @@ function NFTPurchase({ id, nftName, price, userName, setNFTPurchasePopup }) {
                             <p className='text-lg text-gray-700 font-semibold'>Transfer to</p>
                             <p className='col-span-2 text-lg font-semibold'>{userName}</p>
                             <p className='text-lg text-gray-700 font-semibold'>NFT price</p>
-                            <p className='col-span-2 text-lg font-semibold'>{price / 1e8} BTC</p>
+                            <p className='col-span-2 text-lg font-semibold'>{price} BTC</p>
                         </div>
                         <div className='flex'>
                             <button className={`${onSummit || onSuccess ? "border-primary-500 cursor-default" : "hover:border-primary-500"} group h-12 px-6 mt-10 mx-auto border-2 border-gray-200 rounded-full transition duration-300 w-1/3 disabled:cursor-default disabled:pointer-events-none`} onClick={() => summit()} disabled={onSummit || onSuccess}>

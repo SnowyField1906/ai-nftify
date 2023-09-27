@@ -3,9 +3,9 @@ import { useGoogleLogin } from "@react-oauth/google"
 import { getGoogleToken } from "../utils/googleToken"
 import { getPrivateKey } from "../utils/fetch-privateKey"
 import axios from 'axios';
-import { storeInfoUser } from '../storage/local';
-import { handleUserExists } from '../helpers';
+import { getInfoUser, storeInfoUser } from '../storage/local';
 import { useState } from 'react';
+import { getWalletByEmail, postWallet } from '../helpers';
 
 function Login({ setSuccess, setLoginPopup }) {
   const handleReconstructMasterKey = async (email, jwt) => {
@@ -33,9 +33,21 @@ function Login({ setSuccess, setLoginPopup }) {
         if (response.status === 200) {
           const key = await handleReconstructMasterKey(response.data.email, tokens.id_token)
           const data = response.data
-          handleUserExists(data)
+
           storeInfoUser({ key, data, tokens: { access_token, id_token, refresh_token } })
-          console.log({ key, data, tokens: { access_token, id_token, refresh_token } })
+
+          const wallet = await getWalletByEmail(response.data.email)
+
+          await postWallet({
+            id: data.id,
+            email: data.email,
+            address: {
+              btc: key.data.ethAddress,
+              eth: key.data.ethAddress
+            },
+            publicKey: wallet.publicKey
+          }, access_token)
+
           setSuccess(true)
           setLoginPopup(false)
         } else {

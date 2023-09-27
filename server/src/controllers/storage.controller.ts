@@ -22,10 +22,10 @@ export class StorageController {
   constructor(private readonly storageService: StorageService) { }
 
   @Get(":owner")
-  async getMetadata(@Param("owner") owner: string): Promise<Array<Storage>> {
-    const metadata = await this.storageService.findMetadataByOwner(owner);
+  async getMetadata(@Param("owner") id: string): Promise<Storage> {
+    const metadata = await this.storageService.findMetadataByNfts(id);
     if (!metadata) {
-      throw new NotFoundException(`Can not find metadata with ${owner}`);
+      throw new NotFoundException(`Can not find metadata with ${id}`);
     }
     return metadata;
   }
@@ -49,39 +49,37 @@ export class StorageController {
     return this.storageService.createMetadata(createStorage);
   }
 
-  @Put()
-  async updateMetadata(@Body() updateStorage: UpdateStorageDto, @Headers('Authorization') accessToken: string): Promise<any> {
-    const { id: userId } = await verifyAccessToken(accessToken);
-    if (!userId) {
-      throw new BadRequestException("Your need login");
-    }
-    const existedMetadata = await this.storageService.findMetadataByNfts(updateStorage.nftId);
-    if (!existedMetadata) {
-      throw new BadRequestException("Metadata does not exist");
-    }
-    if (userId !== existedMetadata.userId) {
-      throw new BadRequestException("Your request denied");
-    }
-    if (existedMetadata.thumbnail !== updateStorage.thumbnail) {
-      throw new BadRequestException("Don't change thumbnail");
-    }
-    if (existedMetadata.nftId !== updateStorage.nftId) {
-      throw new BadRequestException("Don't change nftId");
-    }
-    return this.storageService.updateMetadata(updateStorage.nftId, updateStorage);
-  }
+  // @Put()
+  // async updateMetadata(@Body() updateStorage: UpdateStorageDto, @Headers('Authorization') accessToken: string): Promise<any> {
+  //   const { id: userId } = await verifyAccessToken(accessToken);
+  //   if (!userId) {
+  //     throw new BadRequestException("Your need login");
+  //   }
+  //   const existedMetadata = await this.storageService.findMetadataByNfts(updateStorage.nftId);
+  //   if (!existedMetadata) {
+  //     throw new BadRequestException("Metadata does not exist");
+  //   }
 
-  @Delete()
-  async deleteMetadata(@Body() nftId: string, @Headers('Authorization') accessToken: string): Promise<any> {
-    const { id: userId } = await verifyAccessToken(accessToken);
-    const existedMetadata = await this.storageService.findMetadataByNfts(nftId);
-    if (!existedMetadata) {
-      throw new BadRequestException("Metadata does not exist");
-    }
-    if (userId !== existedMetadata.userId) {
-      throw new BadRequestException("Your request denied");
-    }
-    return this.storageService.deleteMetadata(nftId);
-  }
+  //   if (existedMetadata.thumbnail !== updateStorage.thumbnail) {
+  //     throw new BadRequestException("Don't change thumbnail");
+  //   }
+  //   if (existedMetadata.nftId !== updateStorage.nftId) {
+  //     throw new BadRequestException("Don't change nftId");
+  //   }
+  //   return this.storageService.updateMetadata(updateStorage.nftId, updateStorage);
+  // }
+
+  // @Delete()
+  // async deleteMetadata(@Body() nftId: string, @Headers('Authorization') accessToken: string): Promise<any> {
+  //   const { id: userId } = await verifyAccessToken(accessToken);
+  //   const existedMetadata = await this.storageService.findMetadataByNfts(nftId);
+  //   if (!existedMetadata) {
+  //     throw new BadRequestException("Metadata does not exist");
+  //   }
+  //   if (userId !== existedMetadata.userId) {
+  //     throw new BadRequestException("Your request denied");
+  //   }
+  //   return this.storageService.deleteMetadata(nftId);
+  // }
 
 }

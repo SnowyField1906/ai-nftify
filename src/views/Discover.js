@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 import NFT from "../components/NFT";
-import { getNFTs } from "../helpers";
-import { getAllNFTs, getMyNFTs } from "../scripts";
+import { formatNFTs, getNFTs } from "../helpers";
+import { getAllNFTs } from "../scripts";
 
 export default function Discover() {
 	const [queryParams, setQueryParams] = useState({
@@ -17,20 +17,30 @@ export default function Discover() {
 
 
 	useEffect(() => {
-		getMyNFTs().then(res => {
-			console.log(res)
-		})
-		setOnQuery(true);
-		getNFTs(queryParams).then(res => {
-			setNFTs(res);
+		const fetchData = async () => {
+			setOnQuery(true);
+			try {
+				const res = await getAllNFTs();
+				const formattedNFTs = await formatNFTs(res);
 
-			if (search !== "") {
-				const newNFTs = res.filter(nft => nft.nftName.toLowerCase().includes(search.toLowerCase()));
-				setNFTs(newNFTs);
+				console.log(formattedNFTs)
+
+				if (search !== "") {
+					const newNFTs = res.filter(nft => nft.nftName.toLowerCase().includes(search.toLowerCase()));
+					setNFTs(newNFTs);
+				} else {
+					setNFTs(formattedNFTs);
+				}
+			} catch (error) {
+				console.error('Error fetching and formatting NFTs:', error);
+			} finally {
+				setOnQuery(false);
 			}
-		});
-		setOnQuery(false);
+		};
+
+		fetchData();
 	}, [queryParams, search]);
+
 
 
 	return (

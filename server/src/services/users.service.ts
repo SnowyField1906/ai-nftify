@@ -18,6 +18,10 @@ export class UserService {
     return this.userModel.create(user);
   }
 
+  async updateUser(user: User): Promise<any> {
+    return this.userModel.updateOne({ id: user.id }, user);
+  }
+
   async findAll(): Promise<Array<User>> {
     return this.userModel.find();
   }

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getInfoUser } from "./storage/local";
-import { createToken } from "./scripts";
+import { createToken, transfer, updatePromptPrices, updateTokenPrices } from "./scripts";
 
 export const generateImage = async (prompt) => {
     const myHeaders = new Headers();
@@ -51,80 +51,106 @@ export const fetchImage = async (id) => {
     return response
 }
 
+export const postWallet = async (data, access_token) => {
+    await axios.post(
+        `${process.env.REACT_APP_NODE1_ENDPOINT}/address`,
+        data,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`,
+            }
+        }
+    )
+}
+
+export const getAddressByUser = async (id) => {
+    let address
+
+    await axios.get(
+        `${process.env.REACT_APP_NODE1_ENDPOINT}/address/${id}`,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+    ).then(res => { address = res.data })
+
+    return address
+}
+
+export const getWalletByEmail = async (email) => {
+    let wallet
+
+    await axios.get(
+        `${process.env.REACT_APP_NODE1_ENDPOINT}/wallets/${email}`,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+    ).then(res => { wallet = res.data })
+
+    return wallet
+}
+
 export const mintNFT = async (data, metadata) => {
-    // return true after 3s
-    let success = true
-
-    let a = createToken(data.thumbnail, data.price, data.promptPrice)
-
-    console.log(a)
-
+    let success
+    await createToken(data.thumbnail, data.price, data.promptPrice).then(res => success = res.status === 1)
     if (success) {
         await axios.post(
             `${process.env.REACT_APP_NODE1_ENDPOINT}/storages`,
-            data,
+            {
+                nftId: data.nftId,
+                nftName: data.nftName,
+                thumbnail: data.thumbnail,
+            },
             {
                 headers: {
                     'Content-Type': 'application/json',
                 }
             }
-        )
-            .then(res => { console.log(res) })
-            .catch(() => { success = false })
-
-        console.log({ id: data.nftId.toString(), meta: metadata })
+        ).catch(() => { success = false })
 
         await axios.post(
             `${process.env.REACT_APP_NODE1_ENDPOINT}/metadatas`,
-            { id: data.nftId.toString(), meta: metadata },
+            { id: data.nftId, meta: metadata },
             {
                 headers: {
                     'Content-Type': 'application/json',
                 }
             }
-        )
-            .then(res => { console.log(res) })
-            .catch(() => { success = false })
+        ).catch(() => { success = false })
     }
-
     return success
 }
 
-export const handleUserExists = async (data) => {
-    let oldUser
-
-    await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/users/${data.id ?? ''}`)
-        .then(res => { oldUser = res.data })
-        .catch(error => { });
-
-    let conflict = false
-    if (oldUser) {
-        Object.keys(data).forEach(key => {
-            if (data[key] !== oldUser[key]) {
-                conflict = true
-            }
-        })
-        console.log(oldUser, conflict)
-    } else {
-        await postUser(data)
-        return true
-    }
-
-    if (conflict) {
-        await putUser(data)
-    }
+export const editPrices = async (ids, price) => {
+    let success
+    await updateTokenPrices(ids, price).then(res => success = res.status === 1)
+    return success
 }
 
-export const postUser = async (data) => {
-    await axios.post(
-        `${process.env.REACT_APP_NODE1_ENDPOINT}/users`,
-        data,
-        { headers: { 'Content-Type': 'application/json' } }
-    ).then(res => { console.log(res) })
-        .catch(error => console.log(error));
+export const editPromptPrices = async (ids, promptPrice) => {
+    let success
+    await updatePromptPrices(ids, promptPrice).then(res => success = res.status === 1)
+    return success
 }
-export const putUser = async (data) => {
+
+export const transferToAddress = async (ids, to) => {
+    let success
+    await transfer(ids, to).then(res => success = res.status === 1)
+    return success
 }
+
+export const transferToUser = async (ids, to) => {
+    let success
+    let userId = await emailToId(to)
+    await transfer(ids, userId).then(res => success = res.status === 1)
+    return success
+}
+
+
 export const getNFTs = async (queryParams) => {
     let nfts
 
@@ -142,12 +168,30 @@ export const getNFTs = async (queryParams) => {
 
     return nfts
 }
+export const getWallet = async (id) => {
+    let wallet
+
+    await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/address/${id ?? ''}`)
+        .then(res => { wallet = res.data })
+        .catch(error => { wallet = null });
+
+    return wallet
+}
+
 export const getUsers = async (id) => {
     let users
 
     await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/users/${id ?? ''}`)
         .then(res => { users = res.data })
         .catch(error => console.log(error));
+
+    return users
+}
+
+export const getUserByAddress = async (address) => {
+    let users
+
+    await getUsers().then(res => users = res[0])
 
     return users
 }
@@ -162,3 +206,39 @@ export const emailToId = async (email) => {
     await getUsers().then(res => users = res)
     return users.find(user => user.email === email).id
 }
+
+export const getNFTBackEnd = async (id) => {
+    let nft
+
+    await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/storages/${id}`)
+        .then(res => { nft = res.data })
+        .catch(error => console.log(error));
+
+    return nft
+}
+
+export const formatNFT = async (nft) => {
+    const nftBackend = await getNFTBackEnd(nft[0])
+
+    return {
+        thumbnail: nftBackend.thumbnail,
+        nftName: nftBackend.nftName,
+        nftId: nft[0].toString(),
+        ownerAddress: nft[1],
+        price: (Number(nft[2]) / 10 ** 18),
+        promptPrice: (Number(nft[3]) / 10 ** 18),
+        allowedUsers: nft[4],
+        isRootStock: true,
+    }
+}
+
+export const formatNFTs = async (nfts) => {
+    let formattedNFTs = [];
+
+    for (const nft of nfts) {
+        const formattedNFT = await formatNFT(nft);
+        formattedNFTs.push(formattedNFT);
+    }
+
+    return formattedNFTs;
+};

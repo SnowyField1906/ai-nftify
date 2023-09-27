@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { updatePromptPrices } from '../scripts'
+import { editPrices } from '../helpers'
 
 function EditNFTPrice({ nfts, setEditPricePopup }) {
     const [onSummit, setOnSummit] = useState(false)
@@ -8,7 +10,8 @@ function EditNFTPrice({ nfts, setEditPricePopup }) {
     const summit = async () => {
         setOnSummit(true)
 
-        const res = false
+        const res = await editPrices(nfts.map(nft => nft.nftId), price === null ? 0 : price * 1e18)
+
 
         setOnSuccess(res)
         setOnSummit(false)

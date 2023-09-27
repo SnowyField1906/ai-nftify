@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { mintNFT } from '../helpers';
-import { getInfoUser } from '../storage/local';
+import { getCurrentToken } from '../scripts';
 
 function Mint({ response, setMintPopup }) {
 	const [onSummit, setOnSummit] = useState(false)
@@ -9,23 +9,22 @@ function Mint({ response, setMintPopup }) {
 	const summit = async () => {
 		setOnSummit(true)
 
+		let nftId
+		await getCurrentToken().then(res => nftId = res + 1n)
+
 		const res = await mintNFT({
 			...mintParams,
-			nftId: mintParams.nftId.toString(),
-			price: (mintParams.price * 1e8).toString(),
-			promptPrice: (mintParams.promptPrice * 1e8).toString(),
+			nftId: nftId.toString(),
+			price: (mintParams.price * 1e18).toString(),
+			promptPrice: (mintParams.promptPrice * 1e18).toString(),
 		}, response.meta)
 
 		setOnSuccess(res)
 		setOnSummit(false)
 	}
 
-
-	const { data: user } = getInfoUser()
-
 	const [mintParams, setMintParams] = useState({
-		userId: user.id,
-		nftId: response.id,
+		nftId: null,
 		nftName: "",
 		price: null,
 		promptPrice: null,

@@ -18,10 +18,10 @@ export class User {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true })
+  @Prop()
   given_name: string;
 
-  @Prop({ required: true })
+  @Prop()
   family_name: string;
 
   @Prop({ required: true })

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { getNFTs } from '../helpers'
+import { formatNFT, formatNFTs, getNFTs } from '../helpers'
 import EditNFTPrice from './EditNFTPrice'
 import EditNFTDataPrice from './EditNFTDataPrice'
 import Bridge from './Bridge'
 import Withdraw from './Withdraw'
 import Transfer from './Transfer'
+import { getMyNFTs } from '../scripts'
 
 function ManageNFTs({ userId, setManageNFTsPopup }) {
 	const [nfts, setNFTs] = useState([])
@@ -14,7 +15,11 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 
 	useEffect(() => {
 		setOnQuery(true)
-		getNFTs({ userId }).then(nfts => setNFTs(nfts))
+
+		getMyNFTs().then(res => {
+			formatNFTs(res).then(formattedNFTs => setNFTs(formattedNFTs))
+		})
+
 		setOnQuery(false)
 	}, [userId])
 
@@ -25,11 +30,6 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 			let newSelected = [...selected]
 			newSelected[index] = !newSelected[index]
 			setSelected(newSelected)
-
-			// const filteredNFTs = nfts.filter((_, index) => newSelected[index])
-
-			// setBridgePopup()
-			// setWithdrawPopup(filteredNFTs.every(nft => nft.isRootStock === filteredNFTs[0].isRootStock))
 		}
 	}
 
@@ -132,10 +132,10 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 													<span className="text-sm text-gray-600">{nft.nftName}</span>
 												</div>
 												<div className="text-center w-1/5">
-													<span className="text-gray-600 text-sm">{nft.listing === false ? "Not for sale" : nft.price / 1e8}</span>
+													<span className="text-gray-600 text-sm">{nft.price == 0 ? "Not for sale" : nft.price}</span>
 												</div>
 												<div className="text-center w-1/5">
-													<span className="text-gray-600 text-sm">{nft.privateMeta ? nft.promptPrice / 1e8 : "Public data"}</span>
+													<span className="text-gray-600 text-sm">{nft.promptPrice == 0 ? "Public data" : nft.promptPrice}</span>
 												</div>
 												<div className="text-center w-1/5">
 													<span className="text-gray-600 text-sm">{nft.isRootStock ? "RootStock" : "Ordinals"}</span>

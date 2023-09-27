@@ -53,7 +53,7 @@ export default function Generate() {
 		if (res.status === "processing") {
 			const image = await fetchImage(res.id)
 			res.output = image.output
-		} else if (res.status === "failed" || res.status === "error") {
+		} else if (res.status !== "success") {
 			setResponse("failed")
 			setOnGenerate(false)
 			return

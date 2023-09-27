@@ -17,6 +17,8 @@ function App() {
     getUsers().then(res => setUsers(res))
   }, []);
 
+  console.log(users)
+
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}>
       <BrowserRouter>
