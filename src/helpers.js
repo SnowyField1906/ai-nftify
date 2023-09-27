@@ -1,7 +1,6 @@
 import axios from "axios";
-import { getInfoUser } from "./storage/local";
 import { createToken } from "./scripts";
-
+import { getInfoUser } from "./storage/local";
 export const generateImage = async (prompt) => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -50,7 +49,23 @@ export const fetchImage = async (id) => {
 
     return response
 }
-
+export const getMetadata = async (ntfId) => {
+    let success = true;
+    const accessToken = getInfoUser().tokens.accessToken;
+    const headers = {
+        Authorization: `Bearer ${accessToken}`,
+    };
+    if (success) {
+        await axios.get(
+            `${process.env.REACT_APP_NODE1_ENDPOINT}/metadatas/${ntfId}`,
+            {
+                headers
+            }
+        )
+            .then(res => { console.log(res) })
+            .catch(() => { success = false })
+    }
+}
 export const mintNFT = async (data, metadata) => {
     // return true after 3s
     let success = true
