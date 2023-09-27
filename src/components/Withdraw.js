@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-function Withdraw({ ids, setWithdrawPopup }) {
+function Withdraw({ nfts, setWithdrawPopup }) {
     const [onSummit, setOnSummit] = useState(false)
     const [onSuccess, setOnSuccess] = useState(null)
-    const [isRootStock, setIsRootStock] = useState(true)
     const [address, setAddress] = useState("")
+    const isRootStock = nfts[0].isRootStock
 
     const summit = async () => {
         setOnSummit(true)
@@ -29,13 +29,12 @@ function Withdraw({ ids, setWithdrawPopup }) {
                         <div className="grid space-y-5">
                             <div className='flex justify-between items-center'>
                                 <input type="text" placeholder="Address" className={`${inputClass[address === ""]} w-full h-12 p-3 rounded-full border-2 cursor-text border-gray-200 flex items-center justify-center font-semibold`} onChange={(e) => setAddress(e.target.value)} />
-                                <p className='text-xl mx-6 text-yellow-600 font-semibold'>BTC</p>
                             </div>
                             <div className='flex justify-between items-center'>
-                                <button className={`${inputClass[!isRootStock]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setIsRootStock(true)} defaultValue={!isRootStock}>
+                                <button className={`${inputClass[!isRootStock]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} defaultValue={!isRootStock}>
                                     Withdraw to RootStock
                                 </button>
-                                <button className={`${inputClass[isRootStock]} rounded-full border-2 cursor-pointer rounded-l-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setIsRootStock(false)} defaultValue={!isRootStock}>
+                                <button className={`${inputClass[isRootStock]} rounded-full border-2 cursor-pointer rounded-l-none h-12 font-semibold w-1/2 flex items-center justify-center`} defaultValue={!isRootStock}>
                                     Withdraw to Ordinals
                                 </button>
                             </div>
@@ -64,17 +63,16 @@ function Withdraw({ ids, setWithdrawPopup }) {
                         </div>
                     </div>
                     <div className="py-10 space-y-2 text-gray-600 text-center sm:-mb-8">
-                        <p className="text-xs">If you fill a isRootStock , all selected NFTs will be
-                            {' '}
-                            <span className='font-bold'>
-                                available for sale.</span>
-                            {' '}
-                            Unless all your NFTs will be
-                            {' '}
-                            <span className='font-bold'>
-                                removed from sale.
-                            </span>
-                        </p>
+                        <div className="py-10 space-y-2 text-gray-600 text-center sm:-mb-8">
+                            <p className="text-xs">All NFTs will be {' '}
+                                <span className='font-bold'>
+                                    transferred to
+                                </span>
+                                {' '}
+                                the wallet as you filled in.
+                            </p>
+                            <p className="text-xs">They must have same chain unless you will have to bridge them.</p>
+                        </div>
                         <p className="text-xs">NFTs that mistakenly have same nature as your purpose will not be affected.</p>
                     </div>
                 </div>

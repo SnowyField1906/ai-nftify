@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function EditNFTPrice({ ids, setEditPricePopup }) {
+function EditNFTPrice({ nfts, setEditPricePopup }) {
     const [onSummit, setOnSummit] = useState(false)
     const [onSuccess, setOnSuccess] = useState(null)
     const [price, setPrice] = useState(0)

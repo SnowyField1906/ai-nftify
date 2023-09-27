@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { getInfoUser } from '../storage/local'
 import { btcLogo, rskLogo } from '../data'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+import { getBalance } from '../scripts';
+const { ethers } = require("ethers");
 
 function Advanced({ setAdvancedPopup }) {
     const [keys, setKeys] = useState(null)
@@ -11,7 +13,6 @@ function Advanced({ setAdvancedPopup }) {
     const [rskShown, setRskShown] = useState(false)
 
     useEffect(() => {
-        console.log(getInfoUser().key.data)
         const keysData = getInfoUser().key.data
         const modified = {
             addressBtc: keysData.ethAddress,
@@ -20,7 +21,6 @@ function Advanced({ setAdvancedPopup }) {
             privKey: keysData.privKey,
         }
         setKeys(modified)
-        console.log(keys)
     }, [])
 
     const [copy, setCopy] = useState("Click to copy")

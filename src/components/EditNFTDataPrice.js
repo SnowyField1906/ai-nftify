@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function EditNFTDataPrice({ ids, setEditPricePopup }) {
+function EditNFTDataPrice({ nfts, setEditPricePopup }) {
     const [onSummit, setOnSummit] = useState(false)
     const [onSuccess, setOnSuccess] = useState(null)
     const [promptPrice, setPromptPrice] = useState(0)
@@ -69,18 +69,19 @@ function EditNFTDataPrice({ ids, setEditPricePopup }) {
                         </div>
                     </div>
                     <div className="py-10 space-y-2 text-gray-600 text-center sm:-mb-8">
-                        <p className="text-xs">If you fill a price , all selected NFTs will be
+                        <p className="text-xs">If you fill a price , all selected NFTs' data will be
                             {' '}
                             <span className='font-bold'>
-                                available for sale.</span>
+                                commercialized.
+                            </span>
                             {' '}
-                            Unless all your NFTs will be
+                            Unless all your NFTs' data will be
                             {' '}
                             <span className='font-bold'>
-                                removed from sale.
+                                shown publicly.
                             </span>
                         </p>
-                        <p className="text-xs">NFTs that mistakenly have same nature as your purpose will not be affected.</p>
+                        <p className="text-xs">NFTs' prompt that mistakenly have same nature as your purpose will not be affected.</p>
                     </div>
                 </div>
             </div >

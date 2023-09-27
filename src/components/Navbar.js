@@ -1,19 +1,27 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Login from "./Login";
-import { logo } from "../data";
+import { btcLogo, logo, rskLogo } from "../data";
 import { getInfoUser, storeInfoUser } from "../storage/local";
 import Advanced from "./Advanced";
 import ManageNFTs from "./ManageNFTs";
 import PurchasedData from "./PurchasedData";
+import { getBalance } from "../scripts";
 
 export default function Navbar() {
 	let [loginPopup, setLoginPopup] = useState(false);
 	let [googleData, setGoogleData] = useState(null);
 	let [success, setSuccess] = useState(false);
 
+	const [rskBalance, setRskBalance] = useState(0)
+	const [btcBalance, setBtcBalance] = useState(0)
+
 	useEffect(() => {
-		setGoogleData(getInfoUser()?.data);
+		const info = getInfoUser()
+		setGoogleData(info.data);
+		getBalance(info.key.data.ethAddress).then(res => {
+			setBtcBalance(res); setRskBalance(res)
+		})
 	}, [loginPopup, success]);
 
 	const logout = () => {
@@ -46,6 +54,8 @@ export default function Navbar() {
 		setAdvancedPopup(false);
 		setManageNFTsPopup(false);
 	};
+
+
 
 	return (
 		<>
@@ -111,10 +121,23 @@ export default function Navbar() {
 									<ul className="absolute hidden group-hover:block  text-gray-700 w-max  right-0">
 										<div className="h-3 invisible"></div>
 										<div className=" bg-gray-100 drop-shadow-2xl p-2 rounded-lg">
+											<li className="flex select-none px-4 items-center">
+												<img src={btcLogo} className="h-6 w-6 rounded-full mr-2" alt="profile" />
+												<span className="font-bold text-amber-600 text-sm py-2">
+													{parseFloat(btcBalance).toFixed(4)} BTC
+												</span>
+											</li>
+											<li className="flex select-none px-4 items-center">
+												<img src={rskLogo} className="h-6 w-6 rounded-full mr-2" alt="profile" />
+												<span className="font-bold text-amber-600 text-sm py-2">
+													{parseFloat(rskBalance).toFixed(4)} BTC
+												</span>
+											</li>
+											<div className="h-[1px] bg-gray-400 my-2"></div>
 											<li className="">
 												<button
 													onClick={() => manageNFTs()}
-													className="x-2 rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
+													className="rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
 												>
 													Manage NFTs
 												</button>
@@ -122,7 +145,7 @@ export default function Navbar() {
 											<li className="">
 												<button
 													onClick={() => purchasedData()}
-													className="x-2 rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
+													className="rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
 												>
 													Purchased Data
 												</button>
@@ -130,7 +153,7 @@ export default function Navbar() {
 											<li className="">
 												<button
 													onClick={() => advanced()}
-													className="x-2 rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
+													className="rounded hover:bg-primary-600 hover:text-white py-2 px-4 block whitespace-no-wrap font-semibold w-full text-left"
 												>
 													Advanced
 												</button>

@@ -16,6 +16,11 @@ const getContract = async () => {
 
 const parseCallResult = (res) => res.map(r => ({ ...r }))
 
+export const getBalance = async (address) => {
+    const res = await provider.getBalance(address);
+    return ethers.formatEther(res);
+}
+
 export const getAllNFTs = async () => {
     const contract = await getContract();
     const res = await contract.getAllNFTs();

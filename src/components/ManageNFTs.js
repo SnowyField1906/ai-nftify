@@ -4,11 +4,13 @@ import EditNFTPrice from './EditNFTPrice'
 import EditNFTDataPrice from './EditNFTDataPrice'
 import Bridge from './Bridge'
 import Withdraw from './Withdraw'
+import Transfer from './Transfer'
 
 function ManageNFTs({ userId, setManageNFTsPopup }) {
 	const [nfts, setNFTs] = useState([])
 	const [selected, setSelected] = useState([])
 	const [onQuery, setOnQuery] = useState(true)
+	const [sameChain, setSameChain] = useState(true)
 
 	useEffect(() => {
 		setOnQuery(true)
@@ -35,21 +37,27 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 	const [editDataPricePopup, setEditDataPricePopup] = useState(false)
 	const [bridgePopup, setBridgePopup] = useState(false)
 	const [withdrawPopup, setWithdrawPopup] = useState(false)
-
-	// useEffect(() => {
-	// 	cons
-	// }, [selected])
+	const [transferPopup, setTransferPopup] = useState(false)
 
 	useEffect(() => {
 		setSelected(Array(nfts.length).fill(false))
 	}, [nfts])
 
+
+	useEffect(() => {
+		if (selected.includes(true)) {
+			setSameChain(!nfts.filter((_, index) => selected[index]).every((_, i, arr) => arr[i].isRootStock === arr[0].isRootStock))
+		}
+	}, [selected])
+
+
 	return (
 		<div className='fixed top-0 right-0 z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50 select-none'>
-			{editNftPricePopup && <EditNFTPrice ids={nfts.filter((_, index) => selected[index]).map(nft => nft.nftId)} setEditPricePopup={setEditPricePopup} />}
-			{editDataPricePopup && <EditNFTDataPrice ids={nfts.filter((_, index) => selected[index]).map(nft => nft.nftId)} setEditPricePopup={setEditDataPricePopup} />}
-			{bridgePopup && <Bridge ids={nfts.filter((_, index) => selected[index]).map(nft => nft.nftId)} setBridgePopup={setBridgePopup} />}
-			{withdrawPopup && <Withdraw ids={nfts.filter((_, index) => selected[index]).map(nft => nft.nftId)} setWithdrawPopup={setWithdrawPopup} />}
+			{editNftPricePopup && <EditNFTPrice nfts={nfts.filter((_, index) => selected[index])} setEditPricePopup={setEditPricePopup} />}
+			{editDataPricePopup && <EditNFTDataPrice nfts={nfts.filter((_, index) => selected[index])} setEditPricePopup={setEditDataPricePopup} />}
+			{bridgePopup && <Bridge nfts={nfts.filter((_, index) => selected[index])} setBridgePopup={setBridgePopup} />}
+			{withdrawPopup && <Withdraw nfts={nfts.filter((_, index) => selected[index])} setWithdrawPopup={setWithdrawPopup} />}
+			{transferPopup && <Transfer nfts={nfts.filter((_, index) => selected[index])} setTransferPopup={setTransferPopup} />}
 			<div className="flex items-center justify-center text-gray-500 md:w-11/12 lg:w-3/4 xl:w-1/2 w-3/4">
 				<div className="rounded-xl bg-white shadow-xl w-full px-16 py-5 relative">
 					<h3 className="font-extrabold text-4xl text-primary-800 text-center mt-4 mb-10">Manage NFTs</h3>
@@ -60,10 +68,13 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 						<button className='rounded-full bg-green-600 flex items-center justify-center hover:bg-green-700 cursor-pointer px-5 py-2 disabled:pointer-events-none disabled:bg-opacity-50' onClick={() => setEditDataPricePopup(true)} disabled={!selected.includes(true)}>
 							<p className='text-white text-sm font-semibold'>Edit Data Price</p>
 						</button>
-						<button className='rounded-full bg-yellow-600 flex items-center justify-center hover:bg-yellow-700 cursor-pointer px-5 py-2 disabled:pointer-events-none disabled:bg-opacity-50' onClick={() => setBridgePopup(true)} disabled={!selected.includes(true)}>
+						<button className='rounded-full bg-yellow-600 flex items-center justify-center hover:bg-yellow-700 cursor-pointer px-5 py-2 disabled:pointer-events-none disabled:bg-opacity-50' onClick={() => setBridgePopup(true)} disabled={!selected.includes(true) || sameChain}>
 							<p className='text-white text-sm font-semibold'>Bridge NFT</p>
 						</button>
-						<button className='rounded-full bg-red-600 flex items-center justify-center hover:bg-red-700 cursor-pointer px-5 py-2 disabled:pointer-events-none disabled:bg-opacity-50' onClick={() => setWithdrawPopup(true)} disabled={!selected.includes(true)}>
+						<button className='rounded-full bg-fuchsia-600 flex items-center justify-center hover:bg-fuchsia-700 cursor-pointer px-5 py-2 disabled:pointer-events-none disabled:bg-opacity-50' onClick={() => setTransferPopup(true)} disabled={!selected.includes(true) || sameChain}>
+							<p className='text-white text-sm font-semibold'>Transfer NFT</p>
+						</button>
+						<button className='rounded-full bg-red-600 flex items-center justify-center hover:bg-red-700 cursor-pointer px-5 py-2 disabled:pointer-events-none disabled:bg-opacity-50' onClick={() => setWithdrawPopup(true)} disabled={!selected.includes(true) || sameChain}>
 							<p className='text-white text-sm font-semibold'>Withdraw NFT</p>
 						</button>
 					</div>
@@ -77,8 +88,8 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 									</p>
 								</div>
 								:
-								<div className="">
-									<div className="flex items-center px-5 py-2 bg-gray-100 text-gray-600 rounded-lg shadow-md mt-5">
+								<div className="overflow-y-scroll mt-5 max-h-[26rem]">
+									<div className="flex items-center px-5 py-2 bg-gray-100 text-gray-600 rounded-lg shadow-md">
 										<div className="w-1/12">
 											<div className='mx-auto w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center checked:bg-primary-500 cursor-pointer' onClick={() => toggleSelect(-1)} checked={selected.includes(true)}>
 												{selected.includes(true) && <div className='check w-3 h-3 rounded-full bg-primary-500'></div>}
