@@ -114,7 +114,6 @@ export const mintNFT = async (data, metadata) => {
     let success
     await createToken(data.thumbnail, data.price, data.promptPrice).then(res => success = res.status === 1)
 
-    console.log(data)
     if (success) {
         await axios.post(
             `${process.env.REACT_APP_NODE1_ENDPOINT}/storages`,
@@ -140,6 +139,7 @@ export const mintNFT = async (data, metadata) => {
             }
         ).catch(() => { success = false })
     }
+
     return success
 }
 
@@ -216,6 +216,16 @@ export const emailToId = async (email) => {
 
     await getUsers().then(res => users = res)
     return users.find(user => user.email === email).id
+}
+
+export const getRanking = async (id) => {
+    let ranking
+
+    await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/rankings/${id ?? ''}`)
+        .then(res => { ranking = res.data })
+        .catch(error => console.log(error));
+
+    return ranking
 }
 
 export const getNFTBackEnd = async (id) => {

@@ -34,4 +34,14 @@ export class UserController {
     return user;
   }
 
+  @Post()
+  async createMetadata(@Body() createUser: CreateUserDto): Promise<User> {
+    const existedMetadata = await this.userService.findUserById(createUser.id);
+    if (existedMetadata) {
+      throw new BadRequestException("Metadata already exists");
+    }
+
+    return this.userService.createUser(createUser);
+  }
+
 }

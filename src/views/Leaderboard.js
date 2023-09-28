@@ -1,16 +1,28 @@
 import { useEffect, useState } from "react";
 
-import { getUsers } from "../helpers";
+import { getRanking, getUsers } from "../helpers";
 import { Link } from "react-router-dom";
 
 export default function LeaderBoard() {
-    const [users, setUsers] = useState([])
+    const [users, setUsers] = useState({})
     const [onQuery, setOnQuery] = useState(true)
+    const [ranking, setRanking] = useState([])
+
     // async
     useEffect(() => {
-        setOnQuery(true)
-        getUsers().then(res => setUsers(res))
-        setOnQuery(false)
+        const fetchData = async () => {
+            const rawUsers = await getUsers()
+            const users = {}
+            rawUsers.forEach(user => { users[user.id] = user })
+
+            const ranking = await getRanking()
+
+            setRanking(ranking)
+            setUsers(users)
+            setOnQuery(false)
+        }
+
+        fetchData()
     }, [])
 
     const textIndexColor = [
@@ -33,16 +45,15 @@ export default function LeaderBoard() {
                         onQuery ?
                             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500"></div>
                             :
-                            users.slice(0, 5).map((user, index) => (
-
+                            ranking.sort((a, b) => b.numSold - a.numSold).slice(0, 5).map((rank, index) => (
                                 <div className="group relative">
                                     <div className="animate-tilt absolute -inset-0.5 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 opacity-10 hover:opacity-50 blur transition duration-100 group-hover:opacity-100 group-hover:duration-100"></div>
-                                    <Link to={`/profile/${user.id}`}>
+                                    <Link to={`/profile/${users[rank.id].id}`}>
                                         <div className="relative flex items-center justify-between divide-x divide-gray-600 rounded-lg bg-gray-50 px-5 py-3 leading-none place-items-center">
                                             <span className="flex items-center space-x-3">
                                                 <p className={`${textIndexColor[index]} text-base font-bold text-gray-500`}>{index + 1}</p>
-                                                <img src={user.picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
-                                                <p className={`${textIndexColor[index]} text-base font-semibold text-gray-500`}>{user.name}</p>
+                                                <img src={users[rank.id].picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
+                                                <p className={`${textIndexColor[index]} text-base font-semibold text-gray-500`}>{users[rank.id].name}</p>
                                             </span>
                                             <span className="invisible group-hover:visible pl-3 ml-3 text-primary-400 transition duration-200">
                                                 View&nbsp;&rarr;
@@ -59,16 +70,15 @@ export default function LeaderBoard() {
                         onQuery ?
                             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500"></div>
                             :
-                            users.slice(0, 5).map((user, index) => (
-
+                            ranking.sort((a, b) => b.numPromptSold - a.numPromptSold).slice(0, 5).map((rank, index) => (
                                 <div className="group relative">
                                     <div className="animate-tilt absolute -inset-0.5 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 opacity-10 hover:opacity-50 blur transition duration-100 group-hover:opacity-100 group-hover:duration-100"></div>
-                                    <Link to={`/profile/${user.id}`}>
+                                    <Link to={`/profile/${users[rank.id].id}`}>
                                         <div className="relative flex items-center justify-between divide-x divide-gray-600 rounded-lg bg-gray-50 px-5 py-3 leading-none place-items-center">
                                             <span className="flex items-center space-x-3">
                                                 <p className={`${textIndexColor[index]} text-base font-bold text-gray-500`}>{index + 1}</p>
-                                                <img src={user.picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
-                                                <p className={`${textIndexColor[index]} text-base font-semibold text-gray-500`}>{user.name}</p>
+                                                <img src={users[rank.id].picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
+                                                <p className={`${textIndexColor[index]} text-base font-semibold text-gray-500`}>{users[rank.id].name}</p>
                                             </span>
                                             <span className="invisible group-hover:visible pl-3 ml-3 text-primary-400 transition duration-200">
                                                 View&nbsp;&rarr;
@@ -85,16 +95,16 @@ export default function LeaderBoard() {
                         onQuery ?
                             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500"></div>
                             :
-                            users.slice(0, 5).map((user, index) => (
+                            ranking.sort((a, b) => b.numPurchased - a.numPurchased).slice(0, 5).map((rank, index) => (
 
                                 <div className="group relative">
                                     <div className="animate-tilt absolute -inset-0.5 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 opacity-10 hover:opacity-50 blur transition duration-100 group-hover:opacity-100 group-hover:duration-100"></div>
-                                    <Link to={`/profile/${user.id}`}>
+                                    <Link to={`/profile/${users[rank.id].id}`}>
                                         <div className="relative flex items-center justify-between divide-x divide-gray-600 rounded-lg bg-gray-50 px-5 py-3 leading-none place-items-center">
                                             <span className="flex items-center space-x-3">
                                                 <p className={`${textIndexColor[index]} text-base font-bold text-gray-500`}>{index + 1}</p>
-                                                <img src={user.picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
-                                                <p className={`${textIndexColor[index]} text-base font-semibold text-gray-500`}>{user.name}</p>
+                                                <img src={users[rank.id].picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
+                                                <p className={`${textIndexColor[index]} text-base font-semibold text-gray-500`}>{users[rank.id].name}</p>
                                             </span>
                                             <span className="invisible group-hover:visible pl-3 ml-3 text-primary-400 transition duration-200">
                                                 View&nbsp;&rarr;
@@ -111,16 +121,16 @@ export default function LeaderBoard() {
                         onQuery ?
                             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500"></div>
                             :
-                            users.slice(0, 5).map((user, index) => (
+                            ranking.sort((a, b) => b.numPromptPurchased - a.numPromptPurchased).slice(0, 5).map((rank, index) => (
 
                                 <div className="group relative">
                                     <div className="animate-tilt absolute -inset-0.5 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 opacity-10 hover:opacity-50 blur transition duration-100 group-hover:opacity-100 group-hover:duration-100"></div>
-                                    <Link to={`/profile/${user.id}`}>
+                                    <Link to={`/profile/${users[rank.id].id}`}>
                                         <div className="relative flex items-center justify-between divide-x divide-gray-600 rounded-lg bg-gray-50 px-5 py-3 leading-none place-items-center">
                                             <span className="flex items-center space-x-3">
                                                 <p className={`${textIndexColor[index]} text-base font-bold text-gray-500`}>{index + 1}</p>
-                                                <img src={user.picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
-                                                <p className={`${textIndexColor[index]} text-base font-semibold text-gray-500`}>{user.name}</p>
+                                                <img src={users[rank.id].picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
+                                                <p className={`${textIndexColor[index]} text-base font-semibold text-gray-500`}>{users[rank.id].name}</p>
                                             </span>
                                             <span className="invisible group-hover:visible pl-3 ml-3 text-primary-400 transition duration-200">
                                                 View&nbsp;&rarr;
