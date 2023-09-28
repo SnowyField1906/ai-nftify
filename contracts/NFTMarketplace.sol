@@ -289,15 +289,15 @@ contract NFTMarketplace is ERC721URIStorage {
         address owner = idToListedToken[tokenId].owner;
 
         //update the details of the token
-        idToListedToken[tokenId].price = 0;
         idToListedToken[tokenId].owner = payable(msg.sender);
-        _itemsSold.increment();
+        idToListedToken[tokenId].promptBuyer.push(msg.sender);
         userToOwnedPrompts[msg.sender].push(tokenId);
 
-        //Actually transfer the token to the new owner
+        _itemsSold.increment();
+
+        idToListedToken[tokenId].price = 0;
         _transfer(address(this), msg.sender, tokenId);
 
-        //Transfer the proceeds from the sale to the msg.sender of the NFT
         payable(owner).transfer(msg.value);
     }
 
@@ -307,19 +307,21 @@ contract NFTMarketplace is ERC721URIStorage {
             "Permission Denied"
         );
 
+        idToListedToken[tokenId].owner = payable(to);
+        idToListedToken[tokenId].promptBuyer.push(msg.sender);
+        userToOwnedPrompts[to].push(tokenId);
+
         if (idToListedToken[tokenId].price != 0) {
             idToListedToken[tokenId].price = 0;
             _transfer(address(this), to, tokenId);
         } else {
             _transfer(msg.sender, to, tokenId);
         }
-        idToListedToken[tokenId].owner = payable(to);
-        userToOwnedPrompts[to].push(tokenId);
     }
 
-    function transferNFTs(uint256[] tokenId, address to) public {
-        for (uint i = 0; i < tokenId.length; i++) {
-            transferNFT(tokenId[i], to);
+    function transferNFTs(uint256[] memory tokenIds, address to) public {
+        for (uint i = 0; i < tokenIds.length; i++) {
+            transferNFT(tokenIds[i], to);
         }
     }
 }

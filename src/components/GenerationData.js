@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { _getNFTMeta } from '../data'
 import { getPromptById } from '../helpers'
 function GenerationData({ id, setMetaPopup }) {
     const [meta, setMeta] = useState({})
+    const [onQuery, setOnQuery] = useState(true)
 
     const [copy, setCopy] = useState("Click to copy")
     const resetTooltip = () => {
@@ -18,7 +18,9 @@ function GenerationData({ id, setMetaPopup }) {
     }
 
     useEffect(() => {
+        setOnQuery(true)
         getPromptById(id).then(res => setMeta(res.meta))
+        setOnQuery(false)
     }, [id])
 
     return (
@@ -28,93 +30,97 @@ function GenerationData({ id, setMetaPopup }) {
                     <h3 className="font-extrabold text-4xl text-primary-800 text-center mt-4 mb-10">Generation Data</h3>
                     <div className="container mx-auto">
                         {
-                            Object.keys(meta).length !== 0 &&
-                            <div className="grid grid-cols-6 gap-x-10 gap-y-5 items-center overflow-y-scroll max-h-[26rem]">
-                                <p className="font-semibold">Prompt</p>
-                                <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.prompt)}>
-                                    <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
-                                        {copy}
-                                    </span>
-                                    {meta.prompt}
-                                </p>
-                                <p className="font-semibold">Negative Prompt</p>
-                                <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.negative_prompt)}>
-                                    <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
-                                        {copy}
-                                    </span>
-                                    {meta.negative_prompt}
-                                </p>
-                                <p className="font-semibold">Model</p>
-                                <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.model)}>
-                                    <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
-                                        {copy}
-                                    </span>
-                                    {meta.model}
-                                </p>
-                                <p className="font-semibold">VAE</p>
-                                <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.vae)}>
-                                    <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
-                                        {copy}
-                                    </span>
-                                    {meta.vae}
-                                </p>
-                                <p className="font-semibold">Size</p>
-                                <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.W + "x" + meta.H)}>
-                                    <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
-                                        {copy}
-                                    </span>
-                                    {meta.W}x{meta.H}
-                                </p>
-                                <p className="font-semibold">Revision</p>
-                                <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">
-                                    <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
-                                        {copy}
-                                    </span>
-                                    {meta.revision}
-                                </p>
-                                <p className="font-semibold">Steps</p>
-                                <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.steps)}>
-                                    <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
-                                        {copy}
-                                    </span>
-                                    {meta.steps}
-                                </p>
-                                <p className="font-semibold">CFG scale</p>
-                                <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.guidance_scale)}>
-                                    <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
-                                        {copy}
-                                    </span>
-                                    {meta.guidance_scale}
-                                </p>
-                                <p className="font-semibold">Seed</p>
-                                <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.seed)}>
-                                    <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
-                                        {copy}
-                                    </span>
-                                    {meta.seed}
-                                </p>
-                                <p className="font-semibold">NSFW filter</p>
-                                <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">
-                                    <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
-                                        {copy}
-                                    </span>
-                                    {meta.safety_checker}
-                                </p>
-                                <p className="font-semibold">Attention slicing</p>
-                                <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">
-                                    <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
-                                        {copy}
-                                    </span>
-                                    {meta.enable_attention_slicing}
-                                </p>
-                                <p className="font-semibold">Instant response</p>
-                                <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">
-                                    <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
-                                        {copy}
-                                    </span>
-                                    {meta.instant_response}
-                                </p>
-                            </div>
+                            onQuery === true ?
+                                <div className='h-[26rem] flex justify-center items-center'>
+                                    <div className='animate-spin rounded-full h-20 w-20 border-b-2 border-primary-500'></div>
+                                </div>
+                                :
+                                <div className="grid grid-cols-6 gap-x-10 gap-y-5 items-center overflow-y-scroll max-h-[26rem]">
+                                    <p className="font-semibold">Prompt</p>
+                                    <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.prompt)}>
+                                        <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+                                            {copy}
+                                        </span>
+                                        {meta.prompt}
+                                    </p>
+                                    <p className="font-semibold">Negative Prompt</p>
+                                    <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.negative_prompt)}>
+                                        <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+                                            {copy}
+                                        </span>
+                                        {meta.negative_prompt}
+                                    </p>
+                                    <p className="font-semibold">Model</p>
+                                    <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.model)}>
+                                        <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+                                            {copy}
+                                        </span>
+                                        {meta.model}
+                                    </p>
+                                    <p className="font-semibold">VAE</p>
+                                    <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.vae)}>
+                                        <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+                                            {copy}
+                                        </span>
+                                        {meta.vae}
+                                    </p>
+                                    <p className="font-semibold">Size</p>
+                                    <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.W + "x" + meta.H)}>
+                                        <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+                                            {copy}
+                                        </span>
+                                        {meta.W}x{meta.H}
+                                    </p>
+                                    <p className="font-semibold">Revision</p>
+                                    <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">
+                                        <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+                                            {copy}
+                                        </span>
+                                        {meta.revision}
+                                    </p>
+                                    <p className="font-semibold">Steps</p>
+                                    <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.steps)}>
+                                        <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+                                            {copy}
+                                        </span>
+                                        {meta.steps}
+                                    </p>
+                                    <p className="font-semibold">CFG scale</p>
+                                    <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.guidance_scale)}>
+                                        <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+                                            {copy}
+                                        </span>
+                                        {meta.guidance_scale}
+                                    </p>
+                                    <p className="font-semibold">Seed</p>
+                                    <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full" onClick={() => copyText(meta.seed)}>
+                                        <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+                                            {copy}
+                                        </span>
+                                        {meta.seed}
+                                    </p>
+                                    <p className="font-semibold">NSFW filter</p>
+                                    <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">
+                                        <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+                                            {copy}
+                                        </span>
+                                        {meta.safety_checker}
+                                    </p>
+                                    <p className="font-semibold">Attention slicing</p>
+                                    <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">
+                                        <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+                                            {copy}
+                                        </span>
+                                        {meta.enable_attention_slicing}
+                                    </p>
+                                    <p className="font-semibold">Instant response</p>
+                                    <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">
+                                        <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
+                                            {copy}
+                                        </span>
+                                        {meta.instant_response}
+                                    </p>
+                                </div>
                         }
                     </div>
                     <div className="py-10 space-y-2 text-gray-600 text-center sm:-mb-8">

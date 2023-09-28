@@ -6,7 +6,7 @@ const { getInfoUser } = require("../storage/local");
 
 
 const provider = new JsonRpcProvider("https://public-node.testnet.rsk.co");
-const contractAddress = "0x62A6F4B0f4d5b80dF963040Be5e416C314e4456C";
+const contractAddress = "0x4f4A0498DBE0DE64E057eFc9c0dd11C2c5Dd4958";
 
 const getContract = async () => {
     const privateKey = getInfoUser().key.data.privKey
@@ -42,9 +42,9 @@ export const getNFTsFromAddress = async (address) => {
     return parseProxiesToArray(res);
 }
 
-export const getMyPrompt = async () => {
+export const getMyPrompts = async () => {
     const contract = await getContract();
-    const res = await contract.getMyPrompt();
+    const res = await contract.getMyPrompts();
     return parseProxiesToArray(res);
 }
 
@@ -78,14 +78,14 @@ export const transferNFTs = async (ids, to) => {
     return res;
 }
 
-export const buyPrompt = async (ids) => {
+export const buyPrompt = async (id, promptPrice) => {
     const contract = await getContract();
-    const res = await contract.buyPrompt(ids).then(tx => tx.wait());
+    const res = await contract.buyPrompt(id, { value: Big(promptPrice).multiply(1e18).toBigInt().toString() }).then(tx => tx.wait());
     return res;
 }
 
 export const executeSale = async (id, price) => {
     const contract = await getContract();
-    const res = await contract.executeSale(id, { value: Big(price).multiply(1e18).toString() }).then(tx => tx.wait());
+    const res = await contract.executeSale(id, { value: Big(price).multiply(1e18).toBigInt().toString() }).then(tx => tx.wait());
     return res;
 }

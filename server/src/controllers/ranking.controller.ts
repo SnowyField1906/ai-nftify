@@ -46,6 +46,23 @@ export class RankingController {
     if (!existedMetadata) {
       throw new BadRequestException("Ranking does not exist");
     }
+    const updateRankingUserSold: Ranking = await this.rankingService.findRankingById(updateRanking.idUserSold);
+    if (!updateRankingUserSold) {
+      throw new BadRequestException("User sold does not exist");
+    }
+    if (existedMetadata.numPurchased !== updateRanking.numPurchased) {
+      updateRankingUserSold.numSold = (updateRankingUserSold.numSold as number) + 1;
+
+      this.rankingService.updateRanking(updateRankingUserSold)
+    }
+    else if (Number(existedMetadata.numPromptPurchased) + 1 == Number(updateRanking.numPromptPurchased)) {
+      updateRankingUserSold.numSold = (updateRankingUserSold.numPromptSold as number) + 1;
+
+      this.rankingService.updateRanking(updateRankingUserSold)
+    }
+    else {
+      throw new BadRequestException("Ranking does not update");
+    }
 
     return this.rankingService.updateRanking(updateRanking);
   }

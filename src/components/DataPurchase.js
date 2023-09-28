@@ -1,12 +1,13 @@
 import { useState } from 'react'
+import { buyNFTPrompt } from '../helpers'
 
-function DataPurchase({ id, nftName, promptPrice, userName, setDataPurchasePopup }) {
+function DataPurchase({ id, nftName, promptPrice, userName, userId, setDataPurchasePopup }) {
     const [onSummit, setOnSummit] = useState(false)
     const [onSuccess, setOnSuccess] = useState(null)
     const summit = async () => {
         setOnSummit(true)
 
-        const res = true
+        const res = await buyNFTPrompt(id, promptPrice, userId)
 
         setOnSuccess(res)
         setOnSummit(false)

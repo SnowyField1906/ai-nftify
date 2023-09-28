@@ -22,4 +22,8 @@ export class CreateRankingsDto {
   @IsNumber()
   @IsNotEmpty()
   readonly numPromptPurchased: number;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly idUserSold: string;
 }

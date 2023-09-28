@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getInfoUser } from "./storage/local";
-import { createToken, executeSale, transferNFTs, updatePromptPrices, updateTokenPrices } from "./scripts";
+import { buyPrompt, createToken, executeSale, getMyPrompts, transferNFTs, updatePromptPrices, updateTokenPrices } from "./scripts";
 const { Big } = require('bigdecimal.js');
 
 export const generateImage = async (prompt) => {
@@ -65,17 +65,32 @@ export const postWallet = async (data, access_token) => {
     )
 }
 
-export const buyNft = async (id, price) => {
+export const buyNFT = async (id, price, idUserSold) => {
     let success
+
     await executeSale(id, price).then(res => success = res.status === 1)
+
     if (success) {
-        const userId = getInfoUser().data.id;
-        const infoRanking = await getRanking(userId);
-        const newRanking = {
-            ...infoRanking,
-            numPurchase: infoRanking.numPurchase + 1,
-        }
-        await updateRanking(newRanking).catch(e => { success = false })
+        const buyerId = getInfoUser().data.id;
+        let buyerRanking = await getRanking(buyerId);
+        buyerRanking.numPurchased += 1;
+
+        await updateRanking(buyerRanking, idUserSold).catch(e => { success = false })
+    }
+    return success
+}
+
+export const buyNFTPrompt = async (id, promptPrice, idUserSold) => {
+    let success
+
+    await buyPrompt(id, promptPrice).then(res => success = res.status === 1)
+
+    if (success) {
+        const buyerId = getInfoUser().data.id;
+        let buyerRanking = await getRanking(buyerId);
+        buyerRanking.numPromptPurchased += 1;
+
+        await updateRanking(buyerRanking, idUserSold).catch(e => { success = false })
     }
     return success
 }
@@ -90,11 +105,12 @@ export const getRanking = async (id) => {
     return ranking
 }
 
-export const updateRanking = async (data) => {
+export const updateRanking = async (data, idUserSold) => {
     const access_token = getInfoUser().tokens.access_token;
+
     axios.put(
         `${process.env.REACT_APP_NODE1_ENDPOINT}/rankings`,
-        data,
+        { ...data, idUserSold },
         {
             headers: {
                 'Content-Type': 'application/json',
@@ -103,7 +119,6 @@ export const updateRanking = async (data) => {
         }
     )
 }
-
 
 export const getAddressByUser = async (id) => {
     let address
@@ -183,6 +198,13 @@ export const mintNFT = async (data, metadata) => {
 
     return success
 }
+
+export const getAllMyPrompts = async () => {
+    let nftIds = await getMyPrompts()
+
+    return nftIds
+}
+
 
 export const getPromptById = async (id) => {
     let prompt

@@ -83,7 +83,7 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 							<div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500"></div>
 							: nfts.length === 0 ?
 								<div className="text-center">
-									<p className="text-2xl font-semibold leading-normal mb-2 text-gray-500">
+									<p className="pt-5 text-2xl font-semibold leading-normal mb-2 text-gray-500">
 										You don't own any NFTs yet.
 									</p>
 								</div>

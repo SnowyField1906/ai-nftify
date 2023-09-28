@@ -7,3 +7,4 @@ export * from "./user.schema";
 export * from "./metadata.schema";
 export * from "./address.schema";
 export * from "./ranking.schema";
+export * from "./bitcoin.schema";

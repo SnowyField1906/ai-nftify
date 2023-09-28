@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { buyNft } from '../helpers'
-function NFTPurchase({ id, nftName, price, userName, setNFTPurchasePopup }) {
+import { buyNFT } from '../helpers'
+
+function NFTPurchase({ id, nftName, price, userName, userId, setNFTPurchasePopup }) {
     const [onSummit, setOnSummit] = useState(false)
     const [onSuccess, setOnSuccess] = useState(null)
     const summit = async () => {
         setOnSummit(true)
 
-        const res = await buyNft(id, price);
+        const res = await buyNFT(id, price, userId)
 
         setOnSuccess(res)
         setOnSummit(false)
