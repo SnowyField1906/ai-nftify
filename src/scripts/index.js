@@ -1,10 +1,12 @@
+import { Big } from "bigdecimal.js";
+
 const { ethers, JsonRpcProvider } = require("ethers");
 const ABI = require("./ABI.json");
 const { getInfoUser } = require("../storage/local");
 
 
 const provider = new JsonRpcProvider("https://public-node.testnet.rsk.co");
-const contractAddress = "0xff767fdFC738fC21C24bfc1c5F597dcf1EFC5fB6";
+const contractAddress = "0x62A6F4B0f4d5b80dF963040Be5e416C314e4456C";
 
 const getContract = async () => {
     const privateKey = getInfoUser().key.data.privKey
@@ -84,7 +86,6 @@ export const buyPrompt = async (ids) => {
 
 export const executeSale = async (id, price) => {
     const contract = await getContract();
-    const priceWei = price * 1e18;
-    const res = await contract.executeSale(id, { value: priceWei }).then(tx => tx.wait());
+    const res = await contract.executeSale(id, { value: Big(price).multiply(1e18).toString() }).then(tx => tx.wait());
     return res;
 }

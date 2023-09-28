@@ -27,7 +27,6 @@ function Withdraw({ nfts, setWithdrawPopup }) {
             } catch (error) {
                 addr = null
             }
-            console.log(addr)
             setValid(addr !== null)
         };
         fetchData()

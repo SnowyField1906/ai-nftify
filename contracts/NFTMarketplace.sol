@@ -308,6 +308,7 @@ contract NFTMarketplace is ERC721URIStorage {
         );
 
         if (idToListedToken[tokenId].price != 0) {
+            idToListedToken[tokenId].price = 0;
             _transfer(address(this), to, tokenId);
         } else {
             _transfer(msg.sender, to, tokenId);

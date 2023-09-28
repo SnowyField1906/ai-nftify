@@ -23,8 +23,6 @@ export default function Discover() {
 				const res = await getAllNFTs();
 				const formattedNFTs = await formatNFTs(res);
 
-				console.log(formattedNFTs)
-
 				if (search !== "") {
 					const newNFTs = res.filter(nft => nft.nftName.toLowerCase().includes(search.toLowerCase()));
 					setNFTs(newNFTs);

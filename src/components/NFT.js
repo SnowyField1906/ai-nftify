@@ -20,7 +20,6 @@ function NFT({ thumbnail, nftName, nftId, ownerAddress, price, promptPrice, allo
         const fetchData = async () => {
             const user = await getUserByAddress(ownerAddress)
             setUser(user)
-            console.log(ownerAddress, user)
         }
         fetchData()
         setAccount({
@@ -35,7 +34,7 @@ function NFT({ thumbnail, nftName, nftId, ownerAddress, price, promptPrice, allo
     return (
         <>
             {metaPopup && <GenerationData id={nftId} setMetaPopup={setMetaPopup} />}
-            {dataPurchasePopup && <DataPurchase id={nftId} promptPrice={price} nftName={nftName} userName={user.name} setDataPurchasePopup={setDataPurchasePopup} />}
+            {dataPurchasePopup && <DataPurchase id={nftId} promptPrice={promptPrice} nftName={nftName} userName={user.name} setDataPurchasePopup={setDataPurchasePopup} />}
             {nftPurchasePopup && <NFTPurchase id={nftId} price={price} nftName={nftName} userName={user.name} setNFTPurchasePopup={setNFTPurchasePopup} />}
             <div className="m-3 w-[23rem] h-[30rem]">
                 <div className="bg-white overflow-hidden rounded-xl text-gray-500">

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getInfoUser } from "./storage/local";
 import { createToken, executeSale, transferNFTs, updatePromptPrices, updateTokenPrices } from "./scripts";
+const { Big } = require('bigdecimal.js');
 
 export const generateImage = async (prompt) => {
     const myHeaders = new Headers();
@@ -293,8 +294,8 @@ export const formatNFT = async (nft) => {
         nftName: nftBackend.nftName,
         nftId: nft[0].toString(),
         ownerAddress: nft[1],
-        price: (Number(nft[2]) / 10 ** 18),
-        promptPrice: (Number(nft[3]) / 10 ** 18),
+        price: Big(nft[2]).divide(1e18).toString(),
+        promptPrice: Big(nft[3]).divide(1e18).toString(),
         allowedUsers: nft[4],
         isRootStock: true,
     }

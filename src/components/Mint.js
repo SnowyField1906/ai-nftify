@@ -46,8 +46,6 @@ function Mint({ response, setMintPopup }) {
 		true: "bg-gray-200 text-gray-500 border-gray-300",
 	}
 
-	console.log(mintParams)
-
 	const valid = () => mintParams.nftName !== "" && (mintParams.price !== null) && (mintParams.promptPrice !== null) && onSuccess !== false
 
 	return (

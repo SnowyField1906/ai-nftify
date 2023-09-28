@@ -127,13 +127,13 @@ export default function Navbar() {
 											<li className="flex select-none px-4 items-center">
 												<img src={btcLogo} className="h-6 w-6 rounded-full mr-2" alt="profile" />
 												<span className="font-bold text-amber-600 text-sm py-2">
-													{parseFloat(btcBalance).toFixed(4)} BTC
+													{parseFloat(btcBalance).toFixed(6)} BTC
 												</span>
 											</li>
 											<li className="flex select-none px-4 items-center">
 												<img src={rskLogo} className="h-6 w-6 rounded-full mr-2" alt="profile" />
 												<span className="font-bold text-amber-600 text-sm py-2">
-													{parseFloat(rskBalance).toFixed(4)} BTC
+													{parseFloat(rskBalance).toFixed(6)} BTC
 												</span>
 											</li>
 											<div className="h-[1px] bg-gray-400 my-2"></div>
