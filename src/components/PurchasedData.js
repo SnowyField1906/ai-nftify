@@ -24,7 +24,6 @@ function PurchasedData({ userId, setPurchasedDataPopup }) {
         setMetaPopup(true)
     }
 
-
     return (
         <div className='fixed top-0 right-0 z-30 h-screen w-screen flex items-center justify-center bg-gray-900 bg-opacity-50 select-none'>
             {metaPopup && <GenerationData id={selectedId} setMetaPopup={setMetaPopup} />}
@@ -64,7 +63,7 @@ function PurchasedData({ userId, setPurchasedDataPopup }) {
                                     </div>
                                     {
                                         nfts.map((nft, index) => (
-                                            <div className="cursor-pointer h-16 hover:bg-gray-200 bg-white shadow flex p-5 items-center mt-5 rounded-lg" onClick={() => toggleSelect(nft.id)}>
+                                            <div className="cursor-pointer h-16 hover:bg-gray-200 bg-white shadow flex p-5 items-center mt-5 rounded-lg" onClick={() => toggleSelect(nft.nftId)}>
                                                 <div className="text-center w-1/4">
                                                     <img src={nft.thumbnail} className="mx-auto h-12 w-12 rounded-full" />
                                                 </div>

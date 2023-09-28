@@ -104,7 +104,7 @@ function GenerationData({ id, setMetaPopup }) {
                                         <span className="pointer-events-none absolute right-4 bottom-2 opacity-0 font-semibold transition-opacity group-hover:opacity-100">
                                             {copy}
                                         </span>
-                                        {meta.safety_checker}
+                                        {meta.safetychecker}
                                     </p>
                                     <p className="font-semibold">Attention slicing</p>
                                     <p className="group relative col-span-5 hover:bg-gray-300 hover:cursor-pointer py-2 px-4 rounded-lg hover:text-primary-800 hover:font-semibold w-full">

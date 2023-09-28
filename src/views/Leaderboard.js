@@ -49,7 +49,7 @@ export default function LeaderBoard() {
                                 <div className="group relative">
                                     <div className="animate-tilt absolute -inset-0.5 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 opacity-10 hover:opacity-50 blur transition duration-100 group-hover:opacity-100 group-hover:duration-100"></div>
                                     <Link to={`/profile/${users[rank.id].id}`}>
-                                        <div className="relative flex items-center justify-between divide-x divide-gray-600 rounded-lg bg-gray-50 px-5 py-3 leading-none place-items-center">
+                                        <div className="relative flex items-center justify-between rounded-lg bg-gray-50 pl-5 py-3 leading-none place-items-center">
                                             <span className="flex items-center space-x-3">
                                                 <p className={`${textIndexColor[index]} text-base font-bold text-gray-500`}>{index + 1}</p>
                                                 <img src={users[rank.id].picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
@@ -57,6 +57,9 @@ export default function LeaderBoard() {
                                             </span>
                                             <span className="invisible group-hover:visible pl-3 ml-3 text-primary-400 transition duration-200">
                                                 View&nbsp;&rarr;
+                                            </span>
+                                            <span className="visible group-hover:invisible pl-3 text-primary-400 transition duration-200 -translate-x-10">
+                                                {rank.numSold}
                                             </span>
                                         </div>
                                     </Link>
@@ -74,7 +77,7 @@ export default function LeaderBoard() {
                                 <div className="group relative">
                                     <div className="animate-tilt absolute -inset-0.5 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 opacity-10 hover:opacity-50 blur transition duration-100 group-hover:opacity-100 group-hover:duration-100"></div>
                                     <Link to={`/profile/${users[rank.id].id}`}>
-                                        <div className="relative flex items-center justify-between divide-x divide-gray-600 rounded-lg bg-gray-50 px-5 py-3 leading-none place-items-center">
+                                        <div className="relative flex items-center justify-between rounded-lg bg-gray-50 pl-5 py-3 leading-none place-items-center">
                                             <span className="flex items-center space-x-3">
                                                 <p className={`${textIndexColor[index]} text-base font-bold text-gray-500`}>{index + 1}</p>
                                                 <img src={users[rank.id].picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
@@ -82,6 +85,9 @@ export default function LeaderBoard() {
                                             </span>
                                             <span className="invisible group-hover:visible pl-3 ml-3 text-primary-400 transition duration-200">
                                                 View&nbsp;&rarr;
+                                            </span>
+                                            <span className="visible group-hover:invisible pl-3 text-primary-400 transition duration-200 -translate-x-10">
+                                                {rank.numPromptSold}
                                             </span>
                                         </div>
                                     </Link>
@@ -100,7 +106,7 @@ export default function LeaderBoard() {
                                 <div className="group relative">
                                     <div className="animate-tilt absolute -inset-0.5 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 opacity-10 hover:opacity-50 blur transition duration-100 group-hover:opacity-100 group-hover:duration-100"></div>
                                     <Link to={`/profile/${users[rank.id].id}`}>
-                                        <div className="relative flex items-center justify-between divide-x divide-gray-600 rounded-lg bg-gray-50 px-5 py-3 leading-none place-items-center">
+                                        <div className="relative flex items-center justify-between rounded-lg bg-gray-50 pl-5 py-3 leading-none place-items-center">
                                             <span className="flex items-center space-x-3">
                                                 <p className={`${textIndexColor[index]} text-base font-bold text-gray-500`}>{index + 1}</p>
                                                 <img src={users[rank.id].picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
@@ -108,6 +114,9 @@ export default function LeaderBoard() {
                                             </span>
                                             <span className="invisible group-hover:visible pl-3 ml-3 text-primary-400 transition duration-200">
                                                 View&nbsp;&rarr;
+                                            </span>
+                                            <span className="visible group-hover:invisible pl-3 text-primary-400 transition duration-200 -translate-x-10">
+                                                {rank.numPurchased}
                                             </span>
                                         </div>
                                     </Link>
@@ -126,7 +135,7 @@ export default function LeaderBoard() {
                                 <div className="group relative">
                                     <div className="animate-tilt absolute -inset-0.5 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 opacity-10 hover:opacity-50 blur transition duration-100 group-hover:opacity-100 group-hover:duration-100"></div>
                                     <Link to={`/profile/${users[rank.id].id}`}>
-                                        <div className="relative flex items-center justify-between divide-x divide-gray-600 rounded-lg bg-gray-50 px-5 py-3 leading-none place-items-center">
+                                        <div className="relative flex items-center justify-between rounded-lg bg-gray-50 pl-5 py-3 leading-none place-items-center">
                                             <span className="flex items-center space-x-3">
                                                 <p className={`${textIndexColor[index]} text-base font-bold text-gray-500`}>{index + 1}</p>
                                                 <img src={users[rank.id].picture} className={`${textIndexColor[index]} w-12 h-12 rounded-full border-2 border-white border-opacity-0 hover:border-opacity-100`} alt="..." />
@@ -134,6 +143,9 @@ export default function LeaderBoard() {
                                             </span>
                                             <span className="invisible group-hover:visible pl-3 ml-3 text-primary-400 transition duration-200">
                                                 View&nbsp;&rarr;
+                                            </span>
+                                            <span className="visible group-hover:invisible pl-3 text-primary-400 transition duration-200 -translate-x-10">
+                                                {rank.numPromptPurchased}
                                             </span>
                                         </div>
                                     </Link>

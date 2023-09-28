@@ -234,7 +234,6 @@ export const editPromptPrices = async (ids, promptPrice) => {
 }
 
 export const transferToAddress = async (ids, to) => {
-    console.log({ ids, to })
     let success
     await transferNFTs(ids, to).then(res => success = res.status === 1)
     return success
@@ -280,20 +279,17 @@ export const getUserByAddress = async (address) => {
 
     let users = await getUsers(wallet.id)
 
-    console.log(users)
-
     return users
 }
 
 export const emailToId = async (email) => {
     let users
 
-    // await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/users/${email}`)
-    //     .then(res => { users = res.data })
-    //     .catch(error => console.log(error));
+    await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/address/${email}`)
+        .then(res => { users = res.data })
+        .catch(error => console.log(error));
 
-    await getUsers().then(res => users = res)
-    return users.find(user => user.email === email).id
+    return users?.id
 }
 
 

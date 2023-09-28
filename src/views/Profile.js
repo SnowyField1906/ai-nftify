@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import NFT from '../components/NFT';
-import { emailToId, formatNFTs, getWallet } from '../helpers'
+import { emailToId, formatNFTs, getRanking, getWallet } from '../helpers'
 import { MdOutlineLanguage } from 'react-icons/md';
 import { HiOutlineMail } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,7 @@ function Profile({ user }) {
 	const [nfts, setNFTs] = useState([])
 	const [onQuery, setOnQuery] = useState(true)
 	const [email, setEmail] = useState("")
+	const [ranking, setRanking] = useState({})
 	const navigate = useNavigate()
 
 	useEffect(() => {
@@ -23,6 +24,7 @@ function Profile({ user }) {
 				const address = await getWallet(user.id).then(res => res.address.eth)
 				const res = await getNFTsFromAddress(address);
 				const formattedNFTs = await formatNFTs(res);
+				await getRanking(user.id).then(res => setRanking(res))
 
 				setNFTs(formattedNFTs);
 			} catch (error) {
@@ -62,24 +64,30 @@ function Profile({ user }) {
 					</div>
 				</div>
 				<div className="w-full flex text-center justify-between items-center top-0 h-40 z-20 ">
-					<div className="w-min flex text-center justify-between items-center lg:gap-x-10 sm:gap-x-5 gap-x-2">
-						<div className="">
+					<div className="flex text-center justify-between items-center gap-x-3">
+						<div className="w-fit">
 							<h3 className="text-3xl font-bold block uppercase tracking-wide text-white">
-								{onQuery ? "..." : nfts.length}
+								{onQuery ? "..." : ranking.numSold}
 							</h3>
-							<span className="text-base text-gray-200">NFTs</span>
+							<span className="text-base text-gray-200">NFTs sold</span>
 						</div>
-						<div className="">
+						<div className="w-fit">
 							<h3 className="text-3xl font-bold block uppercase tracking-wide text-white">
-								{onQuery ? "..." : nfts.filter(nft => !nft.isRootStock).length}
+								{onQuery ? "..." : ranking.numPurchased}
 							</h3>
-							<span className="text-base text-gray-200">Ordinals</span>
+							<span className="text-base text-gray-200">NFTs purchased</span>
 						</div>
-						<div className="">
+						<div className="w-fit">
 							<h3 className="text-3xl font-bold block uppercase tracking-wide text-white">
-								{onQuery ? "..." : nfts.filter(nft => nft.listing).length}
+								{onQuery ? "..." : ranking.numPromptSold}
 							</h3>
-							<span className="text-base text-gray-200">Listings</span>
+							<span className="text-base text-gray-200">Data sold</span>
+						</div>
+						<div className="w-fit">
+							<h3 className="text-3xl font-bold block uppercase tracking-wide text-white">
+								{onQuery ? "..." : ranking.numPromptPurchased}
+							</h3>
+							<span className="text-base text-gray-200">Data purchased</span>
 						</div>
 					</div>
 					<div className="z-20 bg-white border border-gray-300 flex p-1 rounded-full">

@@ -26,7 +26,7 @@ export default function Footer() {
 				<div className="container mx-auto px-4 relative">
 					<div className="mx-auto w-full lg:w-8/12 xl:w-6/12">
 						<h2 className="capitalize font-bold mb-4 text-3xl text-white">Explore &bull; Create &bull; Trade &bull; Walletless</h2>
-						<p className="font-light fw-light mb-6">Librate your creativity with NFTs powered by AI. Create, collect, and trade digital items secured by blockchain technology. Fully decentralized marketplace, no wallet required.</p>
+						<p className="font-light fw-light mb-6">Liberate your creativity with NFTs powered by AI. Create, collect, and trade digital items secured by blockchain technology. Fully decentralized marketplace, no wallet required.</p>
 					</div>
 				</div>
 			</section>

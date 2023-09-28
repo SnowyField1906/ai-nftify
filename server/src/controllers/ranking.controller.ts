@@ -50,12 +50,12 @@ export class RankingController {
     if (!updateRankingUserSold) {
       throw new BadRequestException("User sold does not exist");
     }
-    if (existedMetadata.numPurchased !== updateRanking.numPurchased) {
+    if (Number(existedMetadata.numPurchased) + 1 === Number(updateRanking.numPurchased)) {
       updateRankingUserSold.numSold = (updateRankingUserSold.numSold as number) + 1;
 
       this.rankingService.updateRanking(updateRankingUserSold)
     }
-    else if (Number(existedMetadata.numPromptPurchased) + 1 == Number(updateRanking.numPromptPurchased)) {
+    else if (Number(existedMetadata.numPromptPurchased) + 1 === Number(updateRanking.numPromptPurchased)) {
       updateRankingUserSold.numSold = (updateRankingUserSold.numPromptSold as number) + 1;
 
       this.rankingService.updateRanking(updateRankingUserSold)

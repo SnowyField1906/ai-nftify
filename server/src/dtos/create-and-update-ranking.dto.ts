@@ -9,19 +9,19 @@ export class CreateRankingsDto {
 
   @IsNumber()
   @IsNotEmpty()
-  readonly numSold: number;
+  readonly numSold: Number;
 
   @IsNumber()
   @IsNotEmpty()
-  readonly numPurchased: number;
+  readonly numPurchased: Number;
 
   @IsNumber()
   @IsNotEmpty()
-  readonly numPromptSold: number;
+  readonly numPromptSold: Number;
 
   @IsNumber()
   @IsNotEmpty()
-  readonly numPromptPurchased: number;
+  readonly numPromptPurchased: Number;
 
   @IsString()
   @IsNotEmpty()
