@@ -75,3 +75,16 @@ export const transferNFTs = async (ids, to) => {
     const res = await contract.transferNFTs(ids, to).then(tx => tx.wait());
     return res;
 }
+
+export const buyPrompt = async (ids) => {
+    const contract = await getContract();
+    const res = await contract.buyPrompt(ids).then(tx => tx.wait());
+    return res;
+}
+
+export const executeSale = async (id, price) => {
+    const contract = await getContract();
+    const priceWei = price * 1e18;
+    const res = await contract.executeSale(id, { value: priceWei }).then(tx => tx.wait());
+    return res;
+}
