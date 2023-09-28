@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getInfoUser } from "./storage/local";
-import { createToken, transferNFTs, updatePromptPrices, updateTokenPrices } from "./scripts";
+import { createToken, executeSale, transferNFTs, updatePromptPrices, updateTokenPrices } from "./scripts";
 
 export const generateImage = async (prompt) => {
     const myHeaders = new Headers();
@@ -63,6 +63,46 @@ export const postWallet = async (data, access_token) => {
         }
     )
 }
+
+export const buyNft = async (id, price) => {
+    let success
+    await executeSale(id, price).then(res => success = res.status === 1)
+    if (success) {
+        const userId = getInfoUser().data.id;
+        const infoRanking = await getRanking(userId);
+        const newRanking = {
+            ...infoRanking,
+            numPurchase: infoRanking.numPurchase + 1,
+        }
+        await updateRanking(newRanking).catch(e => { success = false })
+    }
+    return success
+}
+
+export const getRanking = async (id) => {
+    let ranking
+
+    await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/rankings/${id ?? ''}`)
+        .then(res => { ranking = res.data })
+        .catch(error => console.log(error));
+
+    return ranking
+}
+
+export const updateRanking = async (data) => {
+    const access_token = getInfoUser().tokens.access_token;
+    axios.put(
+        `${process.env.REACT_APP_NODE1_ENDPOINT}/rankings`,
+        data,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`,
+            }
+        }
+    )
+}
+
 
 export const getAddressByUser = async (id) => {
     let address
@@ -143,6 +183,21 @@ export const mintNFT = async (data, metadata) => {
     return success
 }
 
+export const getPromptById = async (id) => {
+    let prompt
+    const access_token = getInfoUser().tokens.access_token;
+    await axios.get(
+        `${process.env.REACT_APP_NODE1_ENDPOINT}/metadatas/${id}`,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`,
+            }
+        }
+    ).then(res => { prompt = res.data })
+    return prompt
+}
+
 export const editPrices = async (ids, price) => {
     let success
     await updateTokenPrices(ids, price).then(res => success = res.status === 1)
@@ -218,15 +273,7 @@ export const emailToId = async (email) => {
     return users.find(user => user.email === email).id
 }
 
-export const getRanking = async (id) => {
-    let ranking
 
-    await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/rankings/${id ?? ''}`)
-        .then(res => { ranking = res.data })
-        .catch(error => console.log(error));
-
-    return ranking
-}
 
 export const getNFTBackEnd = async (id) => {
     let nft

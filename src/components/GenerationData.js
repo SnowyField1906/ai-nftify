@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { _getNFTMeta } from '../data'
-
+import { getPromptById } from '../helpers'
 function GenerationData({ id, setMetaPopup }) {
     const [meta, setMeta] = useState({})
 
@@ -18,7 +18,7 @@ function GenerationData({ id, setMetaPopup }) {
     }
 
     useEffect(() => {
-        _getNFTMeta(id).then(res => setMeta(res.meta))
+        getPromptById(id).then(res => setMeta(res.meta))
     }, [id])
 
     return (
