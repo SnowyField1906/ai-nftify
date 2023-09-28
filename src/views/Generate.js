@@ -76,6 +76,8 @@ export default function Generate() {
 		document.addEventListener("mouseout", resetTooltip);
 	}
 
+	console.log(response)
+
 	const [mintPopup, setMintPopup] = useState(false);
 
 	return (
@@ -170,7 +172,7 @@ export default function Generate() {
 					{
 						typeof response === "object" && response !== null ? (
 							<div className="relative">
-								<img src={response.output[0] ?? null} style={{ width: "100%", height: "100%", objectFit: "cover" }} className="rounded-xl" />
+								<img src={response?.output[0]} style={{ width: "100%", height: "100%", objectFit: "cover" }} className="rounded-xl" />
 								<div className={`${onGenerate ? "block" : "hidden"} absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center`}>
 									<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
 								</div>
