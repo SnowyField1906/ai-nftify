@@ -51,12 +51,14 @@ export class RankingController {
       throw new BadRequestException("User sold does not exist");
     }
     if (Number(existedMetadata.numPurchased) + 1 === Number(updateRanking.numPurchased)) {
+      console.log("+ NFT  Seller");
       updateRankingUserSold.numSold = (updateRankingUserSold.numSold as number) + 1;
 
       this.rankingService.updateRanking(updateRankingUserSold)
     }
     else if (Number(existedMetadata.numPromptPurchased) + 1 === Number(updateRanking.numPromptPurchased)) {
-      updateRankingUserSold.numSold = (updateRankingUserSold.numPromptSold as number) + 1;
+      updateRankingUserSold.numPromptSold = (updateRankingUserSold.numPromptSold as number) + 1;
+      console.log("+ Data  Seller");
 
       this.rankingService.updateRanking(updateRankingUserSold)
     }
