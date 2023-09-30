@@ -36,6 +36,9 @@ contract NFTMarketplace is ERC721URIStorage {
     //This mapping maps tokenId to token info and is helpful when retrieving details about a tokenId
     mapping(uint256 => ListedToken) private idToListedToken;
 
+    // This mapping maps bridged tokenId to token info
+    uint256[] private bridgedIds;
+
     //This mapping maps user to owned prompts
     mapping(address => uint256[]) private userToOwnedPrompts;
 
@@ -322,6 +325,48 @@ contract NFTMarketplace is ERC721URIStorage {
     function transferNFTs(uint256[] memory tokenIds, address to) public {
         for (uint i = 0; i < tokenIds.length; i++) {
             transferNFT(tokenIds[i], to);
+        }
+    }
+
+    function bridgeNFT(string memory tokenURI) public returns (uint) {
+        //Increment the tokenId counter, which is keeping track of the number of minted NFTs
+        _tokenIds.increment();
+        uint256 newTokenId = _tokenIds.current();
+
+        //Mint the NFT with tokenId newTokenId to the address who called createToken
+        _safeMint(msg.sender, newTokenId);
+
+        //Map the tokenId to the tokenURI (which is an IPFS URL with the NFT metadata)
+        _setTokenURI(newTokenId, tokenURI);
+
+        address[] memory promptBuyer;
+
+        uint tokenId = uint256(_tokenIds._value);
+        idToListedToken[tokenId] = ListedToken(
+            tokenId,
+            payable(msg.sender),
+            0,
+            0,
+            promptBuyer
+        );
+        idToListedToken[tokenId].promptBuyer.push(msg.sender);
+        bridgedIds.push(tokenId);
+
+        userToOwnedPrompts[msg.sender].push(tokenId);
+
+        return newTokenId;
+    }
+
+    function burnBridgedToken(uint256 tokenId) public {
+        // check if the caller is the owner of the NFT
+        require(
+            msg.sender == idToListedToken[tokenId].owner,
+            "Permission Denied"
+        );
+        for (uint i = 0; i < bridgedIds.length; i++) {
+            if (tokenId == i) {
+                _transfer(msg.sender, address(0), tokenId);  
+            }
         }
     }
 }
