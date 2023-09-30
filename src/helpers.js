@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getInfoUser } from "./storage/local";
-import { buyPrompt, createToken, executeSale, getAllNFTs, getCurrentToken, getMyNFTs, getMyPrompts, getNFTsFromAddress, transferNFTs, updatePromptPrices, updateTokenPrices, bridgeNFT, burnBridgedToken } from "./scripts";
+import { buyPrompt, createToken, executeSale, getAllNFTs, getCurrentToken, getMyNFTs, getMyPrompts, getNFTsFromAddress, transferNFTs, updatePromptPrices, updateTokenPrices, bridgeNFT, burnBridgedToken, withdrawNFTs } from "./scripts";
 import { isArray } from "lodash";
 import Web3 from 'web3'
 const { Big } = require('bigdecimal.js');
@@ -421,10 +421,14 @@ export const bridgeNFTs = async (ids, isRootStock) => {
 	return success
 }
 
-export const transferToAddress = async (ids, to, isRootStock) => {
+export const transferToAddress = async (ids, to, isRootStock, isWithdraw) => {
 	let success = true
 	if (isRootStock) {
-		await transferNFTs(ids, to).catch(() => { success = false })
+		if (isWithdraw) {
+			await withdrawNFTs(ids, to).catch(() => { success = false })
+		} else {
+			await transferNFTs(ids, to).catch(() => { success = false })
+		}
 	} else {
 		const access_token = getInfoUser().tokens.access_token;
 
