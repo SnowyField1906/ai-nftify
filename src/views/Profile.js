@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import NFT from '../components/NFT';
-import { emailToId, formatNFTs, getRanking, getWallet } from '../helpers'
+import { emailToId, formatNFTs, getRanking, getWallet, getNFTsFromAddressForBothChain } from '../helpers'
 import { MdOutlineLanguage } from 'react-icons/md';
 import { HiOutlineMail } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom';
-import { getNFTsFromAddress } from '../scripts';
 
 function Profile({ user }) {
 	const regionNames = new Intl.DisplayNames(['en'], {
@@ -21,8 +20,8 @@ function Profile({ user }) {
 		const fetchData = async () => {
 			setOnQuery(true);
 			try {
-				const address = await getWallet(user.id).then(res => res.address.eth)
-				const res = await getNFTsFromAddress(address);
+				const address = await getWallet(user.id).then(res => res.address)
+				const res = await getNFTsFromAddressForBothChain(address.eth, address.btc);
 				const formattedNFTs = await formatNFTs(res);
 				await getRanking(user.id).then(res => setRanking(res))
 

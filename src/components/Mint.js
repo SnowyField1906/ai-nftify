@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { mintNFT } from '../helpers';
-import { getCurrentToken } from '../scripts';
 
 function Mint({ response, setMintPopup }) {
 	const [onSummit, setOnSummit] = useState(false)
@@ -9,12 +8,8 @@ function Mint({ response, setMintPopup }) {
 	const summit = async () => {
 		setOnSummit(true)
 
-		let nftId
-		await getCurrentToken().then(res => nftId = res + 1n)
-
 		const res = await mintNFT({
 			...mintParams,
-			nftId: nftId.toString(),
 			price: (mintParams.price * 1e18).toString(),
 			promptPrice: (mintParams.promptPrice * 1e18).toString(),
 		}, response.meta)
@@ -24,7 +19,6 @@ function Mint({ response, setMintPopup }) {
 	}
 
 	const [mintParams, setMintParams] = useState({
-		nftId: null,
 		nftName: "",
 		price: null,
 		promptPrice: null,
@@ -61,7 +55,7 @@ function Mint({ response, setMintPopup }) {
 								<p className='text-xl mx-6 text-yellow-600 font-semibold'>BTC</p>
 							</div>
 							<div className='flex justify-between items-center'>
-								<button className={`${inputClass[mintParams.price === 0]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, price: null })} defaultValue={mintParams.price !== 0}>
+								<button className={`${inputClass[mintParams.price === 0]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, price: null })} defaultValue={mintParams.price !== 0} disabled={!mintParams.isRootStock}>
 									Available for sale
 								</button>
 								<button className={`${inputClass[mintParams.price !== 0]} rounded-full border-2 cursor-pointer rounded-l-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, price: 0 })} defaultValue={mintParams.price === 0}>
@@ -73,7 +67,7 @@ function Mint({ response, setMintPopup }) {
 								<p className='text-xl mx-6 text-yellow-600 font-semibold'>BTC</p>
 							</div>
 							<div className='flex justify-between items-center'>
-								<button className={`${inputClass[mintParams.promptPrice === 0]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, promptPrice: null })} defaultValue={mintParams.promptPrice !== 0}>
+								<button className={`${inputClass[mintParams.promptPrice === 0]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, promptPrice: null })} defaultValue={mintParams.promptPrice !== 0} disabled={!mintParams.isRootStock}>
 									Commercialize data
 								</button>
 								<button className={`${inputClass[mintParams.promptPrice !== 0]} rounded-full border-2 cursor-pointer rounded-l-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, promptPrice: 0 })} defaultValue={mintParams.promptPrice === 0}>
@@ -84,7 +78,7 @@ function Mint({ response, setMintPopup }) {
 								<button className={`${inputClass[!mintParams.isRootStock]} rounded-full border-2 cursor-pointer rounded-r-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, isRootStock: true })} defaultValue={!mintParams.isRootStock}>
 									Mint at RootStock
 								</button>
-								<button className={`${inputClass[mintParams.isRootStock]} rounded-full border-2 cursor-pointer rounded-l-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, isRootStock: false })} defaultValue={!mintParams.isRootStock}>
+								<button className={`${inputClass[mintParams.isRootStock]} rounded-full border-2 cursor-pointer rounded-l-none h-12 font-semibold w-1/2 flex items-center justify-center`} onClick={() => setMintParams({ ...mintParams, isRootStock: false, price: 0, promptPrice: 0 })} defaultValue={!mintParams.isRootStock}>
 									Mint at Ordinals
 								</button>
 							</div>

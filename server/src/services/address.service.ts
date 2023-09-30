@@ -19,6 +19,9 @@ export class AddressService {
   async findUserByAddress(addressETH: string): Promise<Address> {
     return this.addressModel.findOne({ 'address.eth': addressETH }).exec();
   }
+  async findUserByAddressBTC(addressBTC: string): Promise<Address> {
+    return this.addressModel.findOne({ 'address.btc': addressBTC }).exec();
+  }
 
   async createAddress(address: Address): Promise<Address> {
     return this.addressModel.create(address);

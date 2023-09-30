@@ -51,7 +51,7 @@ function Login({ setSuccess, setLoginPopup }) {
                 btc: btcAddress,
                 eth: key.data.ethAddress
               },
-              publicKey: address.publicKey
+              publicKey: wallet.publicKey
             }, access_token)
           } else {
             btcAddress = address.address.btc

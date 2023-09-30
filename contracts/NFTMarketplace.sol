@@ -281,6 +281,10 @@ contract NFTMarketplace is ERC721URIStorage {
         return items;
     }
 
+    function getNFTById(uint256 id) public view returns (ListedToken memory) {
+        return idToListedToken[id];
+    }
+
     function executeSale(uint256 tokenId) public payable {
         uint price = idToListedToken[tokenId].price;
         require(
@@ -297,7 +301,7 @@ contract NFTMarketplace is ERC721URIStorage {
         userToOwnedPrompts[msg.sender].push(tokenId);
 
         _itemsSold.increment();
-
+        
         idToListedToken[tokenId].price = 0;
         _transfer(address(this), msg.sender, tokenId);
 

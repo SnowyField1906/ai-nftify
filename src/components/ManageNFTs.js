@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { formatNFT, formatNFTs, getNFTs } from '../helpers'
+import { formatNFTs, getMyNFTsForBothChain } from '../helpers'
 import EditNFTPrice from './EditNFTPrice'
 import EditNFTDataPrice from './EditNFTDataPrice'
 import Bridge from './Bridge'
 import Withdraw from './Withdraw'
 import Transfer from './Transfer'
-import { getMyNFTs } from '../scripts'
+import { } from '../scripts'
 
 function ManageNFTs({ userId, setManageNFTsPopup }) {
 	const [nfts, setNFTs] = useState([])
@@ -16,7 +16,7 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 	useEffect(() => {
 		setOnQuery(true)
 
-		getMyNFTs().then(res => {
+		getMyNFTsForBothChain().then(res => {
 			formatNFTs(res).then(formattedNFTs => setNFTs(formattedNFTs))
 		})
 
@@ -126,7 +126,7 @@ function ManageNFTs({ userId, setManageNFTsPopup }) {
 													<img src={nft.thumbnail} className="mx-auto h-12 w-12 rounded-full" />
 												</div>
 												<div className="text-center w-1/5">
-													<span className="text-sm text-gray-800">{nft.nftId}</span>
+													<span className="text-sm text-gray-800">{nft.nftId.length > 10 ? nft.nftId.slice(0, 10) + "..." : nft.nftId}</span>
 												</div>
 												<div className="text-center w-1/2">
 													<span className="text-sm text-gray-600">{nft.nftName}</span>

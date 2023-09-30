@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import NFT from "../components/NFT";
-import { formatNFTs, getNFTs } from "../helpers";
+import { formatNFTs, getNFTs, getNFTsForBothChain } from "../helpers";
 import { getAllNFTs } from "../scripts";
 
 export default function Discover() {
@@ -20,7 +20,8 @@ export default function Discover() {
 		const fetchData = async () => {
 			setOnQuery(true);
 			try {
-				const res = await getAllNFTs();
+				const res = await getNFTsForBothChain();
+
 				const formattedNFTs = await formatNFTs(res);
 
 				if (search !== "") {
@@ -38,7 +39,6 @@ export default function Discover() {
 
 		fetchData();
 	}, [queryParams, search]);
-
 
 
 	return (

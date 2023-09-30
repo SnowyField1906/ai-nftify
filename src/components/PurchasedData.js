@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { formatNFTs, getAllMyPrompts } from '../helpers'
+import { formatNFTs, getMyPromptsForBothChain } from '../helpers'
 import GenerationData from './GenerationData'
 
 function PurchasedData({ userId, setPurchasedDataPopup }) {
@@ -10,7 +10,7 @@ function PurchasedData({ userId, setPurchasedDataPopup }) {
     useEffect(() => {
         setOnQuery(true)
 
-        getAllMyPrompts().then(res => {
+        getMyPromptsForBothChain().then(res => {
             formatNFTs(res).then(formattedNFTs => setNFTs(formattedNFTs))
         })
 
@@ -29,13 +29,13 @@ function PurchasedData({ userId, setPurchasedDataPopup }) {
             {metaPopup && <GenerationData id={selectedId} setMetaPopup={setMetaPopup} />}
             <div className="flex items-center justify-center text-gray-500 md:w-11/12 lg:w-3/4 xl:w-1/2 w-3/4">
                 <div className="rounded-xl bg-white shadow-xl w-full px-16 py-5 relative">
-                    <h3 className="font-extrabold text-4xl text-primary-800 text-center mt-4 mb-10">Manage NFTs</h3>
-                    <div className="mt-20 container mx-auto">
+                    <h3 className="font-extrabold text-4xl text-primary-800 text-center mt-4 mb-10">Purchased Data</h3>
+                    <div className="mt-14 container mx-auto">
                         {onQuery ?
                             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500"></div>
                             : nfts.length === 0 ?
                                 <div className="text-center">
-                                    <p className="-mt-5 text-2xl font-semibold leading-normal mb-2 text-gray-500">
+                                    <p className="text-2xl font-semibold leading-normal mb-2 text-gray-500">
                                         You don't own any Prompts yet.
                                     </p>
                                 </div>
@@ -68,7 +68,7 @@ function PurchasedData({ userId, setPurchasedDataPopup }) {
                                                     <img src={nft.thumbnail} className="mx-auto h-12 w-12 rounded-full" />
                                                 </div>
                                                 <div className="text-center w-1/5">
-                                                    <span className="text-sm text-gray-800">{nft.nftId}</span>
+                                                    <span className="text-sm text-gray-800">{nft.nftId.length > 10 ? nft.nftId.slice(0, 10) + "..." : nft.nftId}</span>
                                                 </div>
                                                 <div className="text-center w-1/2">
                                                     <span className="text-sm text-gray-600">{nft.nftName}</span>
