@@ -1,7 +1,6 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -22,6 +21,7 @@ contract NFTMarketplace is ERC721URIStorage {
         uint256 price;
         uint256 promptPrice;
         address[] promptBuyer;
+        bool hidden;
     }
 
     //the event emitted when a token is successfully listed
@@ -103,7 +103,8 @@ contract NFTMarketplace is ERC721URIStorage {
             payable(msg.sender),
             price,
             promptPrice,
-            promptBuyer
+            promptBuyer,
+            false
         );
         idToListedToken[tokenId].promptBuyer.push(msg.sender);
 
@@ -200,15 +201,27 @@ contract NFTMarketplace is ERC721URIStorage {
 
     //This will return all the NFTs currently listed to be sold on the marketplace
     function getAllNFTs() public view returns (ListedToken[] memory) {
-        uint nftCount = _tokenIds.current();
-        ListedToken[] memory tokens = new ListedToken[](nftCount);
-        uint currentId;
-        for (uint i = 0; i < nftCount; i++) {
-            currentId = i + 1;
-            tokens[i] = idToListedToken[currentId];
+        uint totalItemCount = _tokenIds.current();
+        uint itemCount = 0;
+
+        // Count the NFTs owned by the caller
+        for (uint i = 1; i <= totalItemCount; i++) {
+            if (idToListedToken[i].hidden == false) {
+                itemCount++;
+            }
         }
-        //the array 'tokens' has the list of all NFTs in the marketplace
-        return tokens;
+
+        // Create an array to store the caller's NFTs
+        ListedToken[] memory items = new ListedToken[](itemCount);
+        uint currentId = 0;
+        for (uint i = 1; i <= totalItemCount; i++) {
+            if (idToListedToken[i].hidden == false) {
+                items[currentId] = idToListedToken[i];
+                currentId++;
+            }
+        }
+        //the array 'items' has the list of all NFTs in the marketplace
+        return items;
     }
 
     function getMyNFTs() public view returns (ListedToken[] memory) {
@@ -217,7 +230,10 @@ contract NFTMarketplace is ERC721URIStorage {
 
         // Count the NFTs owned by the caller
         for (uint i = 1; i <= totalItemCount; i++) {
-            if (idToListedToken[i].owner == msg.sender) {
+            if (
+                idToListedToken[i].owner == msg.sender &&
+                idToListedToken[i].hidden == false
+            ) {
                 itemCount++;
             }
         }
@@ -228,8 +244,10 @@ contract NFTMarketplace is ERC721URIStorage {
         // Populate the array with the caller's NFTs
         uint currentIndex = 0;
         for (uint i = 1; i <= totalItemCount; i++) {
-            console.log(idToListedToken[i].owner);
-            if (idToListedToken[i].owner == msg.sender) {
+            if (
+                idToListedToken[i].owner == msg.sender &&
+                idToListedToken[i].hidden == false
+            ) {
                 items[currentIndex] = idToListedToken[i];
                 currentIndex++;
             }
@@ -246,7 +264,10 @@ contract NFTMarketplace is ERC721URIStorage {
 
         // Count the NFTs owned by the caller
         for (uint i = 1; i <= totalItemCount; i++) {
-            if (idToListedToken[i].owner == addr) {
+            if (
+                idToListedToken[i].owner == addr &&
+                idToListedToken[i].hidden == false
+            ) {
                 itemCount++;
             }
         }
@@ -257,8 +278,10 @@ contract NFTMarketplace is ERC721URIStorage {
         // Populate the array with the caller's NFTs
         uint currentIndex = 0;
         for (uint i = 1; i <= totalItemCount; i++) {
-            console.log(idToListedToken[i].owner);
-            if (idToListedToken[i].owner == addr) {
+            if (
+                idToListedToken[i].owner == addr &&
+                idToListedToken[i].hidden == false
+            ) {
                 items[currentIndex] = idToListedToken[i];
                 currentIndex++;
             }
@@ -273,10 +296,14 @@ contract NFTMarketplace is ERC721URIStorage {
 
         //Once you have the count of relevant NFTs, create an array then store all the NFTs in it
         ListedToken[] memory items = new ListedToken[](totalItemCount);
+        uint currentIndex;
         for (uint i = 0; i < totalItemCount; i++) {
             uint currentId = userToOwnedPrompts[msg.sender][i];
             ListedToken storage currentItem = idToListedToken[currentId];
-            items[i] = currentItem;
+            if (currentItem.hidden == false) {
+                items[currentIndex] = currentItem;
+                currentIndex++;
+            }
         }
         return items;
     }
@@ -301,7 +328,7 @@ contract NFTMarketplace is ERC721URIStorage {
         userToOwnedPrompts[msg.sender].push(tokenId);
 
         _itemsSold.increment();
-        
+
         idToListedToken[tokenId].price = 0;
         _transfer(address(this), msg.sender, tokenId);
 
@@ -332,15 +359,19 @@ contract NFTMarketplace is ERC721URIStorage {
         }
     }
 
+    function withdrawNFTs(uint256[] memory tokenIds, address to) public {
+        for (uint i = 0; i < tokenIds.length; i++) {
+            transferNFT(tokenIds[i], to);
+            idToListedToken[i].hidden = true;
+        }
+    }
+
     function bridgeNFT(string memory tokenURI) public returns (uint) {
-        //Increment the tokenId counter, which is keeping track of the number of minted NFTs
         _tokenIds.increment();
         uint256 newTokenId = _tokenIds.current();
 
-        //Mint the NFT with tokenId newTokenId to the address who called createToken
         _safeMint(msg.sender, newTokenId);
 
-        //Map the tokenId to the tokenURI (which is an IPFS URL with the NFT metadata)
         _setTokenURI(newTokenId, tokenURI);
 
         address[] memory promptBuyer;
@@ -351,12 +382,13 @@ contract NFTMarketplace is ERC721URIStorage {
             payable(msg.sender),
             0,
             0,
-            promptBuyer
+            promptBuyer,
+            false
         );
         idToListedToken[tokenId].promptBuyer.push(msg.sender);
-        bridgedIds.push(tokenId);
 
         userToOwnedPrompts[msg.sender].push(tokenId);
+        bridgedIds.push(tokenId);
 
         return newTokenId;
     }
@@ -369,7 +401,8 @@ contract NFTMarketplace is ERC721URIStorage {
         );
         for (uint i = 0; i < bridgedIds.length; i++) {
             if (tokenId == bridgedIds[i]) {
-                _transfer(msg.sender, address(0), tokenId);  
+                idToListedToken[tokenId].hidden = true;
+                _burn(tokenId);
             }
         }
     }

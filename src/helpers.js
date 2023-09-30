@@ -325,12 +325,7 @@ export const bridgeNFTs = async (ids, isRootStock) => {
 			await getBridgedNFT(id).then(res => fullIds = [...fullIds, res])
 		}))
 
-		console.log(fullIds)
-
 		await Promise.all(fullIds.map(async (fullId) => {
-			console.log(fullId)
-			console.log(fullId.nftId)
-
 			await burnBridgedToken(fullId.nftId).catch(() => { success = false })
 
 			await axios.post(
@@ -384,22 +379,9 @@ export const bridgeNFTs = async (ids, isRootStock) => {
 				}
 			).then(res => res.data.thumbnail)
 
-			await bridgeNFT(thumbnail).catch(() => { success = false })
-
 			if (success) {
-				let tokenId = await getCurrentToken().then(res => res.toString())
-
-				console.log(`${process.env.REACT_APP_NODE1_ENDPOINT}/bridges`,
-					{
-						nftId: tokenId,
-						ordId: id
-					},
-					{
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': `Bearer ${access_token}`,
-						}
-					})
+				let tokenId = await getCurrentToken().then(res => (res + 1n).toString())
+				await bridgeNFT(thumbnail).catch(() => { success = false })
 
 				await axios.post(
 					`${process.env.REACT_APP_NODE1_ENDPOINT}/bridges`,
@@ -529,15 +511,27 @@ export const getOrdinalsNFTs = async (id) => {
 }
 
 export const getNFTsForBothChain = async () => {
-	const rootStock = await getAllNFTs();
-	const ordinals = await getOrdinalsNFTs();
+	let rootStock = []
+	try {
+		rootStock = await getAllNFTs();
+	} catch (e) { }
+	let ordinals = []
+	try {
+		ordinals = await getOrdinalsNFTs();
+	} catch (e) { }
 
 	return [...rootStock, ...ordinals]
 }
 
 export const getNFTsFromAddressForBothChain = async (rskAddress, btcAddress) => {
-	const rootStock = await getNFTsFromAddress(rskAddress);
-	const ordinals = await getOrdinalsNFTs(btcAddress);
+	let rootStock = []
+	try {
+		rootStock = await getNFTsFromAddress(rskAddress);
+	} catch (e) { }
+	let ordinals = []
+	try {
+		ordinals = await getOrdinalsNFTs(btcAddress);
+	} catch (e) { }
 
 	return [...rootStock, ...ordinals]
 }
