@@ -1,4 +1,3 @@
-import { get } from 'lodash'
 import { useEffect, useState } from 'react'
 import { getWallet, transferToAddress } from '../helpers'
 
@@ -13,7 +12,7 @@ function Transfer({ nfts, setTransferPopup }) {
     const summit = async () => {
         setOnSummit(true)
 
-        const res = await transferToAddress(nfts.map(nft => nft.nftId), userWallet.address.eth)
+        const res = await transferToAddress(nfts.map(nft => nft.nftId), isRootStock ? userWallet.address.eth : userWallet.address.btc, isRootStock)
 
         setOnSuccess(res)
         setOnSummit(false)

@@ -18,11 +18,15 @@ export class BridgeController {
 
   @Get(":id")
   async getUserById(@Param("id") id: string): Promise<Bridge> {
-    const info = await this.bridgeService.findById(id);
-    if (!info) {
-      throw new NotFoundException(`Can not find metadata with ${id}`);
+    const infoNtfId = await this.bridgeService.findByNftId(id);
+    if (!infoNtfId) {
+      const infoOrdId = await this.bridgeService.findByOrdId(id);
+      if (!infoOrdId) {
+        throw new NotFoundException(`Can not find metadata with ${id}`);
+      }
+      return infoOrdId;
     }
-    return info;
+    return infoNtfId;
   }
 
   @Get()
@@ -36,11 +40,11 @@ export class BridgeController {
 
   @Post()
   async createMetadata(@Body() createBridge: CreateBridgeDto): Promise<Bridge> {
-    const existedBridgeNftId = await this.bridgeService.findById(createBridge.nftId);
+    const existedBridgeNftId = await this.bridgeService.findByNftId(createBridge.nftId);
     if (existedBridgeNftId) {
       throw new BadRequestException("Metadata already exists");
     }
-    const existedBridgeOrdId = await this.bridgeService.findById(createBridge.ordId);
+    const existedBridgeOrdId = await this.bridgeService.findByOrdId(createBridge.ordId);
     if (existedBridgeOrdId) {
       throw new BadRequestException("Metadata already exists");
     }

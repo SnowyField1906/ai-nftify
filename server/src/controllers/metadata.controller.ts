@@ -32,6 +32,9 @@ export class MetadataController {
     if (!metadata) {
       throw new NotFoundException(`Can not find metadata with ${id}`);
     }
+    if (!Number(id)) {
+      return metadata;
+    }
     const pricePrompt = await getCurrentPromptPrice(id);
     if (pricePrompt === 0) {
       return metadata;

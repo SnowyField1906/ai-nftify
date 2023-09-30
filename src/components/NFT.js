@@ -19,7 +19,7 @@ function NFT({ thumbnail, nftName, nftId, ownerAddress, price, promptPrice, allo
     useEffect(() => {
         const fetchData = async () => {
             const user = await getUserByAddress(ownerAddress)
-            setUser(user[0])
+            setUser(user)
         }
         fetchData()
         setAccount({

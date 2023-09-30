@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { transferToAddress } from '../helpers'
-import Web3 from 'web3'
+import { checkAddress, transferToAddress } from '../helpers'
 
 function Withdraw({ nfts, setWithdrawPopup }) {
     const [onSummit, setOnSummit] = useState(false)
@@ -13,7 +12,7 @@ function Withdraw({ nfts, setWithdrawPopup }) {
     const summit = async () => {
         setOnSummit(true)
 
-        const res = await transferToAddress(nfts.map(nft => nft.nftId), address)
+        const res = await transferToAddress(nfts.map(nft => nft.nftId), address, isRootStock)
 
         setOnSuccess(res)
         setOnSummit(false)
@@ -23,7 +22,7 @@ function Withdraw({ nfts, setWithdrawPopup }) {
         const fetchData = async () => {
             let addr
             try {
-                addr = await Web3.utils.toChecksumAddress(address)
+                addr = await checkAddress(address, isRootStock)
             } catch (error) {
                 addr = null
             }

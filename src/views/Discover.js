@@ -15,7 +15,6 @@ export default function Discover() {
 	const [onQuery, setOnQuery] = useState(true)
 	const [search, setSearch] = useState("")
 
-
 	useEffect(() => {
 		const fetchData = async () => {
 			setOnQuery(true);

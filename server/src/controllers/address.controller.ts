@@ -42,6 +42,7 @@ export class AddressController {
           if (!infoByAddressBTC) {
             throw new NotFoundException(`Can not find address with ${id}`);
           }
+          return infoByAddressBTC;
         }
         return infoByAddress;
       }

@@ -2,6 +2,7 @@ import axios from "axios";
 import { getInfoUser } from "./storage/local";
 import { buyPrompt, createToken, executeSale, getAllNFTs, getCurrentToken, getMyNFTs, getMyPrompts, getNFTsFromAddress, transferNFTs, updatePromptPrices, updateTokenPrices } from "./scripts";
 import { isArray } from "lodash";
+import Web3 from 'web3'
 const { Big } = require('bigdecimal.js');
 
 export const generateImage = async (prompt) => {
@@ -172,9 +173,9 @@ export const mintNFT = async (data, metadata) => {
 
 	if (data.isRootStock) {
 		let nftId
-		await getCurrentToken().then(res => nftId = res + 1n)
+		await getCurrentToken().then(res => nftId = (res + 1n).toString())
 
-		await createToken(data.thumbnail, data.price, data.promptPrice).then(res => success = res.status === 1)
+		await createToken(data.thumbnail, data.price, data.promptPrice).then(res => success = res.status === 200)
 
 		if (success) {
 			await axios.post(
@@ -201,24 +202,23 @@ export const mintNFT = async (data, metadata) => {
 		let address = getInfoUser().key.data.btcAddress
 		let response
 
+		console.log({
+			address: address,
+			imageLink: data.thumbnail,
+		})
+
 		await axios.post(
-			`https://ef5a-52-231-111-83.ngrok-free.app/inscribeOrd`,
-			{ withCredentials: true },
+			`${process.env.REACT_APP_BTC_ENDPOINT}/inscribeOrd`,
 			{
 				address: address,
 				imageLink: data.thumbnail,
 			},
 			{
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
-					'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-					'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-					'Access-Control-Allow-Origin': '*',
-				}
+				headers: {}
 			}
 		)
-			.then(res => { response = res.data; success = true })
-			.catch(() => { success = false })
+			.then(res => { response = res.data; success = true; console.log(res) })
+			.catch(error => { success = false; console.log(error) })
 
 		if (success) {
 			let nftId = response.inscription
@@ -309,9 +309,43 @@ export const editPromptPrices = async (ids, promptPrice) => {
 	return success
 }
 
-export const transferToAddress = async (ids, to) => {
-	let success
-	await transferNFTs(ids, to).then(res => success = res.status === 1)
+export const transferToAddress = async (ids, to, isRootStock) => {
+	let success = true
+	if (isRootStock) {
+		await transferNFTs(ids, to).catch(() => { success = false })
+	} else {
+		const access_token = getInfoUser().tokens.access_token;
+
+		Promise.all(ids.map(async (id) => {
+			await axios.post(
+				`${process.env.REACT_APP_BTC_ENDPOINT}/transferOrd`,
+				{
+					ordId: id,
+					address: to,
+				},
+				{
+					headers: {}
+				}
+			).catch(() => { success = false })
+
+			if (success) {
+				await axios.put(
+					`${process.env.REACT_APP_NODE1_ENDPOINT}/ordinals`,
+					{
+						nftId: id,
+						owner: to
+					},
+					{
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${access_token}`,
+						}
+					}
+				).catch(() => { success = false })
+
+			}
+		}))
+	}
 	return success
 }
 
@@ -430,3 +464,26 @@ export const formatNFTs = async (nfts) => {
 
 	return formattedNFTs;
 };
+
+
+export const checkAddress = async (address, isRootStock) => {
+	if (isRootStock) {
+		try {
+			await Web3.utils.toChecksumAddress(address)
+		}
+		catch (e) {
+			return false
+		}
+		finally {
+			return true
+		}
+	} else {
+		if (address.length !== 55) {
+			return false;
+		} if (!address.startsWith("bcrt1p")) {
+			return false;
+		}
+
+		return true;
+	}
+}

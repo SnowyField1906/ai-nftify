@@ -51,12 +51,12 @@ export class OrdinalController {
   }
   @Put()
   async updateOrdinal(@Body() updateOrdinal: UpdateOrdinalDto, @Headers('Authorization') accessToken: string): Promise<any> {
-    const { id: userId } = await verifyAccessToken(accessToken);
-    if (!userId) {
+    const { id } = await verifyAccessToken(accessToken);
+    if (!id) {
       throw new BadRequestException("Your need login");
     }
-    const addressOwner = (await this.addressService.findAddressById(userId)).address.btc;
-    if (addressOwner !== updateOrdinal.owner) {
+    const addressOwner = (await this.addressService.findAddressById(id)).id;
+    if (addressOwner !== id) {
       throw new BadRequestException("Owner not match");
     }
 
