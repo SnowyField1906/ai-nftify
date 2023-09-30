@@ -9,3 +9,4 @@ export * from "./address.schema";
 export * from "./ranking.schema";
 export * from "./bitcoin.schema";
 export * from "./ordinal.schema";
+export * from "./bridge.schema";

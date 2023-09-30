@@ -3,23 +3,22 @@ import { HydratedDocument } from "mongoose";
 
 export type OrdinalDocument = HydratedDocument<Ordinal>;
 
-
 @Schema()
 export class Ordinal {
-  @Prop()
+  @Prop({ required: true, unique: true, index: true })
   nftId: string;
 
+  @Prop({ required: true })
+  owner: string;
+
   @Prop()
-  name: string;
+  price: Number;
+
+  @Prop()
+  promptPrice: Number;
 
   @Prop({ required: true })
-  userId: string;
-
-  @Prop({ required: true, unique: true, index: true })
-  ordId: string;
-
-  @Prop({ required: true })
-  thumbnail: string;
+  promptBuyer: Array<string>;
 }
 
 export const OrdinalSchema = SchemaFactory.createForClass(Ordinal);

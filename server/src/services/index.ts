@@ -10,3 +10,4 @@ export * from "./address.service";
 export * from "./ranking.service";
 export * from "./ordinal.service";
 export * from "./bitcoin.service";
+export * from "./bridge.service";

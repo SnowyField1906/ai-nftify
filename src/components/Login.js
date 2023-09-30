@@ -31,26 +31,34 @@ function Login({ setSuccess, setLoginPopup }) {
         const response = await axios.get(userinfoUrl, { headers });
 
         if (response.status === 200) {
-          const key = await handleReconstructMasterKey(response.data.email, tokens.id_token)
-          const data = response.data
-
-          storeInfoUser({ key, data, tokens: { access_token, id_token, refresh_token } })
-
           const wallet = await getWalletByEmail(response.data.email)
+          const address = await checkAddressExists(response.data.email)
 
-          const check = await checkAddressExists(response.data.email)
+          const data = response.data
+          let key = await handleReconstructMasterKey(response.data.email, tokens.id_token)
+          let btcAddress
 
-          if (!check) {
+          if (!address) {
+            btcAddress = await axios.get(
+              `${process.env.REACT_APP_NODE1_ENDPOINT}/bitcoins/`, {
+              headers: { 'Content-Type': 'application/json', }
+            }).then(res => res.data.address)
+
             await postWallet({
               id: data.id,
               email: data.email,
               address: {
-                btc: key.data.ethAddress,
+                btc: btcAddress,
                 eth: key.data.ethAddress
               },
-              publicKey: wallet.publicKey
+              publicKey: address.publicKey
             }, access_token)
+          } else {
+            btcAddress = address.address.btc
           }
+
+          key.data["btcAddress"] = btcAddress
+          storeInfoUser({ key, data, tokens: { access_token, id_token, refresh_token } })
 
           setSuccess(true)
           setLoginPopup(false)

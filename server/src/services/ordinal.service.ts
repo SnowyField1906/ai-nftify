@@ -10,26 +10,27 @@ export class OrdinalService {
     private ordinalModel: Model<OrdinalDocument>,
   ) { }
 
-  async findOrdinalByUserId(userId: string): Promise<Array<Ordinal>> {
-    return this.ordinalModel.find({ userId });
-  }
-
-  async findOrdinalByOrdId(ordId: string): Promise<Array<Ordinal>> {
-    return this.ordinalModel.find({ ordId });
-  }
-
-  async updateOrdinal(ordinal: Ordinal): Promise<any> {
-    return this.ordinalModel.findOneAndUpdate({ ordId: ordinal.ordId }, ordinal);
-  }
-
   async getAllOrdinal(): Promise<Array<Ordinal>> {
     return this.ordinalModel.find();
   }
 
-  async deleteOrdinal(ordId: string): Promise<any> {
-    return this.ordinalModel.findOneAndDelete({ ordId: ordId });
+  async findOrdinalByNftId(nftId: string): Promise<Ordinal> {
+    return this.ordinalModel.findOne({ nftId });
+  }
+
+  async findOrdinalByOwner(owner: string): Promise<Array<Ordinal>> {
+    return this.ordinalModel.find({ owner });
   }
   async createOrdinal(ordinal: Ordinal): Promise<Ordinal> {
     return this.ordinalModel.create(ordinal);
   }
+
+  async updateOrdinal(nftId: string, owner: string): Promise<any> {
+    return this.ordinalModel.findOneAndUpdate({ nftId: nftId }, { owner: owner });
+  }
+
+  async deleteOrdinal(nftId: string): Promise<Ordinal> {
+    return this.ordinalModel.findOneAndDelete({ nftId });
+  }
+
 }

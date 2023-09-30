@@ -11,38 +11,36 @@ import {
   BadRequestException,
   Delete,
 } from "@nestjs/common";
-import { OrdinalDto } from "src/dtos/create-and-update-ordinal.dto";
-import { OrdinalService } from "src/services";
+import { CreateOrdinalDto } from "src/dtos/create-ordinal.dto";
+import { UpdateOrdinalDto } from "src/dtos/update-ordinal.dto";
+import { AddressService, OrdinalService } from "src/services";
 import { Ordinal } from "src/schemas";
 import { verifyAccessToken } from "src/verifier/oauth.verifier";
 
 @Controller("ordinals")
 export class OrdinalController {
-  constructor(private readonly ordinalService: OrdinalService) { }
+  constructor(private readonly ordinalService: OrdinalService, private readonly addressService: AddressService) { }
   @Post()
-  async createOrdinal(@Body() createOrdinal: OrdinalDto, @Headers('Authorization') accessToken: string): Promise<Ordinal> {
-    const existedAddress = await this.ordinalService.findOrdinalByOrdId(createOrdinal.ordId);
+  async createOrdinal(@Body() createOrdinal: CreateOrdinalDto): Promise<Ordinal> {
+    const existedAddress = await this.ordinalService.findOrdinalByNftId(createOrdinal.nftId);
     if (existedAddress) {
       throw new BadRequestException("Address already exists");
-    }
-    const { id: userId } = await verifyAccessToken(accessToken);
-    if (userId !== createOrdinal.userId) {
-      throw new BadRequestException("You are not owner");
     }
     return this.ordinalService.createOrdinal(createOrdinal);
   }
   @Get(":id")
-  async getOrdinalById(@Param("id") id: string): Promise<Array<Ordinal>> {
-    const infoByOrdId = await this.ordinalService.findOrdinalByOrdId(id);
-    if (!infoByOrdId) {
-      const infoByUserId = await this.ordinalService.findOrdinalByUserId(id);
-      if (!infoByUserId) {
+  async getOrdinalById(@Param("id") id: string,): Promise<Array<Ordinal>> {
+    const infoByNftId = await this.ordinalService.findOrdinalByNftId(id);
+    if (!infoByNftId) {
+      const infoByOwner = await this.ordinalService.findOrdinalByOwner(id);
+      if (!infoByOwner) {
         throw new NotFoundException(`Can not find ordinal with ${id}`);
       }
-      return infoByUserId;
+      return infoByOwner;
     }
-    return infoByOrdId;
+    return [infoByNftId];
   }
+
   @Get()
   async getAllOrdinal(): Promise<Array<Ordinal>> {
     const allOrdinal = await this.ordinalService.getAllOrdinal()
@@ -52,47 +50,39 @@ export class OrdinalController {
     return allOrdinal;
   }
   @Put()
-  async updateOrdinal(@Body() updateOrdinal: OrdinalDto, @Headers('Authorization') accessToken: string): Promise<any> {
+  async updateOrdinal(@Body() updateOrdinal: UpdateOrdinalDto, @Headers('Authorization') accessToken: string): Promise<any> {
     const { id: userId } = await verifyAccessToken(accessToken);
     if (!userId) {
       throw new BadRequestException("Your need login");
     }
-    const accessUser = await this.ordinalService.findOrdinalByUserId(userId);
-    let access = false;
-    accessUser.forEach(user => {
-      if (user.ordId === updateOrdinal.ordId) {
-        access = true;
-      }
-    })
-    if (!access) {
-      throw new BadRequestException("You are not owner");
+    const addressOwner = (await this.addressService.findAddressById(userId)).address.btc;
+    if (addressOwner !== updateOrdinal.owner) {
+      throw new BadRequestException("Owner not match");
     }
 
-    const existedOrdinal = await this.ordinalService.findOrdinalByOrdId(updateOrdinal.ordId);
+
+    const existedOrdinal = await this.ordinalService.findOrdinalByNftId(updateOrdinal.nftId);
     if (!existedOrdinal) {
       throw new BadRequestException("Ordinal does not exist");
     }
-    return this.ordinalService.updateOrdinal(updateOrdinal);
+    return this.ordinalService.updateOrdinal(updateOrdinal.nftId, updateOrdinal.owner);
   }
 
   @Delete(":id")
-  async deleteOrdinal(@Param() ordId: string, @Headers('Authorization') accessToken: string): Promise<any> {
+  async deleteOrdinal(@Param() nftId: string, @Headers('Authorization') accessToken: string): Promise<any> {
     const { id: userId } = await verifyAccessToken(accessToken);
-    const accessUser = await this.ordinalService.findOrdinalByUserId(userId);
-    let access = false;
-    accessUser.forEach(user => {
-      if (user.ordId === ordId) {
-        access = true;
-      }
-    })
-    if (!access) {
-      throw new BadRequestException("You are not owner");
+    const addressOwner = (await this.addressService.findAddressById(userId)).address.btc;
+
+    const existedOrdinalOwner = (await this.ordinalService.findOrdinalByNftId(nftId)).owner;
+    if (addressOwner !== existedOrdinalOwner) {
+      throw new BadRequestException("Your request denied");
     }
-    const existedOrdinal = await this.ordinalService.findOrdinalByOrdId(ordId);
+
+    const existedOrdinal = await this.ordinalService.findOrdinalByNftId(nftId);
     if (!existedOrdinal) {
       throw new BadRequestException("Ordinal does not exist");
     }
 
-    return this.ordinalService.deleteOrdinal(ordId);
+    return this.ordinalService.deleteOrdinal(nftId);
   }
 }

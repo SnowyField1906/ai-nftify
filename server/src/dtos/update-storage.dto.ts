@@ -18,7 +18,7 @@ export class UpdateStorageDto {
   @IsNotEmpty()
   readonly nftId: string;
 
-  @IsString()
-  @IsNotEmpty()
-  readonly newNftId: string;
+  // @IsString()
+  // @IsNotEmpty()
+  // readonly newNftId: string;
 }

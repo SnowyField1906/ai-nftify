@@ -15,11 +15,12 @@ function Advanced({ setAdvancedPopup }) {
     useEffect(() => {
         const keysData = getInfoUser().key.data
         const modified = {
-            addressBtc: keysData.ethAddress,
+            addressBtc: keysData.btcAddress,
             addressRsk: keysData.ethAddress,
             // pubKey: keysData.pubKey,
             privKey: keysData.privKey,
         }
+        console.log(modified)
         setKeys(modified)
     }, [])
 
@@ -55,7 +56,8 @@ function Advanced({ setAdvancedPopup }) {
                                                 <p className="rounded-lg cursor-pointer px-2 py-0.5 text-left font-semibold group-hover:bg-gray-200"
                                                     onClick={() => copyText(keys.addressBtc)}
                                                 >
-                                                    {keys.addressBtc}</p>
+                                                    {keys.addressBtc.slice(0, 20) + '...' + keys.addressBtc.slice(-10)}
+                                                </p>
                                                 <span className="pointer-events-none transition-opacity opacity-0 group-hover:opacity-100 bg-opacity-0 group-hover:bg-gray-900 text-white ml-2 rounded-lg px-2 text-sm py-0.5">
                                                     {copy}
                                                 </span>
@@ -108,7 +110,8 @@ function Advanced({ setAdvancedPopup }) {
                                                 <p className="rounded-lg cursor-pointer px-2 py-0.5 text-left font-semibold group-hover:bg-gray-200"
                                                     onClick={() => copyText(keys.addressRsk)}
                                                 >
-                                                    {keys.addressRsk}</p>
+                                                    {keys.addressRsk.slice(0, 20) + '...' + keys.addressRsk.slice(-10)}
+                                                </p>
                                                 <span className="pointer-events-none transition-opacity opacity-0 group-hover:opacity-100 bg-opacity-0 group-hover:bg-gray-900 text-white ml-2 rounded-lg px-2 text-sm py-0.5">
                                                     {copy}
                                                 </span>
