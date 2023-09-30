@@ -20,7 +20,6 @@ function Advanced({ setAdvancedPopup }) {
             // pubKey: keysData.pubKey,
             privKey: keysData.privKey,
         }
-        console.log(modified)
         setKeys(modified)
     }, [])
 

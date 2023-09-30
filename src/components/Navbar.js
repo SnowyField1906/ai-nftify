@@ -77,7 +77,7 @@ export default function Navbar() {
 						className="font-bold gap-2 hover:text-primary-200 inline-flex items-center leading-none mr-4 text-3xl text-white"
 					>
 						<img src={logo} className="h-8 w-8" alt="logo" />
-						<span className="uppercase hover:cursor-pointer">NFT Origin</span>
+						<span className="uppercase hover:cursor-pointer">NFTify</span>
 					</Link>
 					<div
 						className="flex-1 hidden space-y-2 w-full lg:flex lg:items-center lg:space-x-4 lg:space-y-0 lg:w-auto"

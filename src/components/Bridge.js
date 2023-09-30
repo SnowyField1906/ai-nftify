@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { bridgeNFTs } from '../helpers'
 
 function Bridge({ nfts, setBridgePopup }) {
     const [onSummit, setOnSummit] = useState(false)
@@ -8,7 +9,7 @@ function Bridge({ nfts, setBridgePopup }) {
     const summit = async () => {
         setOnSummit(true)
 
-        const res = false
+        const res = await bridgeNFTs(nfts.map(nft => nft.nftId), !isRootStock)
 
         setOnSuccess(res)
         setOnSummit(false)
@@ -31,7 +32,7 @@ function Bridge({ nfts, setBridgePopup }) {
                                     Bridge to RootStock
                                 </button>
                                 <button className={`${inputClass[isRootStock]} rounded-full border-2 cursor-pointer rounded-l-none h-12 font-semibold w-1/2 flex items-center justify-center`} defaultValue={!isRootStock}>
-                                    Bridge to Ordinals
+                                    Claim to Ordinals
                                 </button>
                             </div>
                         </div>

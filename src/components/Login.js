@@ -80,7 +80,7 @@ function Login({ setSuccess, setLoginPopup }) {
         <div className="rounded-xl bg-white shadow-xl w-full px-16 py-5">
           <div className='flex items-center mb-10 mt-4 gap-5'>
             <img src={logo} loading="lazy" className="w-10" />
-            <h2 className="font-extrabold text-xl text-gray-800">Sign in to unlock the best of NFT Origin.</h2>
+            <h2 className="font-extrabold text-xl text-gray-800">Sign in to unlock the best of NFTify.</h2>
           </div>
           <div class="container mx-auto">
             <div className='grid gap-2'>

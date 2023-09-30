@@ -30,4 +30,8 @@ export class MetadataService {
     return walletUser.address;
   }
 
+  async updateMetadata(oldId: string, newId: string): Promise<any> {
+    return this.metadataModel.findOneAndUpdate({ id: oldId }, { id: newId });
+  }
+
 }

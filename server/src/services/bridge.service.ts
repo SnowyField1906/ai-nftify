@@ -25,4 +25,8 @@ export class BridgeService {
     return this.bridgeModel.findOne({ ordId: ordId });
   }
 
+  async deleteBridge(nftId: string): Promise<Bridge> {
+    return this.bridgeModel.findOneAndDelete({ nftId: nftId });
+  }
+
 }

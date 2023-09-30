@@ -934,8 +934,7 @@ export async function getOwnerOfNft(tokenId: string) {
         "https://public-node.testnet.rsk.co"
     );
     const contract = process.env.CONTRACT;
-
     const mkp = new ethers.Contract(contract, ABI, provider);
-    const owner = await mkp.getNFTById(Number(tokenId))[1];
+    const owner = (await mkp.getNFTById(Number(tokenId)))[1];
     return owner;
 }

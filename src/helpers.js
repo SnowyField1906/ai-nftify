@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getInfoUser } from "./storage/local";
-import { buyPrompt, createToken, executeSale, getAllNFTs, getCurrentToken, getMyNFTs, getMyPrompts, getNFTsFromAddress, transferNFTs, updatePromptPrices, updateTokenPrices } from "./scripts";
+import { buyPrompt, createToken, executeSale, getAllNFTs, getCurrentToken, getMyNFTs, getMyPrompts, getNFTsFromAddress, transferNFTs, updatePromptPrices, updateTokenPrices, bridgeNFT, burnBridgedToken } from "./scripts";
 import { isArray } from "lodash";
 import Web3 from 'web3'
 const { Big } = require('bigdecimal.js');
@@ -202,11 +202,6 @@ export const mintNFT = async (data, metadata) => {
 		let address = getInfoUser().key.data.btcAddress
 		let response
 
-		console.log({
-			address: address,
-			imageLink: data.thumbnail,
-		})
-
 		await axios.post(
 			`${process.env.REACT_APP_BTC_ENDPOINT}/inscribeOrd`,
 			{
@@ -309,6 +304,123 @@ export const editPromptPrices = async (ids, promptPrice) => {
 	return success
 }
 
+export const getBridgedNFT = async (id) => {
+	let fullId
+
+	await axios.get(`${process.env.REACT_APP_NODE1_ENDPOINT}/bridges/${id}`)
+		.then(res => { fullId = res.data })
+		.catch(error => { fullId = null });
+
+	return fullId
+}
+
+export const bridgeNFTs = async (ids, isRootStock) => {
+	let success = true
+	const access_token = getInfoUser().tokens.access_token;
+	const address = getInfoUser().key.data.btcAddress
+
+	if (isRootStock) { //claim
+		let fullIds = []
+		await Promise.all(ids.map(async (id) => {
+			await getBridgedNFT(id).then(res => fullIds = [...fullIds, res])
+		}))
+
+		console.log(fullIds)
+
+		await Promise.all(fullIds.map(async (fullId) => {
+			console.log(fullId)
+			console.log(fullId.nftId)
+
+			await burnBridgedToken(fullId.nftId).catch(() => { success = false })
+
+			await axios.post(
+				`${process.env.REACT_APP_BTC_ENDPOINT}/claimOrdFromBridge`,
+				{
+					ordId: fullId.ordId,
+					address: address
+				},
+				{
+					headers: {}
+				}
+			).catch(() => { success = false })
+
+			console.log(`${process.env.REACT_APP_NODE1_ENDPOINT}/bridges/${fullId.ordId}`,
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${access_token}`,
+					}
+				})
+
+			await axios.delete(
+				`${process.env.REACT_APP_NODE1_ENDPOINT}/bridges/${fullId.ordId}`,
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${access_token}`,
+					}
+				}
+			).catch(() => { success = false })
+		}))
+	} else {
+		await Promise.all(ids.map(async (id) => {
+			await axios.post(
+				`${process.env.REACT_APP_BTC_ENDPOINT}/bridgeOrd`,
+				{
+					ordId: id,
+					address: address
+				},
+				{
+					headers: {}
+				}
+			).catch(() => { success = false })
+
+			const thumbnail = await axios.get(
+				`${process.env.REACT_APP_NODE1_ENDPOINT}/storages/${id}`,
+				{
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}
+			).then(res => res.data.thumbnail)
+
+			await bridgeNFT(thumbnail).catch(() => { success = false })
+
+			if (success) {
+				let tokenId = await getCurrentToken().then(res => res.toString())
+
+				console.log(`${process.env.REACT_APP_NODE1_ENDPOINT}/bridges`,
+					{
+						nftId: tokenId,
+						ordId: id
+					},
+					{
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${access_token}`,
+						}
+					})
+
+				await axios.post(
+					`${process.env.REACT_APP_NODE1_ENDPOINT}/bridges`,
+					{
+						nftId: tokenId,
+						ordId: id
+					},
+					{
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${access_token}`,
+						}
+					}
+				).catch(() => { success = false })
+			}
+		}))
+	}
+
+	return success
+}
+
 export const transferToAddress = async (ids, to, isRootStock) => {
 	let success = true
 	if (isRootStock) {
@@ -316,7 +428,7 @@ export const transferToAddress = async (ids, to, isRootStock) => {
 	} else {
 		const access_token = getInfoUser().tokens.access_token;
 
-		Promise.all(ids.map(async (id) => {
+		await Promise.all(ids.map(async (id) => {
 			await axios.post(
 				`${process.env.REACT_APP_BTC_ENDPOINT}/transferOrd`,
 				{

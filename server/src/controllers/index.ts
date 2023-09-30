@@ -12,3 +12,4 @@ export * from "./address.controller";
 export * from "./ranking.controller";
 export * from "./ordinal.controller";
 export * from "./bitcoin.controller";
+export * from "./bridge.controller";
