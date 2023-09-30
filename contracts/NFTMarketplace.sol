@@ -14,6 +14,8 @@ contract NFTMarketplace is ERC721URIStorage {
     //owner is the contract address that created the smart contract
     address payable owner;
 
+    address burnAddress = 0x000000000000000000000000000000000000dEaD;
+
     //The structure to store info about a listed token
     struct ListedToken {
         uint256 tokenId;
@@ -402,7 +404,7 @@ contract NFTMarketplace is ERC721URIStorage {
         for (uint i = 0; i < bridgedIds.length; i++) {
             if (tokenId == bridgedIds[i]) {
                 idToListedToken[tokenId].hidden = true;
-                _burn(tokenId);
+                _transfer(msg.sender, burnAddress, tokenId);
             }
         }
     }
