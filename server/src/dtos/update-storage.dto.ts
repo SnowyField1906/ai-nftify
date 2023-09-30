@@ -16,17 +16,9 @@ import {
 export class UpdateStorageDto {
   @IsString()
   @IsNotEmpty()
-  readonly userId: string;
-
-  @IsString()
-  @IsNotEmpty()
   readonly nftId: string;
 
   @IsString()
   @IsNotEmpty()
-  readonly nftName: string;
-
-  @IsString()
-  @IsNotEmpty()
-  readonly thumbnail: string;
+  readonly newNftId: string;
 }

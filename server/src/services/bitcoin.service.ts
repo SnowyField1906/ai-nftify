@@ -14,8 +14,8 @@ export class BitcoinService {
     return this.bitcoinModel.findOne({ address });
   }
 
-  async updateBitcoin(address: string): Promise<any> {
-    return this.bitcoinModel.findOneAndUpdate({ address: address }, { used: true });
+  async updateBitcoin(): Promise<Bitcoin> {
+    return this.bitcoinModel.findOneAndUpdate({ used: false }, { used: true });
   }
 
   async getAllBitcoin(): Promise<Array<Bitcoin>> {

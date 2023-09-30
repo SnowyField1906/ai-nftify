@@ -13,13 +13,14 @@ import {
 import { secp256k1 } from "src/common/secp256k1";
 import { CreateStorageDto } from "src/dtos/create-storage.dto";
 import { UpdateStorageDto } from "src/dtos/update-storage.dto";
-import { StorageService } from "src/services";
+import { StorageService, AddressService } from "src/services";
 import { createKeccak256 } from "src/utils/wallet";
 import { Storage } from "src/schemas";
 import { verifyAccessToken } from "src/verifier/oauth.verifier";
+import { getOwnerOfNft } from "src/utils/blockchain";
 @Controller("storages")
 export class StorageController {
-  constructor(private readonly storageService: StorageService) { }
+  constructor(private readonly storageService: StorageService, private readonly addressService: AddressService) { }
 
   @Get(":owner")
   async getMetadata(@Param("owner") id: string): Promise<Storage> {
@@ -49,25 +50,25 @@ export class StorageController {
     return this.storageService.createMetadata(createStorage);
   }
 
-  // @Put()
-  // async updateMetadata(@Body() updateStorage: UpdateStorageDto, @Headers('Authorization') accessToken: string): Promise<any> {
-  //   const { id: userId } = await verifyAccessToken(accessToken);
-  //   if (!userId) {
-  //     throw new BadRequestException("Your need login");
-  //   }
-  //   const existedMetadata = await this.storageService.findMetadataByNfts(updateStorage.nftId);
-  //   if (!existedMetadata) {
-  //     throw new BadRequestException("Metadata does not exist");
-  //   }
+  @Put()
+  async updateMetadata(@Body() updateStorage: UpdateStorageDto, @Headers('Authorization') accessToken: string): Promise<any> {
 
-  //   if (existedMetadata.thumbnail !== updateStorage.thumbnail) {
-  //     throw new BadRequestException("Don't change thumbnail");
-  //   }
-  //   if (existedMetadata.nftId !== updateStorage.nftId) {
-  //     throw new BadRequestException("Don't change nftId");
-  //   }
-  //   return this.storageService.updateMetadata(updateStorage.nftId, updateStorage);
-  // }
+    const existedMetadata = await this.storageService.findMetadataByNfts(updateStorage.nftId);
+    if (!existedMetadata) {
+      throw new BadRequestException("Metadata does not exist");
+    }
+
+    const { id: userId } = await verifyAccessToken(accessToken);
+    if (!userId) {
+      throw new BadRequestException("Your need login");
+    }
+    const addressReq = (await this.addressService.findAddressById(userId)).address;
+    const addressOwner = await getOwnerOfNft(updateStorage.nftId);
+    if (addressReq !== addressOwner) {
+      throw new BadRequestException("Your request denied");
+    }
+    return this.storageService.updateMetadata(updateStorage.nftId, updateStorage.newNftId);
+  }
 
   // @Delete()
   // async deleteMetadata(@Body() nftId: string, @Headers('Authorization') accessToken: string): Promise<any> {
@@ -81,5 +82,4 @@ export class StorageController {
   //   }
   //   return this.storageService.deleteMetadata(nftId);
   // }
-
 }

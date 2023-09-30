@@ -2,7 +2,7 @@ import { Type } from "class-transformer";
 import { IsArray, IsBoolean, IsNotEmpty, IsNotEmptyObject, IsNumber, IsObject, IsString, ValidateNested } from "class-validator";
 
 
-export class CreateRankingsDto {
+export class UpdateRankingsDto {
   @IsString()
   @IsNotEmpty()
   readonly id: string;

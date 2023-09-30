@@ -12,7 +12,7 @@ import {
 } from "@nestjs/common";
 import { RankingService } from "src/services";
 import { Ranking } from "src/schemas";
-import { CreateRankingsDto } from "src/dtos/create-and-update-ranking.dto";
+import { UpdateRankingsDto } from "src/dtos/update-ranking.dto";
 import { verifyAccessToken } from "src/verifier/oauth.verifier";
 
 @Controller("rankings")
@@ -37,7 +37,7 @@ export class RankingController {
   }
 
   @Put()
-  async updateRanking(@Body() updateRanking: CreateRankingsDto, @Headers('Authorization') accessToken: string): Promise<any> {
+  async updateRanking(@Body() updateRanking: UpdateRankingsDto, @Headers('Authorization') accessToken: string): Promise<any> {
     const { id: userId } = await verifyAccessToken(accessToken);
     if (!userId) {
       throw new BadRequestException("Your need login");
