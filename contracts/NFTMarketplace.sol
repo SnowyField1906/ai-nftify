@@ -364,7 +364,7 @@ contract NFTMarketplace is ERC721URIStorage {
             "Permission Denied"
         );
         for (uint i = 0; i < bridgedIds.length; i++) {
-            if (tokenId == i) {
+            if (tokenId == bridgedIds[i]) {
                 _transfer(msg.sender, address(0), tokenId);  
             }
         }
