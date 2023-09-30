@@ -6,7 +6,7 @@ const { getInfoUser } = require("../storage/local");
 
 
 const provider = new JsonRpcProvider("https://public-node.testnet.rsk.co");
-const contractAddress = "0x97aE42Ebba12c0dE2e1bd0DB20D54F6b1C4E045D";
+const contractAddress = "0xE7FB4C35Fb8172850281DCa6722A1b18c9f9e41e";
 
 const getContract = async () => {
     const privateKey = getInfoUser().key.data.privKey
