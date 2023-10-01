@@ -175,9 +175,14 @@ export const mintNFT = async (data, metadata) => {
 		let nftId
 		await getCurrentToken().then(res => nftId = (res + 1n).toString())
 
-		await createToken(data.thumbnail, data.price, data.promptPrice).then(res => success = res.status === 200)
+		await createToken(data.thumbnail, data.price, data.promptPrice).then(res => success = res.status === 1)
 
 		if (success) {
+			console.log({
+				nftId: nftId,
+				nftName: data.nftName,
+				thumbnail: data.thumbnail,
+			})
 			await axios.post(
 				`${process.env.REACT_APP_NODE1_ENDPOINT}/storages`,
 				{
@@ -188,15 +193,16 @@ export const mintNFT = async (data, metadata) => {
 				{
 					headers: { 'Content-Type': 'application/json' }
 				}
-			).catch(() => { success = false })
+			).catch((error) => { success = false; console.log(error) })
 
+			console.log({ id: nftId, meta: metadata })
 			await axios.post(
 				`${process.env.REACT_APP_NODE1_ENDPOINT}/metadatas`,
 				{ id: nftId, meta: metadata },
 				{
 					headers: { 'Content-Type': 'application/json' }
 				}
-			).catch(() => { success = false })
+			).catch((error) => { success = false; console.log(error) })
 		}
 	} else {
 		let address = getInfoUser().key.data.btcAddress
